@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<XRD xmlns='http://docs.oasis-open.org/ns/xri/xrd-1.0'>
+    <Link rel='http://services.mozilla.com/amcd/0.1' href='/static/account_manager_control_document'/>	
+</XRD>

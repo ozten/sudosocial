@@ -1,0 +1,10 @@
+/* admin and other app specific styles */
+#confirm_profile {
+    width: 600px;
+}
+
+div > label{   
+    display: block;
+    float: left;
+    width: 6em;
+}

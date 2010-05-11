@@ -1,0 +1,51 @@
+#auth {
+    
+    float: right;
+    padding: 0.3em;    
+}
+#heading {
+
+    width: 100%;
+}
+#sidebar {
+
+    float: left;
+    width: 200px;
+}
+#content {
+
+    margin-left: 220px;
+    width: 1030px;
+}
+
+#stream-editor-panel {
+    width: 700px;
+    float: left;
+}
+    .tabs li {
+        
+        float: left;
+        margin-right: 0.5em;
+        padding: 0.2em 0.5em;
+        list-style: none;
+        
+        z-index: 2;
+    }
+    .tabs li.tab {
+        background-color: #EEE;        
+        border: solid 1px #000;
+    }
+    
+    .tabs li.active-tab {
+        border-bottom: none;
+        background-color: #FFF;
+    }
+    .panel { border: solid 1px #CCC; clear: left; position: relative; top: -1px; z-index: 1; padding: 0em 1em;}
+    h2 { clear: left;}
+#other-sources-panel {
+
+    width: 300px;
+    float: right;
+}
+#design-stream-panel .save { float: right; margin: 1em 1em 0em 0em }/* text-align: right; */
+br { clear: both; }

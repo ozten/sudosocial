@@ -1,0 +1,23 @@
+{% extends "basic_template.html" %}
+{% block content %}
+<div id="auth">
+<h1>Welcome to <code>sudo</code> social me</h1>
+<h2>Did we get your deets right?</h2>
+{% if error %}
+  <div class="error-message"><strong>{{error}}</strong></div>
+{% endif %}
+<form id="confirm_profile" action="" method="post">
+<fieldset><legend>Required</legend>
+<div><label for="username">Username:</label><input type="text" name="username" id="username" value="{{username}}" autofocus required />*</div>
+<div><label for="email">Email:</label><input type="email" name="email" id="email" value="{{email}}" required />*</div>
+<label for="publish_email">Display email address publicly:</label> <input type="checkbox" id="publish_email" name="publish_email" value="true" {{publish_email_flag}} />
+</fieldset>
+<fieldset><legend>Optional Full Name</legend>
+<label for="username">First Name:</label><input type="text" name="first_name" id="first_name" value="{{first_name}}" />
+<label for="username">Last Name:</label><input type="text" name="last_name" id="last_name" value="{{last_name}}" />
+<p>Note: You're full name will be displayed. Leave it blank if you don't want this data to be public.</p>
+</fieldset>
+<button id="contine">Continue</button>
+</form>
+</div><!-- /#auth -->
+{% endblock %}

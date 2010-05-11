@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>70's Futurisitic Technology</title>
+	<atom:link href="http://ozten.com/psto/feed/" rel="self" type="application/rss+xml" />
+	<link>http://ozten.com/psto</link>
+	<description>Programming focused drivel</description>
+	<lastBuildDate>Wed, 24 Feb 2010 16:39:14 +0000</lastBuildDate>
+	<generator>http://wordpress.org/?v=2.9.2</generator>
+	<language>en</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+			<item>
+		<title>No Rezone Greenwood Community Council Meeting 2/23</title>
+		<link>http://ozten.com/psto/2010/02/24/no-rezone-greenwood-community-council-meeting-223/</link>
+		<comments>http://ozten.com/psto/2010/02/24/no-rezone-greenwood-community-council-meeting-223/#comments</comments>
+		<pubDate>Wed, 24 Feb 2010 16:38:17 +0000</pubDate>
+		<dc:creator>ozten</dc:creator>
+				<category><![CDATA[Greenwood]]></category>
+		<category><![CDATA[City Council]]></category>
+		<category><![CDATA[Fred Meyer]]></category>
+		<category><![CDATA[Greenwood Community Council]]></category>
+		<category><![CDATA[Land use]]></category>
+		<category><![CDATA[Local government]]></category>
+		<category><![CDATA[Property tax]]></category>
+		<category><![CDATA[Seattle City Council]]></category>
+		<category><![CDATA[Zoning]]></category>
+
+		<guid isPermaLink="false">http://ozten.com/psto/?p=162</guid>
+		<description><![CDATA[We were able to attend the Greenwood Community Council (GCC) meeting last night. About 30 people attended and Trevor Stanley was the only Council member on the hot seat. He did a great job of facilitating considering the position that the GCC and/or Greater Greenwood Design &#38; Development Advocacy Group (GGDDAG) got itself into.
+Many of [...]]]></description>
+			<content:encoded><![CDATA[<p>We were able to attend the Greenwood Community Council (GCC) meeting last night. About 30 people attended and Trevor Stanley was the only Council member on the hot seat. He did a great job of facilitating considering the position that the GCC and/or Greater Greenwood Design &amp; Development Advocacy Group (GGDDAG) got itself into.</p>
+<p>Many of us came because we were upset that we found out about a rezone of our neighborhood after it was underway and going to be discussed with the Seattle City Council’s land use committee today.</p>
+<p>Most of us only brought pitchforks, but Rob Fellows was thoughtful enough to bring two motions to the meeting. Formally, Motion #2 was voted in unanimously by the citizens last night:</p>
+<p>The Greenwood Community Council believes the City Council should set a high burden of proof on proponents of current or future legislative zoning changes to demonstrate community support for their proposal, and the notify those impacted by the change. Since those conditions have not been met for current comprehensive plan and zoning changes on the south side of N 87th St., the north side of N 87th St. and the est side of 3rd Ave. NW in Greenwood, we oppose city council action to adopt changes to the future land use map in the comprehensive plan, as well as any proposed changes in the zoning code for those areas at this time.</p>
+<p>Other highlights:</p>
+<ul>
+<li> Trevor is a member of GGDDAG and president of the GCC</li>
+<li> Gary Brunt was present (represents Fred Meyer’s land owner)</li>
+<li> GCC stated that rezone was in good faith and had nothing to do with Fred Meyer project</li>
+<li> Bob Morenzy(?) talked about property tax concerns, stating that a $124k lot could get a tax bill for $500k in a short timeframe</li>
+<li> Barbara L Shale from local government brought some tax info and stated it would take years for property values to rise. She stated a bunch of other stuff that board me to tears, because I don’t understand taxes</li>
+<li> Generally there was no support for a Single Family to L3 rezone</li>
+<li>The GCC needs more members and board members</li>
+</ul>
+<p>The second item on the Agenda was to discuss a new Greenwood Park. This will be discussed at the next meeting.</p>
+<p>These GCC meetings are <a title="Subscribe to my Phinney Greenwood calendar" href="http://upcoming.yahoo.com/group/16193/">every third Tuesday</a> of the month at the Greenwood Library. It’s important that we start attending these meetings and I’m going to make an effort to go to them as well as notify people that they are happening. Heck, we can get a beer at Naked City Taphouse afterwords&#8230; Civic duty has its rewards.</p>
+<h6 class="zemanta-related-title" style="font-size: 1em;">Related articles by Zemanta</h6>
+<ul class="zemanta-article-ul">
+<li class="zemanta-article-ul-li"><a href="http://www.phinneywood.com/2010/02/22/greenwood-council-to-discuss-upzoning-single-family-areas/">Greenwood Council to discuss upzoning single-family areas</a> (phinneywood.com)</li>
+</ul>
+<div style="margin-top: 10px; height: 15px;" class="zemanta-pixie"><a class="zemanta-pixie-a" href="http://reblog.zemanta.com/zemified/02e51d95-72d5-4322-8b60-a68e15e5417d/" title="Reblog this post [with Zemanta]"><img style="border: medium none; float: right;" class="zemanta-pixie-img" src="http://img.zemanta.com/reblog_e.png?x-id=02e51d95-72d5-4322-8b60-a68e15e5417d" alt="Reblog this post [with Zemanta]"></a><span class="zem-script more-related pretty-attribution"><script type="text/javascript" src="http://static.zemanta.com/readside/loader.js" defer="defer"></script></span></div>
+]]></content:encoded>
+			<wfw:commentRss>http://ozten.com/psto/2010/02/24/no-rezone-greenwood-community-council-meeting-223/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>A PHP CLI wrapper for closure-compiler</title>
+		<link>http://ozten.com/psto/2009/11/19/a-php-cli-wrapper-for-closure-compiler/</link>
+		<comments>http://ozten.com/psto/2009/11/19/a-php-cli-wrapper-for-closure-compiler/#comments</comments>
+		<pubDate>Thu, 19 Nov 2009 22:50:54 +0000</pubDate>
+		<dc:creator>ozten</dc:creator>
+				<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://ozten.com/psto/?p=156</guid>
+		<description><![CDATA[Working on a web badge which should have a small footprint&#8230; messing with closure-compiler. Whipped up a dead simple PHP command line app (as I&#8217;m too lazy to setup the java toolchain and run closure compiler locally).
+
+]]></description>
+			<content:encoded><![CDATA[<p>Working on a web badge which should have a small footprint&#8230; messing with closure-compiler. Whipped up a dead simple PHP command line app (as I&#8217;m too lazy to setup the java toolchain and run closure compiler locally).<br />
+<script src="http://gist.github.com/239113.js?file=PHP_CLI_closure_compiler.php"></script></p>
+]]></content:encoded>
+			<wfw:commentRss>http://ozten.com/psto/2009/11/19/a-php-cli-wrapper-for-closure-compiler/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>MeritMail &#8211; Free Snail Mail for Changing the World</title>
+		<link>http://ozten.com/psto/2009/11/18/meritmail-free-snail-mail-for-changing-the-world/</link>
+		<comments>http://ozten.com/psto/2009/11/18/meritmail-free-snail-mail-for-changing-the-world/#comments</comments>
+		<pubDate>Thu, 19 Nov 2009 00:13:07 +0000</pubDate>
+		<dc:creator>ozten</dc:creator>
+				<category><![CDATA[Greenwood]]></category>
+		<category><![CDATA[ideas]]></category>
+		<category><![CDATA[volunteer]]></category>
+
+		<guid isPermaLink="false">http://ozten.com/psto/?p=153</guid>
+		<description><![CDATA[While reading Idealist&#8217;s newest idea for coordinating people, I got an idea for connecting volunteerism on the net to people who don&#8217;t use computers.
+Problem: It&#8217;s hard to reach people who don&#8217;t use computers! Only wealthy organizations can afford bulk mail.
+Solution: Anyone can post a card to be delivered to an area. They put in the [...]]]></description>
+			<content:encoded><![CDATA[<p>While reading <a href="http://idealist.org/more">Idealist&#8217;s newest idea for coordinating people</a>, I got an idea for connecting volunteerism on the net to people who don&#8217;t use computers.</p>
+<p>Problem: It&#8217;s hard to reach people who don&#8217;t use computers! Only wealthy organizations can afford bulk mail.</p>
+<p>Solution: Anyone can post a card to be delivered to an area. They put in the info for the card and any additional information to &#8220;persuade&#8221; people to deliver it.</p>
+<p>MailCarriers:<br />
+Anyone can go to MeritMail and &#8220;claim&#8221; messages for delivery. They print them out, cut them up and walk them to their neighbors mail boxes. They deliver only to their &#8220;block&#8221; or surroundings.</p>
+<p>No postage &#8211; messages are printed on home printers, cut in half or quarters and then stuck in peoples mailboxes or front doors.</p>
+<p>Merit Based &#8211; No spam (from the mail carriers perspective) gets through, because volunteers only print messages that they think have merit.</p>
+<p>Cheap &#8211; You are only informing your neighbors so 10 sheets of paper and a little ink. Cost of distribution is distributed across a city, block by block. If you know 4 of your neighbors are on Facebook, then you &#8220;deliver&#8221; the message that way and only print out 6 hard copies for the others.</p>
+<p>Opt Out &#8211; You can go and de-register an address and the system will advise MailCarriers to avoid that address.</p>
+<p>Guaranteed Delivery:<br />
+Ya&#8230; no. Metaphorically, this works like the internet does&#8230; so packet delivery is not guaranteed. The internet works &#8220;100%&#8221; of the time (okay not really) because of all the routers and re-sending packets. Only when lots of MailCarriers are participating does MeritMail have a higher rate of delivery. But with one low tech system in place, the network effect would help spread the word and bridge the gap.</p>
+<p>What do you think?</p>
+]]></content:encoded>
+			<wfw:commentRss>http://ozten.com/psto/2009/11/18/meritmail-free-snail-mail-for-changing-the-world/feed/</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>Greenwood Arson Info Meeting</title>
+		<link>http://ozten.com/psto/2009/11/11/greenwood-arson-info-meeting/</link>
+		<comments>http://ozten.com/psto/2009/11/11/greenwood-arson-info-meeting/#comments</comments>
+		<pubDate>Wed, 11 Nov 2009 17:51:33 +0000</pubDate>
+		<dc:creator>ozten</dc:creator>
+				<category><![CDATA[Greenwood]]></category>
+
+		<guid isPermaLink="false">http://ozten.com/psto/?p=147</guid>
+		<description><![CDATA[The Greenwood Arson Information Meeting had a huge turnout. They had to turn people away. There will be a second meeting.
+
+Key Ideas:
+Remove combustibles like paper from easy access.
+Arson is a crime of opportunity, so if someone sees junk mail at your place, then can grab it and pocket it or start a fire right then [...]]]></description>
+			<content:encoded><![CDATA[<p>The Greenwood Arson Information Meeting had a huge turnout. They had to turn people away. There will be a second meeting.<br />
+<a href="http://www.flickr.com/photos/wigfur/4095991476/"><img src="http://farm3.static.flickr.com/2642/4095991476_42fd5e7cc4.jpg" width="500" height="375" border="0" /></a></p>
+<h2>Key Ideas:</h2>
+<h3>Remove combustibles like paper from easy access.</h3>
+<p>Arson is a crime of opportunity, so if someone sees junk mail at your place, then can grab it and pocket it or start a fire right then and there.</p>
+<h3>If you see suspicious activity call 911 or <a href="tel:12065527766">1 (800) 55 ARSON</a>.</h3>
+<p>This is an arson wave &#8211; 14 non-accidental fires. They would rather come out on a false alarm, then to miss an opportunity to contact the arsonist</p>
+<h3>businesses and residents should tidy up and keep lights on</h3>
+<p>The dumpster behind Upper Crust was overflowing the night before the last fire. Defeating arson is the same techniques for defeating burglars&#8230; Tidy, well lite, people paying attention.</p>
+<p>If you need a city light repaired, spot an overflowing dumpster, or other issues call the city&#8217;s custom service hot-line  <a href="tel:12066842489">684-CITY</a>.</p>
+<p>I left during the Q&#038;A because that&#8217;s when the retarded non-question, questions started&#8230; Such as:</p>
+<blockquote><p>I happen to know a thing or two&#8230; the police chief and the fire marshall have known me for my whole life&#8230; I know that the arsonist is among us at this meeting right now!</p></blockquote>
+<p>Luckily Seattle is pretty level-headed and not an old west movie or it would have been a game of <a href="http://en.wikipedia.org/wiki/Mafia_%28party_game%29">Werewolf</a> with the quickness.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://ozten.com/psto/2009/11/11/greenwood-arson-info-meeting/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Teaching HTML with Hypertext Fiction</title>
+		<link>http://ozten.com/psto/2009/10/04/teaching-html-with-hypertext-fiction/</link>
+		<comments>http://ozten.com/psto/2009/10/04/teaching-html-with-hypertext-fiction/#comments</comments>
+		<pubDate>Sun, 04 Oct 2009 22:42:05 +0000</pubDate>
+		<dc:creator>ozten</dc:creator>
+				<category><![CDATA[Mozilla]]></category>
+		<category><![CDATA[Uncategorized]]></category>
+		<category><![CDATA[826Seattle]]></category>
+		<category><![CDATA[HypertextFiction]]></category>
+
+		<guid isPermaLink="false">http://ozten.com/psto/?p=135</guid>
+		<description><![CDATA[Continuing a project I worked on during Mozilla Service Week, I&#8217;ve been working on my curriculum for a workshop I will be teaching in Nov for the first time. The class is called Where the Wild Things Could Be&#8230; and will be through the 826 Seattle writing workshop. It will have about 8 students that [...]]]></description>
+			<content:encoded><![CDATA[<p>Continuing a project I worked on during <a href="http://mozillaservice.org">Mozilla Service Week</a>, I&#8217;ve been working on <a href="http://docs.google.com/View?id=d4pgw7p_8crvqggfw">my curriculum</a> for a workshop I will be teaching in Nov for the first time. The class is called <strong>Where the Wild Things Could Be</strong>&#8230; and will be through the <a href="http://www.826seattle.org/">826 Seattle writing workshop</a>. It will have about 8 students that are 11-14 years old.</p>
+<p><a title="Working on Hypertext Fiction Fun by oztenphoto, on Flickr" href="http://www.flickr.com/photos/ozten/3981144867/"><img style="float:right; border: none; margin-left: 0.7em" src="http://farm4.static.flickr.com/3467/3981144867_70998e199a_m.jpg" alt="Working on Hypertext Fiction Fun" width="180" height="240" /></a>The goal is to teach HTML. Hypertext Fiction, like the Choose Your Own Adventure book series, is a narrative with multiple story paths and endings. The web is a natural medium for this type of story. I&#8217;m hoping that teaching kids how to write hypertext fiction is a natural way to teach them how to create HTML.</p>
+<p>A major impediment to learning the basics of HTML is all the web publishing cruft:</p>
+<ul>
+<li>Text editors</li>
+<li>Files</li>
+<li>FTP</li>
+<li>Hostnames and Hosting</li>
+</ul>
+<p>All of this crap is an accident of history and seems like a big stumbling block, before you get to the juicy stuff of HTML, CSS, and JavaScript.</p>
+<p>The approach I&#8217;m taking is to create a web application that paves over these four problems. The student will have create a short page name and then get an edit box. This gives them a body tag and let&#8217;s them create from there. Saving the page publishes it. Linking involves using the &#8220;short page name&#8221; of another page in your HTML code.</p>
+<p>This workshop is only 2 hours, so I will focus on teaching hypertext fiction basics and the following HTML tags: A, P, UL, and LI. Students will use Sticky Notes and a whiteboard to coordinate the story and page flow.</p>
+<p>I&#8217;ve looked around a little for a web application, but nothing is perfect, so I&#8217;ll probably write my own. <a href="http://www.rollyourownhypertext.com/about">R.Y.O.H</a> is a clever new project, but doesn&#8217;t allow HTML coding and it&#8217;s quite a bit different than my wireframes. Wordpress is too distracting. Wikimedia is close but doesn&#8217;t allow HTML and I don&#8217;t want to just teach wiki markup. Do you know of a good hypertext fiction web tool?</p>
+<p>I&#8217;m creating the <a href="http://docs.google.com/View?id=d4pgw7p_8crvqggfw">curriculum online</a>. I&#8217;d love feedback. I&#8217;ll post and link to more materials as I create them. Steal my work. Improve it.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://ozten.com/psto/2009/10/04/teaching-html-with-hypertext-fiction/feed/</wfw:commentRss>
+		<slash:comments>8</slash:comments>
+		</item>
+		<item>
+		<title>Gnuplot In Action hits the streets</title>
+		<link>http://ozten.com/psto/2009/08/19/gnuplot-in-action-hits-the-streets/</link>
+		<comments>http://ozten.com/psto/2009/08/19/gnuplot-in-action-hits-the-streets/#comments</comments>
+		<pubDate>Thu, 20 Aug 2009 04:09:17 +0000</pubDate>
+		<dc:creator>ozten</dc:creator>
+				<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://ozten.com/psto/?p=130</guid>
+		<description><![CDATA[Congratulations to my friend Philipp Janert on the release of his book Gnuplot In Action!
+
+
+
+
+
+If you&#8217;ve ever wanted to use gnuplot, but were intimidated by the manpage&#8230;. Now&#8217;s you chance. gnuplot is super handy for wading through raw data and trying to find trends. There are lots of whiz bang JavaScript libraries like flot or [...]]]></description>
+			<content:encoded><![CDATA[<p>Congratulations to my friend Philipp Janert on the release of his book <a href="http://www.manning.com/janert/">Gnuplot In Action</a>!</p>
+<div class="mceTemp">
+<dl id="attachment_132" class="wp-caption alignleft" style="width: 160px;">
+<dt class="wp-caption-dt"><a href="http://www.manning.com/janert/"><img class="size-full wp-image-132" title="janert_cover150" src="http://ozten.com/wordpress/wp-content/uploads/2009/08/janert_cover150.jpg" alt="Cover Artwork for Gnuplot In Action" width="150" height="187" /></a></dt>
+</dl>
+</div>
+<p>If you&#8217;ve ever wanted to use gnuplot, but were intimidated by the manpage&#8230;. Now&#8217;s you chance. gnuplot is super handy for wading through raw data and trying to find trends. There are lots of whiz bang JavaScript libraries like flot or Timeplot, but using them assumes you know what the heck your plotting.</p>
+<p>Typically you&#8217;ll have some data files and then you can use gnuplot interactively to visualize a data set and figure out what kind of graph would be the most appropriate way to present your data to others.</p>
+<p>gnuplot runs on all platform and can output to many different formats. It&#8217;s a very handy tool especially when used on a unix based OS where you can grep, cut, and sed your way to variation of data files very quickly and replot the new information.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://ozten.com/psto/2009/08/19/gnuplot-in-action-hits-the-streets/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>A Sketch of PO LiveEdit</title>
+		<link>http://ozten.com/psto/2009/08/14/a-sketch-of-po-liveedit/</link>
+		<comments>http://ozten.com/psto/2009/08/14/a-sketch-of-po-liveedit/#comments</comments>
+		<pubDate>Fri, 14 Aug 2009 22:21:32 +0000</pubDate>
+		<dc:creator>ozten</dc:creator>
+				<category><![CDATA[Mozilla]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[research]]></category>
+		<category><![CDATA[webdev]]></category>
+
+		<guid isPermaLink="false">http://ozten.com/psto/?p=115</guid>
+		<description><![CDATA[Frédéric Wenzel  has a great series of L10n blog posts going and there has been a lot of discussion of L20n work at Mozilla. I ping’d Fred to check in and share an idea with him&#8230; 
+What if you could directly edit the copy on the staging server of a website and have it [...]]]></description>
+			<content:encoded><![CDATA[<p><a href="http://fredericiana.com/">Frédéric Wenzel</a>  has a <a href="http://blog.mozilla.com/webdev/category/localization/">great series of L10n blog posts</a> going and there has been a lot of discussion of L20n work at Mozilla. I ping’d Fred to check in and share an idea with him&#8230; </p>
+<blockquote><p>What if you could directly edit the copy on the staging server of a website and have it transparently save your changes in the background without messing with PO files, SVN access, etc</p></blockquote>
+<p>You&#8217;d eliminate lots of problems that localizers have&#8230; and provide a richer, fun editing environment.</p>
+<p>Like any idea worth building&#8230; I found out it’s already been invented <img src='http://ozten.com/wordpress/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' />  A few months back when I pitched this idea to Stas Malolepszy, he mentioned that <a href="http://diary.braniecki.net/">Gandalf</a> already thought of the idea and <a href="http://labs.braniecki.net/mozilla/webl10n/">built a prototype</a>. </p>
+<p>I’m realizing that this has been sitting in my TODO list for too long and I’m better off doing a brain dump in this blog post. Here’s my take on the idea:</p>
+<h2>Design Constraints:</h2>
+<p>Keep po files as the backing store<br />
+Work as much as possible with existing gettext tools<br />
+Use direct object manipulation for the UI - pick strings directly from page, see live updates</p>
+<h2>Requirements:</h2>
+<p>Let localizer view a web page and pick a string to translate<br />
+Display an editor widget that sit on top of or beside the page<br />
+Display the msgid and msgstr. In practice this is the English String and the Localized version.<br />
+As they type, redisplay the page with their updated translation<br />
+Provide a revert button<br />
+Provide a save button. Save persists this string back to the po file server which commits the change to SVN.</p>
+<h2>PO LiveEdit at 10,000 feet</h2>
+<p><img src="http://ozten.com/wordpress/wp-content/uploads/2009/08/POLiveEdit.jpg" alt="POLiveEdit 10&#039;000 foot diagram" title="POLiveEdit 10&#039;000 foot diagram" width="677" height="875" class="aligncenter size-full wp-image-117" /><br />
+<strong>PO Enhanced HTML</strong> &#8211; In PHP or other web code, instead of making calls to gettext methods, a set of wrapper methods would be used which add metadata to the HTML output. This would basically add the msgid to a span tag that surrounds the output of the msgstr. This would extra metadata wouldn’t affect the display, but would capture the semantics of a localized string.<br />
+Old PHP code<br />
+<code>&lt;p>&lt;?= _(‘Be the Difference’); ?&gt;&lt;/p&gt;</code><br />
+outputs<br />
+<code>&lt;p&gt;Fai la differenza&lt;/p&gt;</code></p>
+<p>New PHP cde:<br />
+<code>&lt;p&gt;&lt;?= _w(‘Be the Difference’) ?&gt;&lt;/p&gt;</code><br />
+outputs<br />
+<code>&lt;p&gt;&lt;span id=‘md5_58cbc46092296cbe517d748685f52838’&gt;Fai la differenza&lt;/span&gt;&lt;/p&gt;</code></p>
+<p><strong>PO Edit Client </strong>- This editor would use the msgid or some other token (such as the md5 hash of the msgid) from the enhanced html, to retrieve the information for an individual string and display it for editing. The comments, English translation, and Current localization string would be displayed. The editor would be aware of the current locale which is a page. It would be a live editor where changes would be reflected in the web page as you type.</p>
+<p><strong>PO Edit Web Service</strong> &#8211; The server manages the collection of messages.po files for a web application. It&#8217;s provides read and write access to the PO Edit Client, one string at a time. It manages commits to SVN and conflict management. </p>
+<h2>Technology:</h2>
+<p>So three are three components to build&#8230; PHP gettext wrapper libraries, which are pretty trivial and produce the enhanced metadata in the HTML, a Server and a Client which lives within the browser.</p>
+<h3>Server</h3>
+<p>Either a stand-alone python server using Stas and Zbigniew’s [https://wiki.mozilla.org/Silme Silme library], or integrated into an existing web based L10n tool like [http://en.wikipedia.org/wiki/Pootle Pootle], it would provide a REST web service for editing po files by locale and msgid.</p>
+<h3>Client</h3>
+<p>The client can be built as either:<br />
+Pure JavaScript included from the page<br />
+Addon &#8211; Firefox/Fennec Extension</p>
+<p>Pure JS has the benefit of working with any browser (Safari on iPhone, IE 6 in corporate dungeon, etc). It has the negative affect of introducing L10n only code that you wouldn&#8217;t want to push to production. It adds another integration point to every app.</p>
+<p>The Addon has the benefit of being totally isolated from the specific web application&#8217;s codebase, which makes for easier adoption. The client would have the ability to use the PO Edit WS without any same-origin policy limitations. Downsides are that it&#8217;s requires Firefox or Fennec and it is an extra step for localizers.</p>
+<p>Either way, a simple textarea will be a good start for a prototype. Localizers will be loosing any features of their current text editor (say POEdit), but they will gain rich &#8220;preview&#8221;. For a prototype, the addon route could be built out of an existing extension, such as <a href="http://ajaxian.com/archives/jetpack-02-slidebars-jetpackfuture-and-persistent-storage">Jetpack Slidebar</a> or Ubiquity pageLoad command, since it&#8217;s a more rapid development env.</p>
+<h2>Considerations:</h2>
+<p>The devil is in the details, here are some design decisions.</p>
+<p>By default, does this introduce a new requirement for a L10n preview environment? Or is the web application in a testable state? Adding String metadata changes the web application and invalidates it for QA, unless you ship this metadata in the production version also. The &#8216;right&#8217; thing to do would be to introduce a localization step into the SDLC, but this might lower adoption. Or you could focus on making the implementation of the String metadata really light weight, so it would have minimal overhead and not need an additional phase, since it could ship to production and other applications can invent new uses for this metadata.</p>
+<p>Exposing hard to reach state: Many strings are hidden behind a hard to reach sequence&#8230; such as error messages. A common practice in web app development is to expose every part of the app through testing hooks. Many large applications grow these features through time, such as allowing testers special query string parameters for each error condition to simulate the error. Another example is web apps with emails; provide urls so that each email is a click away w/o actually running through the registration process. These kinds of hooks would make translation easier and you&#8217;d have to list them somewhere so it&#8217;s easy to find them all. These become a requirement for a live web editor, unless you make the user jump through steps to reach all the states of the UI.</p>
+<h2>Out of Scope(?) but on the Radar</h2>
+<p>A real-time synchronization between the client and server would be ideal, so that multiple localizers could see who was editing a string and to reduce conflicts. <a href="http://morgamic.com/">Mike Morgan</a> and Fred have suggested <a href="https://bespin.mozilla.com/">Bespin</a> which is a freaking awesome idea.</p>
+<h2>Wrapping up</h2>
+<p>If we had a web based live editor for translating sites, this could be a huge win for localizers and the people of earth. Translating a website is one of the most painful and dangerous workflows I’ve seen. You know we have an amazing community, if they are willing to put up with the draconian toolchain we have today. Throwing everything out, is simply not an option, but if we can make a small evolutionary improvement towards a live preview edit workflow which hides revision control systems and text files&#8230;</p>
+<p>There are plenty of sticky corner cases and whiz bang features one can dream up, but I think building a prototype for this is a tractable problem. I did some brainstorming with Fred this morning and he had lots of other cool ideas and good observations on how this would work in practice.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://ozten.com/psto/2009/08/14/a-sketch-of-po-liveedit/feed/</wfw:commentRss>
+		<slash:comments>9</slash:comments>
+		</item>
+		<item>
+		<title>Mozilla WebDev Libraries</title>
+		<link>http://ozten.com/psto/2009/06/22/mozilla-webdev-libraries/</link>
+		<comments>http://ozten.com/psto/2009/06/22/mozilla-webdev-libraries/#comments</comments>
+		<pubDate>Mon, 22 Jun 2009 16:10:05 +0000</pubDate>
+		<dc:creator>ozten</dc:creator>
+				<category><![CDATA[Mozilla]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[webdev]]></category>
+
+		<guid isPermaLink="false">http://ozten.com/psto/?p=82</guid>
+		<description><![CDATA[Nothing earth-shattering here&#8230; but I wanted to capture some ideas that the webdev team has discussed in terms of how we share our code between projects and with the community at large.
+Of course 100% of our code is open source, but we want to do a better job of letting others use and contribute to [...]]]></description>
+			<content:encoded><![CDATA[<p>Nothing earth-shattering here&#8230; but I wanted to capture some ideas that the <a href="http://blog.mozilla.com/webdev/">webdev</a> team has discussed in terms of how we share our code between projects and with the community at large.</p>
+<p>Of course 100% of our code is open source, but we want to do a better job of letting others use and contribute to our libraries.</p>
+<div id="attachment_85" class="wp-caption alignleft" style="width: 238px"><img class="size-full wp-image-85" title="typical_project_layout" src="http://ozten.com/wordpress/wp-content/uploads/2009/06/typical_project_layout.jpg" alt="Screenshot of a typical project layout" width="228" height="651" /><p class="wp-caption-text">Screenshot of a typical project layout</p></div>
+<h2>A typical project</h2>
+<p>Let’s talk about a theoretical new project <strong>foomo</strong> which is the code behind Foo.mozilla.org. This project may reuse a couple libraries as well as host it’s own code. Let’s assume this is a project has the layout pictured to the left:</p>
+<p>In <code>bin</code> we have various Python and shell scripts which are executed via cron or CLI. These scripts depend on the <code>config</code> directory for configuration and the <code>lib</code> for libraries of code. I won’t focus on the bin part of the project, but it could follow the pattern below, but using a Pythonic packaging idiom.</p>
+<p>Let’s assume that the web directory houses a <a href="http://kohanaphp.com/">Kohana PHP</a> project. Under the <code>web/application</code> directory there are typical these project specific directories: <code>config</code>, <code>controllers</code>, <code>helpers</code>, <code>hooks</code>, <code>libraries</code>, <code>models</code>, and<code>views</code>.</p>
+<p>In addition to <code>application</code>, Kohana also provides <code>modules</code> and <code>system</code> directories. Let say that <code>foomo</code> project reuses a Mozilla WebDev PHP library <strong>barlib</strong> library it will be located under <code>modules</code>. <code>system</code> is where Kohana stores it&#8217;s framework code that is overridden by <code>modules</code> and <code>application</code> code. But how do we manage <code>foomo</code> and <code>barlib</code> codebases?</p>
+<h2 style="clear: left;">Version Control</h2>
+<p>The authoritative code repositories for this website would be in atleast two places.<br />
+If we keep all the code for <code>foomo</code> under one project, say <code>svn.mozilla.org/project/foomo</code>, this makes it easy to deploy and manage. The mainline of application specific code would be changed from here.<br />
+The second codebase is for the library <code>barlib</code>. The mainline of development would happen on <code>github.com/projects/barlib</code>. Let&#8217;s look at the source code layout of <code>foomo</code> and <code>barlib</code> to see how they relate.<br />
+<div id="attachment_89" class="wp-caption alignleft" style="width: 226px"><img class="size-full wp-image-89" title="web_modules" src="http://ozten.com/wordpress/wp-content/uploads/2009/06/web_modules.jpg" alt="foomo's module directory contains barlib" width="216" height="348" /><p class="wp-caption-text">foomo&#39;s module directory contains barlib</p></div><br />
+<div id="attachment_106" class="wp-caption alignright" style="width: 215px"><img class="size-full wp-image-106" title="barlib_source_tree2" src="http://ozten.com/wordpress/wp-content/uploads/2009/06/barlib_source_tree2.jpg" alt="barlib's project layout" width="205" height="238" /><p class="wp-caption-text">barlib&#39;s project layout</p></div></p>
+<p style="clear: both">So <strong>foomo&#8217;s</strong> <code>web/modules/barlib</code> on the left is a subset of <strong>barlib&#8217;s</strong> development tree on the right. A read only copy of this <code>dist</code> directory, heck even just a tarball distribution of it, comes from github and lands in foomo’s <code>web/modules/barlib</code>. As we want to enhace <code>barlib</code>, we work in that codebase on the right. <code>barlib</code> is it’s own project, so development includes running it’s tests, etc and then creating a release version to be imported back into <code>foomo</code>, on the left, as needed.</p>
+<p>Keeping the official repository for reusable libraries separate introduces some disadvantages, but is worth it.<br />
+Disadvantages:</p>
+<ul>
+<li>More complexity and administrative overhead</li>
+<li>Requires more discipline</li>
+<li>You have to manage dependencies between libraries and apps</li>
+<li>Increases development costs</li>
+</ul>
+<p>Advantages:</p>
+<ul>
+<li>Encourages Reuse</li>
+<li>Removes barriers for community contribution</li>
+<li>Makes QAing and releasing components possible</li>
+</ul>
+<h2>All Growed Up</h2>
+<p>As code in <code>foomo</code> solidifies or another project wants to use chunks outside of just <code>foomo</code>, the various pieces of code can be pulled out into a module and moved from <code>web/application</code> to <code>web/modules/&lt;library name&gt;</code>. We’ll have to re-QA foomo after this code extraction, but we will gain the benefit of reduced development on the second project and anyone who needs it won’t have to pick through <code>foomo</code> internals to copy and paste the tasty chunks. If the second project is a <a href="http://cakephp.org/">CakePHP project</a>, then all it will need to do is write CakePHP wrappers analogous to the very this Kohana specific layer of <code>barlib</code>.</p>
+<h2>Everything Cannot Be Reused</h2>
+<p>Not ever line of code can be reused. A lot of web development is about crafting a very specific solution. Localization, error handling, and coding conventions introduce challenges. That said, we should spend the extra time it takes to publish and integrate dynamite WebDev libraries.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://ozten.com/psto/2009/06/22/mozilla-webdev-libraries/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>New Mozilla Site is Live</title>
+		<link>http://ozten.com/psto/2009/06/15/new-mozilla-site-is-live/</link>
+		<comments>http://ozten.com/psto/2009/06/15/new-mozilla-site-is-live/#comments</comments>
+		<pubDate>Tue, 16 Jun 2009 00:19:49 +0000</pubDate>
+		<dc:creator>ozten</dc:creator>
+				<category><![CDATA[Mozilla]]></category>
+		<category><![CDATA[webdev]]></category>
+		<category><![CDATA[mozservice09]]></category>
+
+		<guid isPermaLink="false">http://ozten.com/psto/?p=80</guid>
+		<description><![CDATA[I&#8217;ve posted in detail on the webdev blog about a project I&#8217;ve spent the last several weeks working on &#8211; the Mozilla Service Week website. It&#8217; been a lot of fun with a great team and it was my first project at Mozilla that had marketing and QA. Please check it out and get involved [...]]]></description>
+			<content:encoded><![CDATA[<p>I&#8217;ve posted in detail on the <a href="http://blog.mozilla.com/webdev/2009/06/15/announcing-mozilla-service-week/">webdev blog</a> about a project I&#8217;ve spent the last several weeks working on &#8211; the <a href="http://mozillaservice.org">Mozilla Service Week</a> website. It&#8217; been a lot of fun with a great team and it was my first project at Mozilla that had marketing and QA. Please check it out and get involved with volunteering today. We had a brownbag lunch with <a href="http://www.ctnbayarea.org/">Computer Technology Network</a> today which was very timely. You can see the mozservice09 <a href="http://www.spreadfirefox.com/affiliates/homepage?category=54&amp;locale=41#getbuttons">promo badge</a> to the right and I&#8217;m also rock&#8217;n <a href="http://personas.services.mozilla.com/persona/30087">the persona on my browser</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://ozten.com/psto/2009/06/15/new-mozilla-site-is-live/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Greenwood Urban Village Update ala Chamber of Commerce</title>
+		<link>http://ozten.com/psto/2009/06/05/greenwood-urban-village-update-ala-chamber-of-commerce/</link>
+		<comments>http://ozten.com/psto/2009/06/05/greenwood-urban-village-update-ala-chamber-of-commerce/#comments</comments>
+		<pubDate>Fri, 05 Jun 2009 19:15:55 +0000</pubDate>
+		<dc:creator>ozten</dc:creator>
+				<category><![CDATA[Greenwood]]></category>
+
+		<guid isPermaLink="false">http://ozten.com/psto/?p=72</guid>
+		<description><![CDATA[I went to the Chamber of Commerce Business Networking Meeting this morning to get an update on the Urban Village plans.
+We better feel good about what is being built, because Gary Brunt is giving Kroger a 50 year lease.
+Is that tantalizing enough? Read on for the Good, Bad, Neutral, and The fUgly:
+Good 
+
+ They are [...]]]></description>
+			<content:encoded><![CDATA[<p>I went to the <a href="http://www.greenwood-phinney.com/events/next-chamber-meeting">Chamber of Commerce Business Networking Meeting</a> this morning to get an update on the Urban Village plans.</p>
+<h2><strong>We better feel good about what is being built, because Gary Brunt is giving Kroger a 50 year lease.</strong></h2>
+<p>Is that tantalizing enough? Read on for the Good, Bad, Neutral, and The fUgly:</p>
+<p><strong>Good </strong></p>
+<ul>
+<li> They are planning to increase the verticality of the block to up to 6 stories</li>
+<li> They are adding new commercial spaces, that is not Fred Meyer, which would help promote diversity and small business</li>
+<li> The big box Fred Meyer has been broken up above ground, to give it more of a contemporary Urban Village layout</li>
+<li> A Fred Meyer rep and Gary Brunt were at the meeting, listening to people’s concerns</li>
+</ul>
+<p><strong>Neutral</strong></p>
+<ul>
+<li> They are adding more residential space, which makes sense from a long term planning point of view, but is not prudent in our current situation.</li>
+<li> This plan has made huge improvements over previously released plans. The plans are are an improvement over the current block</li>
+<li>This meeting was at 7:30 A.M to 10:00 A.M. which seems to preclude community participation. We need more meetings at 7PM so everyone can follow along</li>
+</ul>
+<p><strong>Bad</strong></p>
+<ul>
+<li> The big box still exists and has grown in size, it’s just not the top layer</li>
+<li> Most of the vertical space is a parking garage</li>
+<li> Fred Meyer is building a huge store. Massive. They are sinking the bulk of it 5’ below grade and building up from there.<strong> I don’t think this is a good idea for many reasons.</strong></li>
+</ul>
+<ol>
+<li> Impact on adjacent parcels &#8211; my house might sink</li>
+<li> Impact on watershed &#8211; This is the greenwood bog, the will replace thousands of square feed of earth with concrete</li>
+<li> Diversity &#8211; We are removing a fantastic community resource, the Greenwood Market, to replace it with a subterranean grocery store. Only Cheney would be excited about that.</li>
+</ol>
+<ul>
+<li> The piper village “Morrow Lane” is touted as a key feature, but the parking garages are fed via 1st ave which cuts from 85th through Morrow Lane. Also Morrow Lane jogs around Fred Meyer instead of continuing as a walkable arcade through the center of the land.</li>
+<li> The site is littered with stair cases, so we will have to fight for ramps and make sure I don’t have to learn how to be <a href="http://www.youtube.com/watch?v=Z19zFlPah-o">Danny MacAskill</a> to ride my bike through this property on my way to the library.</li>
+</ul>
+<p><strong><em>The fUgly</em></strong></p>
+<ul>
+<li> This talk was really fluffy. The top deck was being sold as a romantic plaza, but I asked to clarify that it was parking stalls and this stopped the waxing poetic. I&#8217;l buy into multi-use, but it should not have parking stalls. The are talking about these parking spaces being used for farmers markets and swap meets, but I am totally skeptical that Kroger is going to sacrifice prime loading space for selling gas mowers so a few hippies can barter <a href="http://www.seattletilth.org/">heirloom tomatoes</a> for <a href="http://www.seattletilth.org/learn/resources-1/city-chickens">city chicken eggs</a>.</li>
+<li> This development project should be using it’s leverage to demand alternative transportation projects from various government sources.</li>
+</ul>
+<p>There was a lot of marketing and hype during the discussion. Elephants in the room:</p>
+<ul>
+<li> The development relies heavily on cars, but 85th has reached capacity and is a bottleneck</li>
+<li> Greenwood Market was forced out and is a much better community citizen than Fred Meyer, which is perceived as &#8220;the drunk&#8221;, wearing a wife beater t-shirt, who has a pit bull, and is always working on his car on the front lawn</li>
+<li> Site/Building Design is still informed by cars and hasn’t been shaped enough by long term thinking (foot traffic flow, etc)</li>
+<li> Our economy is fine and that the fundamentals are strong (right?)</li>
+</ul>
+<p><strong>I applaud Fred Meyer for working closely with local organizations and consultants</strong> to help mold this into a European style village. That said, they have a long way to go. The current site, aside from McDonalds, is the worst in the neighborhood. If Fredrics of Meyerwood wants to get on the “Green” “Sustainable” train, than they can start today by fixing their dangerous North facing side of the block which is inaccessible as a pedestrian. I am skeptical that “Sustainability” is anything but a buzz-word to them. They aren’t sustainable today. They don’t maintain their c-r-a-p-p-y block now, and they aren’t a Greenwood Citizen like Mud Bay Granary or <a href="http://www.townandcountrymarkets.com/greenwood/location.html">Greenwood market</a> is, <strong>today</strong>.</p>
+<p>When the loss of Greenwood Market was mentioned, it got quite emotional and the head (?) of the Chamber of Commerce stepped in and stopped the conversation, before the elephant’s tail was identified as indeed the tail of an elephant.</p>
+<p>I understand this and I think it was very professional, as the venue was a Chamber of Commerce breakfast meeting. I may question the moral ground that Gary operates on, but he is within his legal rights as the land owner. The Fred Meyer rep said himself that Fred Meyer “controls the land” and “will develop it” as they please. He also gave a shout out to Kruger and acknowledged them as Fred Meyer’s owners, which must be a painful situation as he has been with Fred Meyer 14 years.</p>
+<blockquote><p><strong>This is a very complicated project and it is going to be tough to make it work and end up with a great asset for everyone.</strong></p></blockquote>
+<p><strong>Major Risks</strong><br />
+I am very naive when it comes to most aspects of this project, but I see it as incredibly risky, without any proper oversight to ensure a successful outcome for our community. Worst case scenarios:</p>
+<ol>
+<li> The project is begun, we lose Greenwood Market and Fred Meyer and then funding is cancelled and we get a second “Leilani Lanes”.</li>
+<li> The project is executed, but do to economic constraints all pedestrian, bike, “Green”, and social features of the project are cut out. We are left with a reconfigured parking lot and a 3 story parking garage.</li>
+<li> The project is executed and no residents start renting the residential or commercial spaces. How long can Fred Meyer remain in the location before shutting down the store, <a href="http://www.imdb.com/title/tt0063442/">talking apes evolve from man</a>, and the whole complex becomes a haven for this human hating species?</li>
+</ol>
+<p><strong>All in all, lots of progress has been made on the Urban Village plan</strong>, by local consultants working with Fred Meyer. Please <a href="http://groups.google.com/group/greenwood-sidewalks">get involved</a> with the conversation and let’s make sure that an Urban Village is built in a sane, eco-friendly, and economically viable way.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://ozten.com/psto/2009/06/05/greenwood-urban-village-update-ala-chamber-of-commerce/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+	</channel>
+</rss>

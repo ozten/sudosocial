@@ -1,0 +1,32 @@
+{% extends "basic_template.html" %}
+{% block title %} {{username|title}}'s {{ stream_name|title  }} stream on Sudo Social{% endblock %}
+{% block content %}
+{{ profile|safe }}
+<canvas id="processing-canvas"></canvas>
+<div id="viewport">
+    <div id="content">
+{% for entry in entries %}
+    
+    {% if forloop.counter0|divisibleby:"3" %}
+        {% if not forloop.first %}
+        <!-- hr /></div --><!-- /.page --><!-- disabled while playing with layout.js -->
+        {% endif %}
+        <!-- div class="page"-->
+    {% endif %}
+            <div class='feed-entry'>{{ entry }}</div><!-- was entry.content -->
+    
+{% empty %}
+    <div class='default'>Bummer, No Entries
+{% endfor %}
+    </div><!-- /.page -->
+  </div><!-- /#content -->
+</div><!-- /#viewport -->
+
+<script type="text/javascript" src="/static/js/jquery-1.4.1.min.js"></script>
+<script type="text/javascript" src="/static/js/lib/processing-0.7.1.min.js"></script>
+<script type="text/javascript" src="{{javascript_url}}"></script>
+
+<script type="application/processing">
+{{processing_js|safe}}
+</script>
+{% endblock %}<!-- /content -->

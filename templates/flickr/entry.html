@@ -1,0 +1,8 @@
+<div class="feed-flickr">
+    <h4>{{title}}</h4>{{ content|safe }}
+    <ul class="tags">
+        {% for tag in tags %}
+            <li>{{tag.tag}}</li>
+        {% endfor %}
+    </ul><hr />
+</div>

@@ -1,0 +1,9 @@
+http://www.ozten.com/art/feed
+http://www.ozten.com/psto/feed
+http://www.livejournal.com/interface/atomapi/ozten/feed
+http://github.com/ozten.atom
+http://feeds.delicious.com/v2/rss/ozten?count=15
+http://www.reddit.com/user/ozten/.rss
+http://api.flickr.com/services/feeds/photos_public.gne?id=30663385@N00&lang=en-us&format=rss_200
+http://www.google.com/reader/shared/14381813479038584373
+http://www.yelp.com/syndicate/user/-OdHWm_uc2iYIO6_TID94g/rss.xml

@@ -1,0 +1,76 @@
+{% extends "template.html" %}
+{% block title %}SudoSocial Stream Editor{% endblock %}
+{% block sidebar %}
+<ul id="stream-nav" class="nav">
+    <li><a href="#">New Stream</a></li>
+    <li><a href="#">All Streams</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+<div id="stream-editor-panel">
+<h1 class="editor">Editing {{streamname}}</h1>
+<h2>Your Stream Pages</h2>
+<h2>Add A New Feed</h2>
+<form id="add-url-form" action="/manage/urls/{{request.user.username}}" method="post">
+    {{ form.as_p }}
+    <input type="submit" value="Add Feed" />
+</form>
+<p><b>Note:</b> Deleting a feed will remove all of it's entries.</p>
+<ul id="user_streams">
+{% for stream in streams %}
+    <li><a href="{{ stream.url }}" class="stream">{{ stream.name }} </a>
+        <h2>Stream Sources</h2>
+        <ul>
+            {%  for feed in stream.feeds %}
+                <li><a href="{{ feed.url }}" class="stream-feed-source"> {{ feed.url }}</a> [<a href="{{ feed.pk }}" class="feed-delete">x</a>]</li>
+            {% empty %}
+                <li>You have no stream sources, add a new feed.</li>
+            {%  endfor %}
+        </ul>
+    </li>
+{% endfor %}
+</ul>
+</div><!-- /stream-editor-panel -->
+<div id="other-sources-panel">
+    <h2>Unused Sources</h2>
+
+    <ul id="user_feeds">
+    {% for feed in unusedFeeds %}
+        <li><a href="{{ feed.url }}" class="feed-source"> {{ feed.url }}</a> [<a href="{{ feed.pk }}" class="feed-delete">x</a>]</li>
+    {% empty %}
+        <li>All of your Sources are used in this &quot;{{streamname}}&quot; stream.</li>
+    {% endfor %}
+    </ul>
+</div><!-- /other-sources-panel -->
+<script src="http://bald.ubuntu/js/jquery-1.4.2.min.js"></script>
+<script>
+$('#add-url-form').submit(function(){
+    
+    var successFn = function(data, status, xhr) {
+        $('input[name=url]').val('');
+        var newFeedLi = $('#user_feeds li:first').clone();
+        $('a.feed-source', newFeedLi).attr('href', data.feed.url)
+                                     .text(data.feed.url);
+        $('a.feed-delete', newFeedLi).attr('href', '' + data.feed.url_hash);
+        $('#user_feeds').append(newFeedLi);
+        };
+    var completeFn = function (xhr, status) {
+        $('input').attr('disabled', null);
+    };
+    $('input').attr('disabled', 'disabled');
+    //$('#add-url-form').serialize()
+    $.ajax({url: '/manage/urls/{{request.user.username}}', type: 'POST', data: {url: $('input[name=url]').val()}, success: successFn, complete: completeFn, dataType:'json'});
+    
+    return false;
+    });
+$('a.feed-delete').live('click', function(){
+    var that = $(this);
+    var url_hash = that.attr('href');
+    var deleteSuccessFn = function(){
+        that.parent().remove();   
+        };
+    $.ajax({url:'/manage/url/{{request.user.username}}/' + url_hash, type: 'DELETE', success: deleteSuccessFn, dataType: 'json'});
+    return false;
+    });
+</script>
+{% endblock %}

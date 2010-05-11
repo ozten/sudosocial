@@ -1,0 +1,51 @@
+{
+  "methods": {
+    "http-auth": {
+      "connect": {
+        "method": "GET",
+        "path": "/openid/login"
+      },
+      "disconnect": {
+        "method": "GET",
+        "path": "/openid/logout"
+      }
+    }
+    "username-password-form": {
+      "connect": {
+        "method":"POST",
+        "path":"/openid/login",
+        "params": {
+          "username":"unam",
+          "password":"pwd"
+        }
+      },
+      "disconnect": {
+        "method":"POST",
+        "path":"/openid/logout"
+      },
+      "register": {
+        "method":"POST",
+        "path":"/register/",
+        "type": "email"
+      },
+      "changepassword": {
+        "method":"POST",
+        "path":"/changepass/",
+        "params": {
+          "username":"unam",
+          "old_password":"old_pwd",
+          "password":"pwd",
+          "password_verify":"pwd2"
+        }
+      },
+      "sessionstatus": {
+          "method":"GET",
+          "path":"/sessionstatus"
+      },
+      "accountstatus": {
+          "method":"GET",
+          "path":"/account_status"
+      }
+    }
+  }
+}

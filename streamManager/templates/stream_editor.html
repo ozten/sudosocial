@@ -1,0 +1,88 @@
+{% extends "template.html" %}
+{% block title %}SudoSocial Stream Editor{% endblock %}
+
+{% block sidebar %}
+<ul id="stream-nav" class="nav">
+    <li><a href="#">New Stream</a></li>
+    <li><a href="#">All Streams</a></li>
+</ul>
+<p><b>Note:</b> Deleting a feed will remove all of it's entries.</p>
+{% endblock %}
+
+{% block content %}
+<h1>Stream Editor</h1>
+<div id="stream-editor-panel">
+    <ul class="tabs">
+        <li id="edit-stream" class="tab editor"><a href="#">Edit </a><strong>{{streamname}}</strong> Stream</li>
+        <li id="design-stream" class="tab design active-tab"><a href="#">Design</a></li>
+        <li><a id="preview" href="/u/{{username}}/s/{{streamname}}" target="_new" title="View your currenly published Stream in a new window">View</a></li>
+    </ul>
+    <div id="edit-stream-panel" class="panel">
+<h2 class="new-feed">Add A New Feed</h2>
+<p><img src="/static/img/feed-icon-14x14.png" width="14" height="14" alt="Feed Icon" /> Paste in the url to any Atom or RSS feed.</p>
+<form id="add-url-form" action="/manage/urls/{{request.user.username}}" method="post">
+    {{ form.as_p }}
+    <input type="submit" value="Add Feed" />
+</form>
+
+{% for stream in streams %}
+    <h2>Stream Sources</h2>
+    <ul id="user_streams">
+        {%  for feed in stream.feeds %}
+            <li><a href="{{ feed.url }}" class="stream-feed-source"> {{ feed.url }}</a> [<a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed.">x</a>]</li>
+        {% empty %}
+            <li id="no-stream-feed-blurb"><a href="#" class="stream-feed-source"></a><a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed."></a>You have no stream sources, add a new feed.</li>
+        {%  endfor %}
+        <li id="base-stream-feed-link" style="display:none"><a href="{{ feed.url }}" class="stream-feed-source">sample</a> [<a href="#" class="feed-delete" title="Delete this feed.">x</a>]</li>
+    </ul>
+    <p>After 5 minutes, Feed entries should start appearing in <a href="/u/{{username}}/s/{{streamname}}" target="_new" title="View your currenly published Stream in a new window">your stream.</a></p>
+{% endfor %}
+    </div><!-- /edit-stream -->
+    <div id="design-stream-panel" class="panel">
+        <form id="design-form" action="/manage/stream/design" method="post">
+        <div class="save"><input type="submit" id="design-submit1" value="Save" /></div>
+        <h2>CSS override</h2>
+        <p>Put up a CSS file anywhere on the internet, and you can take control of your design</p>
+        <pre>
+        {{preferences.css_url}}
+        {% ifequal preferences.css_url 'default' %} checked {% endifequal %}</pre>
+        
+        <input type="radio" id="css_type_default" name="css_type" value="default" {% ifequal preferences.css_url 'default' %} checked="checked" {% endifequal %} />
+        <label for="css_type_default">Default</label>
+        
+        <input type="radio" id="css_type_url" name="css_type" value="my_url" {% ifnotequal preferences.css_url 'default' %} checked="checked" {% endifnotequal %} />
+        <label for="css_type_default">Custom</label>
+        <label for="css_url">URL</label>
+        <input type="url" id="css_url" name="css_url" value="{% ifnotequal preferences.css_url 'default' %}{{preferences.css_url}}{% endifnotequal %}" />
+        
+        <h2>JavaScript override</h2>
+        <p>Put up a JS file anywhere on the internet, and you can take control of the behavior of your stream</p>
+        <label for="js_type_default">Default:</label><input type="radio" id="js_type_default" name="js_type" value="default"
+                                                {% ifequal preferences.javascript_url 'default' %} checked="checked" {% endifequal %} />
+                    <label for="js_type_url">Custom url:</label><input type="radio" id="js_type_url" name="js_type" value="my_url"
+                     {% ifnotequal preferences.javascript_url 'default' %} checked="checked" {% endifnotequal %} />
+        <input type="url" id="js_url" name="js_url" value="{% ifnotequal preferences.javascript_url 'default' %}{{preferences.javascript_url}}{% endifnotequal %}" />
+        
+        <h2>Processing.js</h2>
+        <p><a href="http://processing.org">Processing</a> is a creative environment for hacking your stream.
+        <a href="http://processingjs.org">Processing.js</a> brings this generative power to the web. Paste your Processing code in below,
+        and it will paint the <code>processing-canvas</code> canvas behind your stream.</p>
+        <textarea id="processing" name="processing" cols="80" rows="30">{{preferences.processing_js}}</textarea>
+        <div class="save"><input type="submit" id="design-submit2" value="Save" /></div>
+        </form>
+    </div><!-- /design-stream -->
+</div><!-- /stream-editor-panel -->
+<div id="other-sources-panel">
+    <h2>Unused Sources</h2>
+
+    <ul id="user_other_feeds">
+    {% for feed in unusedFeeds %}
+        <li><a href="{{ feed.url }}" class="other-feed-source"> {{ feed.url }}</a> [<a href="{{ feed.pk }}" class="feed-delete">x</a>]</li>
+    {% empty %}
+        <li>All of your Sources are used in this &quot;{{streamname}}&quot; stream.</li>
+    {% endfor %}
+    </ul>
+</div><!-- /other-sources-panel -->
+<script src="/static/js/jquery-1.4.1.min.js" type="text/javascript"></script>
+<script src="/static/js/stream_editor.js" type="text/javascript"></script>
+{% endblock %}

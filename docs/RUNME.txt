@@ -1,0 +1,10 @@
+sudo social is a Django app, so that means:
+
+Run in dev mode:
+ python manage.py runserver 0.0.0.0:8000
+Get a REPL:
+ python manage.py shell
+Pick up new DB tables
+ python manage.py syncdb
+Get SQL after altering Models:
+ python manage.py sqlall <app_name>

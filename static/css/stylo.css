@@ -1,0 +1,135 @@
+@font-face {
+    font-family: 'Junction 02';
+    src: url('/static/fonts/Junction02/Junction02.vfb');
+    src: local('Junction 02'), url('/static/fonts/Junction02/Junction02.ttf') format('truetype'), url('/static/fonts/Junction02/Junction02.otf') format('otf');
+}
+
+body, p, div, span {
+    font-family: 'Junction 02', monospace;
+    font-size: 12pt;
+}
+
+/* profile */
+.profile_blurb {
+    float: left;
+}
+.profile_blurb img {
+
+}
+
+.profile_image, .followme {
+
+}
+.profile_image { }
+.profile_image img {
+    display:block;
+}
+.vcard .fn, .vcard .email, .vcard .username {
+    display: block;
+}
+.profile_image acronym {
+
+}
+#profile_blurb_aka {
+
+}
+.profile_image {
+
+}
+
+.profile_image a img {
+
+}
+ul li {  }
+.profile_blurb ul li { }
+
+.social_identities { display: none; }
+
+#viewport { text-align: center; width: 100%; margin: 0px;}
+#content { width: 600px; text-align: left; margin: 0 auto; min-height: 600px;}
+.feed-entry {
+    background-color: #eee;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid #000;
+    padding: 10px;
+    margin: 0.3em auto;
+    position: relative;
+}
+.social_identities {
+    
+}
+.profile_blurb h5 {
+    
+}
+.followme ul {
+    
+}
+/* end profile */
+
+.page {
+    
+}
+hr {
+  clear: both;
+  visibility: hidden;
+}
+
+#viewport {
+    
+}
+#processing-canvas {
+    float: left;
+}
+div.feed-generic {
+    
+}
+
+.feed-generic, .feed-twitter, .feed-delicious {
+    
+}
+.tag-heading {
+    margin: 0px;
+}
+.tags li {
+    float: left;
+    margin-right: 0.5em;
+    list-style: none;
+}
+.permalink {
+    color: grey;
+    font-size: 80%;
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+}
+/* twitter */
+.feed-twitter {
+    
+}
+/* end twitter */
+
+/* Flickr */
+.feed-flickr {    
+    
+}
+.feed-flickr h4 {
+    
+}
+.feed-flickr a img {
+    
+}
+/* end Flickr */
+
+/* delicious */
+.feed-delicious {
+    
+}
+/* github */
+.feed-8aebbd89274c9356403136ab9e9b7a6d  {
+  
+}
+/* reddit */
+.feed-302f56c0fe262ce9b153eab6ac8652e3 {
+  
+}

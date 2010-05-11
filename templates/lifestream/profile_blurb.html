@@ -1,0 +1,32 @@
+<div class="profile_blurb">
+    <div id="hcard-{{user.first_name}}-{{user.last_name}}" class="vcard profile_image">
+        <img id="profile_image" src="{{ avatar_src }}" alt="Profile Photo of {{ username }}"  class="photo"/>
+        <a class="url fn" href="http://sudostream.me/u/{{user.username}}">{{user.first_name}} {{user.last_name}}</a>
+        {% if preferences.publish_email %}
+            <a class="email" href="mailto:{{user.email}}">{{user.email}}</a>
+        {% endif %}
+        <a class="url username" href="http://sudosocial.me/u/{{ username }}">{{username}}</a>
+    </div>        
+    
+    <div class="social_identities">
+        <h5>Who am I lately?</h5>
+        <ul>
+        {% for identity in identities %}
+            <li><a class="social_identity" href="{{ identity.tag }}">{{ identity.name }}</a>({{ identity.count }})</li>
+            
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="followme">
+        <h5>Follow {{user.first_name|title}} on the Interwebs:</h5>
+        <ul>
+        {% for source in sources %}
+            <li><a class="feed_source" href="{{ source.url }}">{{ source.title }}</a></li>            
+        {% endfor %}
+        </ul>
+    </div><!-- /followme -->
+    <div class="powered_by">
+        <h5 class="logo">SudoSocial</h5>
+        <a href="/auth">Take control of your stream</a>
+    </div>
+</div><!-- /profile_blurb -->

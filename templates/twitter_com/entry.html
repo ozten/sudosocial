@@ -1,0 +1,10 @@
+<div class="feed-twitter">
+    <!-- a href="http://twitter.com/{{tweeter}}">{{tweeter}}</a -->
+    {{ tweet|safe }} <a href="{{permalink}}">#</a>
+    <h6>Tags:</h6>
+    <ul class="tags">
+        {% for tag in tags %}
+            <li>{{tag.tag}}</li>
+        {% endfor %}
+    </ul><hr />
+</div>
