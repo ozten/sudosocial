@@ -1,5 +1,5 @@
-# sudo social #
-sudo social is a labs experiment around creating a stream
+# sudoSocial #
+sudoSocial is a labs experiment around creating a stream
 publishing platform. Lifestreams, Friendstreams, homepages,
 and topichubs all rely on streams for data. 
 

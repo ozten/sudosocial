@@ -1,11 +1,6 @@
-@font-face {
-    font-family: 'Junction 02';
-    src: url('/static/fonts/Junction02/Junction02.vfb');
-    src: local('Junction 02'), url('/static/fonts/Junction02/Junction02.ttf') format('truetype'), url('/static/fonts/Junction02/Junction02.otf') format('otf');
-}
 
 body, p, div, span {
-    font-family: 'Junction 02', monospace;
+    font-family: verdana;
     font-size: 12pt;
 }
 
@@ -113,6 +108,9 @@ div.feed-generic {
     position: absolute;
     bottom: 1em;
     right: 1em;
+}
+#release-footer {
+    
 }
 /* twitter */
 .feed-twitter {

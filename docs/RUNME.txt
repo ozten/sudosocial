@@ -1,4 +1,4 @@
-sudo social is a Django app, so that means:
+sudoSocial is a Django app, so that means:
 
 Run in dev mode:
  python manage.py runserver 0.0.0.0:8000
