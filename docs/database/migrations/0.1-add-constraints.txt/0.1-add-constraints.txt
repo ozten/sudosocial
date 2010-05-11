@@ -1,0 +1,1 @@
+ALTER TABLE `lifestream_feed` ADD CONSTRAINT `lifestream_feed_user_id_refs_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
