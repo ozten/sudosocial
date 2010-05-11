@@ -7,5 +7,5 @@ ipython==0.10
 jsonpickle==0.3.1
 pyflakes==0.4.0
 python-openid==2.2.4
-simplejson==2.1.0
+simplejson==2.0.9
 wsgiref==0.1.2

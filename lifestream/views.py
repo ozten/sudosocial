@@ -13,6 +13,8 @@ import django.template
 import django.template.loaders
 import django.http
 from django.shortcuts import render_to_response
+from django.template.loader import render_to_string
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.cache import cache
@@ -25,8 +27,32 @@ log = logging.getLogger()
 
 def profile(request, username):
     return stream(request, username, 'home')
+    
+def js_embed_stream(request, username, streamname):
 
-def stream(request, username, streamname):    
+    pageVars = common_stream(request, username, streamname)
+
+    embedString = render_to_string('lifestream/embed.html', pageVars)
+    # do something like document.write("escaped string");
+    embedString = json.dumps(embedString)
+    embedString = embedString.replace('</script>', '</scr");document.write("ipt>')
+    
+    javaScriptString = "document.write(%s);" % embedString
+    return django.http.HttpResponse(javaScriptString)
+
+
+def stream(request, username, streamname):
+    ctx = django.template.RequestContext(request)
+    ctx.autoescape=False #TODO Need more thinking around best way to handle this...
+    
+    pageVars = common_stream(request, username, streamname)
+
+    return render_to_response('lifestream/profile.html',
+                          pageVars,
+                          context_instance=ctx,
+                          )
+
+def common_stream(request, username, streamname):
     #rawEntries = lifestream.models.Entry.objects.order_by('last_published_date').reverse().all()[:50]
     rawEntries = lifestream.models.Entry.objects.order_by('last_published_date').reverse().filter(feed__streams__user__username=username, feed__streams__name__exact = streamname)[:50]
     entries = []
@@ -139,8 +165,6 @@ def stream(request, username, streamname):
     #renderedEntries.append(renderProfile(request), identities)
     profile = renderProfile(request, user, identities)
     
-    ctx = django.template.RequestContext(request)
-    ctx.autoescape=False #TODO Need more thinking around best way to handle this...
     #{ 'entries': entries, },
     
     preferences = patchouli_auth.preferences.getPreferences(user)
@@ -155,7 +179,7 @@ def stream(request, username, streamname):
     else:
         css_url = preferences['css_url']
     
-    pageVars = {'entries': renderedEntries,
+    return {'entries': renderedEntries,
                 'profile': profile,
                 'css_url': css_url,
                 'javascript_url': js_url,
@@ -164,14 +188,6 @@ def stream(request, username, streamname):
                 'user': user,
                 'username': username,
                 }
-
-        
-    
-    
-    return render_to_response('lifestream/profile.html',
-                          pageVars,
-                          context_instance=ctx,
-                          )
     
 def cmpIdentity(x, y):
     #xkey, xvalue = x
