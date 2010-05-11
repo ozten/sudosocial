@@ -7,15 +7,46 @@ Content aggregation has been around for a long time, but there isn't a popular
 open source self-hosted web app for owning the content
 and presentation of streams.
 
-## Requirements ##
-Download the VirtualBox appliance (TODO) for a working copy of this project. It's based on:
+## Philosophy ##
 
- * Python 2.5
- * Mysql
- * See requirements.txt for Python requirements.
+Respect for privacy and privacy control preferences are critical features that
+many users don't notice or care about currently. Privacy isn't an
+easy choice, there are no set it and forget it preferences. We [builders]
+can make many nuanced decisions.
+**Example:** Don't display timestamps in streams by default. You're leaking
+ information (oh they're writing yelp reviews at work?)
+that isn't a primary concern. Authoring a lifestream that is displayed
+on a timeline... then include timestamps as it's relevant data.
+
+Cloud control - full access to the user. Self-hosted, Import, export, delete account.
+The stream editor could show which entries are public, shared, and private.
+
+Mozilla wants to broaden the community. One goal of this project is to be
+approachable and hackable for many different types of people.
+
+                    ____________________
+                ____| CSS - Designer
+           _____| Processing.js - Artist
+       ____| JS - Web Developer
+    __| Python - Web Developer
+    
+Another goal is to demonstrate a well behaved distributed
+content publishing system. We want to republish
+content, but to push the value back into the originating source.
+**Example:** Display Flick photos in a really attractive way, send
+users to Flick as soon as possible, since that app is optimized for
+viewing and editing photos. Provide 'Like' and 'comment' features,
+but send that data back to Flickr (OpenLike and Salmon?). 
+The data the platform provides should be in standard formats (ActivityStreams)
+and be published with standards based markup (Microformats).
+
+And of course, the overall Mozilla mission of keeping the web open
+and accessible.
 
 ## Hacking ##
-You can use the VirtualBox applicance (TODO) and your good to go.
+You can use the [VirtualBox applicance](http://sudosocial.me/static/sudosocial.zip) and your good to go.
+
+This code and data is very early days and subject to change.
 
 If you want to setup from scratch, this is a Django app and borrows from
 [addons.mozilla.org](http://addons.mozilla.org) and [support.mozilla.org](http://support.mozilla.org).  
@@ -23,11 +54,20 @@ Please follow [the docs](http://jbalogh.github.com/zamboni/topics/installation/)
 the [zamboni](http://github.com/jbalogh/zamboni) project 
 as well as [Django 1.1 docs](http://docs.djangoproject.com/en/1.1/).
 
-This code and data is very early days and subject to change.
+### Requirements ###
+Again, you can find these in the VM, but:
+ * Python 2.5
+ * Mysql
+ * See requirements.txt for Python requirements.
+
+### Patchouli ###
+Currently this repository should be named patchouli and not sudosocial.
 
 What is "patchouli" in the code?
-This was the working name of the project. This project is a small step towards **personal cloud control**. 
-In meatspace, *Hippies use patchouli instead of showers and deodorant*.
+This **was** the working name of the project. This project is a small step towards **personal cloud control**. 
+In meatspace, *Hippies use patchouli instead of showers and deodorant*. Respect... I'm a neo-hippie, I'm just say'n.
+
+sudosocial is a *slightly* better name. Patches welcome :)
 
 ### Lifecycle ###
 Feeds are fetch and entries are pickled and stored in the database.
@@ -43,36 +83,3 @@ entry.html
 4. Edit templates/<sitename>/entry.html
 
 *TODO*  Put these three items into the same directory.
-
-## Philosophy ##
-
-Respect for privacy and privacy control preferences are critical features that
-many users don't notice or care about currently. Privacy isn't an
-easy choice, there are no set it and forget it preferences. We [builders]
-can make many nuanced decisions.
-Example: Don't display timestamps in streams by default. You're leaking
- information (oh they're writing yelp reviews at work?)
-that isn't a primary concern. Authoring a lifestream that is displayed
-on a timeline... then include timestamps as it's relevant data.
-
-Cloud control - full access to the user. Self-hosted, Import, export, delete account.
-The stream editor could show which entries are public, shared, and private.
-
-One goal of this project is to be approachable and hackable for many
-different types of people.
-
-                    ____________________
-                ____| CSS - Designer
-           _____| Processing.js - Artist
-       ____| JS - Web Developer
-    __| Python - Web Developer
-    
-Another goal is to demonstrate how a well behaved distributed
-content publishing system should behave. We want to republish
-content, but to push the value back into the originating source.
-Example: Display Flick photos in a really attractive way, send
-users to Flick as soon as possible, since that app is optimized for
-viewing and editing photos. Provide 'Like' and 'comment' features,
-but send that data back to Flickr (OpenLike and Salmon?). 
-The data the platform provides should be in standard formats (ActivityStreams)
-and be published with standards based markup (Microformats).
