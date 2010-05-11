@@ -50,7 +50,7 @@ Respect for privacy and privacy control preferences are critical features that
 many users don't notice or care about currently. Privacy isn't an
 easy choice, there are no set it and forget it preferences. We [builders]
 can make many nuanced decisions.
-Example: Don't display timestamps in streams by default. Your leaking
+Example: Don't display timestamps in streams by default. You're leaking
  information (oh they're writing yelp reviews at work?)
 that isn't a primary concern. Authoring a lifestream that is displayed
 on a timeline... then include timestamps as it's relevant data.
