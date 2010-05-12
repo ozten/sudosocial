@@ -56,6 +56,7 @@ as well as [Django 1.1 docs](http://docs.djangoproject.com/en/1.1/).
 
 ### Requirements ###
 Again, you can find these in the VM, but:
+
  * Python 2.5
  * Mysql
  * See requirements.txt for Python requirements.
