@@ -1,10 +1,9 @@
 function patchouliUsername() {
     return $('#auth-username').text();
 }
-$('#add-url-form').submit(function(){
-    
+$('#add-url-form').submit(function(){    
     var successFn = function(data, status, xhr) {
-        console.info(data.feed.url);
+
         $('#no-stream-feed-blurb').hide();
         $('input[name=url]').val('');        
         var newFeedLi = $('#base-stream-feed-link').clone();
