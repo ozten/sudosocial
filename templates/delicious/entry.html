@@ -1,11 +1,15 @@
 <div class="feed-delicious">
     {% if showDescription %} <p class="description">{{ description|safe }}</p> {% endif %}
     <p class="link"><a href="{{ link }}">{{ title }}</a></p>
-    <h6 class="tag-heading">Tags:</h6>
-    <ul class="tags">
-        {% for tag in tags %}
-            <li><a href="{{tag.url}}">{{tag.tag}}</a></li>
-        {% endfor %}
-    </ul>
+    {% if tags %}
+    <div class="tag-area">
+        <h6 class="tag-heading">Tags:</h6>
+        <ul class="tags">
+            {% for tag in tags %}
+                <li><a href="{{tag.url}}">{{tag.tag}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
     <a class="permalink" href="{{permalink}}">#</a><hr />
 </div>
