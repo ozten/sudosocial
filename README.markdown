@@ -36,7 +36,7 @@ content, but to push the value back into the originating source.
 **Example:** Display Flick photos in a really attractive way, send
 users to Flick as soon as possible, since that app is optimized for
 viewing and editing photos. Provide 'Like' and 'comment' features,
-but send that data back to Flickr (OpenLike and Salmon?). 
+but send that data back to Flickr (OpenLike? and Salmon?). 
 The data the platform provides should be in standard formats (ActivityStreams)
 and be published with standards based markup (Microformats).
 

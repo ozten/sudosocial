@@ -57,10 +57,12 @@
         
         <h2>JavaScript override</h2>
         <p>Put up a JS file anywhere on the internet, and you can take control of the behavior of your stream</p>
-        <label for="js_type_default">Default:</label><input type="radio" id="js_type_default" name="js_type" value="default"
-                                                {% ifequal preferences.javascript_url 'default' %} checked="checked" {% endifequal %} />
-                    <label for="js_type_url">Custom url:</label><input type="radio" id="js_type_url" name="js_type" value="my_url"
-                     {% ifnotequal preferences.javascript_url 'default' %} checked="checked" {% endifnotequal %} />
+        
+        <input type="radio" id="js_type_default" name="js_type" value="default" {% ifequal preferences.javascript_url 'default' %} checked="checked" {% endifequal %} />
+        <label for="js_type_default">Default:</label>
+        
+        <input type="radio" id="js_type_url" name="js_type" value="my_url" {% ifnotequal preferences.javascript_url 'default' %} checked="checked" {% endifnotequal %} />
+        <label for="js_type_url">Custom url:</label>
         <input type="url" id="js_url" name="js_url" value="{% ifnotequal preferences.javascript_url 'default' %}{{preferences.javascript_url}}{% endifnotequal %}" />
         
         <h2>Processing.js</h2>
