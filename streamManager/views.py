@@ -1,16 +1,12 @@
-import datetime
 import logging
-import re
 
-import feedparser
-import jsonpickle
 import simplejson as json
 
-from django.db import IntegrityError
 import django.utils.hashcompat as hashcompat
 import django.template
 import django.template.loaders
 import django.http
+
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 
@@ -157,49 +153,6 @@ def url(request, username, feed_url_hash):
             return django.http.HttpResponse('Hi there')
     else:
         return django.http.HttpResponse('{"message":"' + HACKING_MESSAGE + '"}', mimetype='applicaiton/json', status=400)
-
-def cron_fetch_feeds(request, key):
-    """ """
-    if key != 'Miracles192010':
-        return django.http.HttpResponse('ERROR')
-    newEntryCount = 0
-    feeds = lifestream.models.Feed.objects.all()
-    for feed in feeds:
-        stream = feedparser.parse(feed.url)
-        if 1 == stream.bozo and 'bozo_exception' in stream.keys():
-            log.error('Unable to fetch %s Exception: %s', feed.url, stream.bozo_exception)
-        else:
-            log.info('Processing %s', feed.url)
-            if 'feed' in stream and 'title' in stream.feed:
-                log.info('Processing title: %s', stream.feed.title)
-            if 'feed' in stream and 'title' in stream.feed and feed.title != stream.feed.title:
-                feed.title = stream.feed.title
-                try:
-                    feed.save()
-                except Exception, x:
-                    log.error("Unable to update feed title from=%s to=%s" % (feed.title, stream.title))
-                    log.error(x)
-            else:
-                if (not 'feed' in stream) or (not 'title' in stream.feed):
-                    log.warn("Feed doesn't have a title property")
-                    log.info(stream)
-            for entry in stream.entries:
-                
-                jsonEntry = jsonpickle.encode(entry)
-                entryGuid = ''
-                if 'guid' in entry:
-                    entryGuid = entry.guid
-                else:
-                    entryGuid = hashcompat.md5_constructor(jsonEntry).hexdigest()
-                yr, mon, d, hr, min, sec = entry.updated_parsed[:-3]
-                lastPub = datetime.datetime(yr, mon, d, hr, min, sec)
-                newEntry = lifestream.models.Entry(feed=feed, guid=entryGuid, raw=jsonEntry, last_published_date=lastPub)
-                try:
-                    newEntry.save()
-                    newEntryCount += 1
-                except IntegrityError, e:
-                    log.info('Skipping duplicate entry %s, caught error: %s', entryGuid, e)
-    return django.http.HttpResponse('Finished importing %d items' % newEntryCount)
 
 @login_required
 def manage_stream_design(request):
