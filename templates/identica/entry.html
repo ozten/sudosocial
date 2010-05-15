@@ -1,0 +1,16 @@
+<div class="feed-identica">
+    <div class="status">
+    {{ status|safe }} <a  class="permalink" href="{{permalink}}">#</a>
+    </div>
+    {% if tags %}
+    <div class="tag-area">
+        <h6 class="tag-heading">Tags:</h6>        
+        <ul class="tags">
+            {% for tag in tags %}
+                <li>{{tag.tag}}</li>
+            {% endfor %}
+        </ul>        
+    </div>
+    {% endif %}
+        <hr />
+</div>
