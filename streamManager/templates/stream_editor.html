@@ -42,10 +42,7 @@
         <form id="design-form" action="/manage/stream/design" method="post">
         <div class="save"><input type="submit" id="design-submit1" value="Save" /></div>
         <h2>CSS override</h2>
-        <p>Put up a CSS file anywhere on the internet, and you can take control of your design</p>
-        <pre>
-        {{preferences.css_url}}
-        {% ifequal preferences.css_url 'default' %} checked {% endifequal %}</pre>
+        <p>Put up a CSS file anywhere on the internet, and you can take control of your design</p>        
         
         <input type="radio" id="css_type_default" name="css_type" value="default" {% ifequal preferences.css_url 'default' %} checked="checked" {% endifequal %} />
         <label for="css_type_default">Default</label>
