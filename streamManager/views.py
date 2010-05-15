@@ -181,5 +181,5 @@ from django.shortcuts import render_to_response
 def homepage(request):
     
     return render_to_response('homepage.html',
-                          {'css_url': '/static/css/stylo.css'},
+                          {'css_url': '/static/css/general-site.css'},
                           context_instance=django.template.RequestContext(request))

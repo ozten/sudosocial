@@ -2,13 +2,23 @@
 {% block title %}sudoSocial - sudo make me social{% endblock %}
 {% block content %}
 <div id="content">
-<h1>sudoSocial</h1>
-<h2>Take control of your social identity</h2>
-<p>sudoSocial is a Mozilla labs exeriment around social streams.</p>
-<ul>
-    <li>Check out a <a href="/u/pattyokdemo/s/home">basic HomeStream</a></li>
-    <li>A customized stream, embedded via a script tag: <a href="http://ozten.com/index.html">customized HomeStream</a></li>
-    <li>Okay, <a href="https://sudosocial.me/auth">create your own HomeStream</a> and take control!</li>
-</ul>
+    <div id="auth"><a href="https://sudosocial.me/auth">Login</a></div>
+    <h1 class="logo"><strong><code>sudo</code>Social</strong></h1>
+    <h2 class="tagline">Take control of your stream</h2>
+    <div class="copy">
+    <ul id="call-to-action">
+        <p><strong><code>sudo</code>Social</strong> is a Mozilla labs exeriment around
+        building a stream publishing application. Use sudoSocial
+        to edit and control your homestream.</p>
+    
+        <li>Check out a <a href="/u/pattyokdemo/s/home">basic HomeStream</a></li>
+        <li>Next, a customized stream, embedded via a script tag: <a href="http://ozten.com/index.html">customized HomeStream</a></li>
+        <li>Okay, <a href="https://sudosocial.me/auth">create your own HomeStream</a> and take control!</li>
+    </ul>
+    <div id="learn-more-sidebar">
+        <p>Learn more from our first blogpost</p>
+        <p>VIDEO</p>
+    </div>
+    </div>
 </div><!-- /content -->
 {% endblock %}

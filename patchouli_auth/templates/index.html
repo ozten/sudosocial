@@ -1,13 +1,19 @@
 {% extends "basic_template.html" %}
 {% block content %}
-<div id="auth">
-<h1>Welcome to <code>sudo</code> social me</h1>
-<h2>Did we get your deets right?</h2>
+<div id="content">
+
+<h1 class="logo"><strong><code>sudo</code>Social</strong></h1>
+    <h2 class="tagline">Take control of your stream</h2>
+    
+<div id="confirm_profile">
+<h1>Welcome to <code>sudo</code>Social</h1>
+<h2>Did we get your profile info right?</h2>
 {% if error %}
   <div class="error-message"><strong>{{error}}</strong></div>
 {% endif %}
 <form id="confirm_profile" action="" method="post">
-<fieldset><legend>Required</legend>
+<fieldset class="required"><legend>Required</legend>
+    <div id="profile-image"><img src="{{gravatar}}" /><button>Refresh Avatar</button><p>Your profile image is provided by <a href="http://gravatar.com/">Gravatar</a> based on your email address.</div>
 <div><label for="username">Username:</label><input type="text" name="username" id="username" value="{{username}}" autofocus required />*</div>
 <div><label for="email">Email:</label><input type="email" name="email" id="email" value="{{email}}" required />*</div>
 <label for="publish_email">Display email address publicly:</label> <input type="checkbox" id="publish_email" name="publish_email" value="true" {{publish_email_flag}} />
@@ -20,4 +26,8 @@
 <button id="contine">Continue</button>
 </form>
 </div><!-- /#auth -->
+    </div> <!-- /#confirm_profile -->
+</div><!-- /#content -->
+<script src="/static/js/jquery-1.4.1.min.js" type="text/javascript"></script>
+<script src="/static/js/stream_editor.js" type="text/javascript"></script>
 {% endblock %}

@@ -1,6 +1,8 @@
 <html>
     <head>
-<link href="/static/css/general-site.css" type="text/css" rel="stylesheet">
+    <title>sudoSocial - Take Control of Your Stream</title>
+    <link href="/static/css/general-site.css" type="text/css" rel="stylesheet">
+    <link rel="icon" href="/static/img/favicon.png" type="image/png"> 
     </head>
     <body>
 {% block content %}

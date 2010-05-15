@@ -1,10 +1,154 @@
-/* admin and other app specific styles */
-#confirm_profile {
-    width: 600px;
+/* v1.0 | 20080212 */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
 }
 
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* END CSS RESET */
+code {
+    font-family: "Courier New", Courier, Arial, monospace;
+}
+body, p, div, span {
+    font-family: verdana;
+    font-size: 12pt;
+    line-height: 1.5;
+}
+h1.logo {
+    font-size: 300%;
+    line-height: 1;
+}
+h1.logo {
+    color: #333;
+}
+h1.logo code {
+    color: green;
+}
+h2.tagline {
+    margin-top: 0px;
+    padding-top: 0px;
+}
+#content {
+    text-align: center;
+    min-height: 600px;
+}
+.copy, .login, #confirm_profile {
+    margin: 0 auto;
+    width: 835px;
+    padding-top: 1em;
+}
+
+/* homepage */
+#call-to-action {
+    float: left;
+    /* margin-left: 300px; */
+    text-align: left;
+    width: 400px;
+    background-color: #DDD;
+    border: solid 1px: #666;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    padding: 0.5em 1em;
+}
+#call-to-action li {
+    list-style: circle outside none;
+    margin-left: 2em;
+}
+#learn-more-sidebar {
+    float: left;
+    text-align: left;
+    width: 350px;
+    margin-left: 1em;
+}
+/* admin and other app specific styles */
+.login {
+    text-align: left;
+}
+#fopenid {
+    width: 600px;
+}
+#confirm_profile {
+    width: 600px;
+    text-align: left;
+}
+label{
+    line-height: 1.5;
+}
+fieldset.required {
+    border: solid 3px #DDD;
+}
+fieldset {
+    padding: 1em;
+}
+legend {
+    font-weight: bold;
+    color: #333;
+}
+#profile-image {
+    float: right;
+    width: 200px;
+}
+#profile-image p{
+    font-size: 80%;
+}
 div > label{   
     display: block;
     float: left;
     width: 6em;
+}
+#auth {
+    position: absolute;
+    top: 0.3em;
+    right: 0.3em
+    
+}
+#release-footer {
+    clear: both;
+    padding-left: 1em;
 }

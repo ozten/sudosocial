@@ -192,7 +192,7 @@ div.feed-generic {
     right: 1em;
 }
 #release-footer {
-    
+    padding-left: 1em;
 }
 /* Identi.ca */
 .feed-identica .vcard .nickname {

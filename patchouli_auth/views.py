@@ -1,4 +1,5 @@
 import logging
+import hashlib
 import simplejson
 
 import django.http
@@ -65,15 +66,25 @@ def confirm_profile(request):
         publishEmailFlag = 'checked'
     else:
         publishEmailFlag = ''
+    
+    gravatarHash = hashlib.md5(request.user.email).hexdigest()
+    avatar_url = "http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash
+
     return render_to_response('index.html',
-                          { 'username':   request.user.username,                            
+                          { 'css_url': '/static/css/general-site.css',
+                            'username':   request.user.username,                            
                             'email':      request.user.email,
                             'publish_email_flag': publishEmailFlag,
                             'first_name': request.user.first_name,
                             'last_name':  request.user.last_name,
+                            'gravatar': avatar_url,
                             'error':      error
                             },
                           context_instance=django.template.RequestContext(request))
+def gravatar(request, email):
+    log.debug("Creating gravatar for %s" % email)
+    gravatarHash = hashlib.md5(email).hexdigest()
+    return django.http.HttpResponse("http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash) 
 
 import django.contrib.auth.views
 

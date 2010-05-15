@@ -5,6 +5,8 @@
 <html>
 <head>
 <title>Sign in with your OpenID</title>
+<link rel="icon" href="/static/img/favicon.png" type="image/png">
+<link href="/static/css/general-site.css" type="text/css" rel="stylesheet">
 <style type="text/css">
 input.openid {
   background: url({% url openid-logo %}) no-repeat; 
@@ -14,6 +16,12 @@ input.openid {
 </style>
 </head>
 <body>
+  
+<div id="content">
+  <h1 class="logo"><strong><code>sudo</code>Social</strong></h1>
+    <h2 class="tagline">Take control of your stream</h2>
+    
+  <div class="login">
 <h1>Sign in with your OpenID</h1>
 {% if form.errors %}
 <p class="errors">{% trans "Please correct errors below:" %}<br />
@@ -25,7 +33,7 @@ input.openid {
 	{% endif %}
 </p>
 {% endif %}
-<form name="fopenid" action="{{ action }}" method="post">
+<form id="fopenid" name="fopenid" action="{{ action }}" method="post">
 	<fieldset>
 		<legend>{% trans "Sign In Using Your OpenID" %}</legend>
         <div class="form-row">
@@ -40,6 +48,11 @@ input.openid {
 
 	</fieldset>
 </form>
+<div class="">
+  <h2>What is an OpenId?</h2>
+  <p><a href="http://openid.net/get-an-openid/">You may already have an OpenID</a>.
+  Basically it's a way to use new websites without creating another username/password.</p>
+</div>
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -49,5 +62,7 @@ try {
 var pageTracker = _gat._getTracker("UA-16311800-1");
 pageTracker._trackPageview();
 } catch(err) {}</script>
+    </div><!-- .login -->
+</div> <!-- #content-->
 </body>
 </html>

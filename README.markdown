@@ -1,5 +1,5 @@
-# sudoSocial #
-sudoSocial is a labs experiment around creating a stream
+# `sudo`Social #
+**`sudo`Social** is a labs experiment around creating a stream
 publishing platform. Lifestreams, Friendstreams, homepages,
 and topichubs all rely on streams for data. 
 
@@ -62,13 +62,13 @@ Again, you can find these in the VM, but:
  * See requirements.txt for Python requirements.
 
 ### Patchouli ###
-Currently this repository should be named patchouli and not sudosocial.
+Currently this repository should be named patchouli and not **`sudo`Social**.
 
 What is "patchouli" in the code?
 This **was** the working name of the project. This project is a small step towards **personal cloud control**. 
 In meatspace, *Hippies use patchouli instead of showers and deodorant*. Respect... I'm a neo-hippie, I'm just say'n.
 
-sudosocial is a *slightly* better name. Patches welcome :)
+**`sudo`Social** is a *slightly* better name. Patches welcome :)
 
 ### Lifecycle ###
 Feeds are fetch and entries are pickled and stored in the database.
@@ -84,3 +84,9 @@ entry.html
 4. Edit templates/<sitename>/entry.html
 
 *TODO*  Put these three items into the same directory.
+
+### CRONs ###
+#### Feed Fetcher ####
+
+    # m h dom mon dow   command
+    */5 * *   *   *     /home/ozten/.virtualenvs/patchouli/bin/python /home/ozten/patchouli/cron/feeder.py > /home/ozten/patchouli/cron/feeder.log

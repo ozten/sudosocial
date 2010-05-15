@@ -11,6 +11,7 @@ setup_environ(settings)
 # Imports for this cron
 import datetime
 import logging
+import time
 
 from django.db import IntegrityError
 import django.utils.hashcompat as hashcompat
@@ -19,11 +20,13 @@ import jsonpickle
 
 import lifestream.models
 
-logging.basicConfig( level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
+logging.basicConfig( level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(process)d %(message)s', )
 log = logging.getLogger()
 
 def cron_fetch_feeds():
     """ """
+    log.info("Starting")
+    start = time.time()
     newEntryCount = 0
     feeds = lifestream.models.Feed.objects.all()
     for feed in feeds:
@@ -61,6 +64,7 @@ def cron_fetch_feeds():
                     newEntryCount += 1
                 except IntegrityError, e:
                     log.info('Skipping duplicate entry %s, caught error: %s', entryGuid, e)
+    log.info("Finished run in %f seconds" % (time.time() - start))  
     return 'Finished importing %d items' % newEntryCount
 
 cron_fetch_feeds()
