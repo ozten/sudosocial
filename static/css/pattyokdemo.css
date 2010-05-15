@@ -59,8 +59,8 @@ body, p, div, span {
     background-color: 7C5F3E;
 }
 #viewport {
-    background: #7C5F3E url('/static/css/i/firefoxzilla_big.png') repeat-y top left;
-    background-position: 610px 300px;
+    background: #7C5F3E url('/static/css/i/firefoxzilla_big1350.png') repeat fixed top right;
+    
 }
 #content {
     padding-top: 10px;
@@ -72,6 +72,7 @@ body, p, div, span {
     top: 20px;
     left: 630px;
     background-color: rgba(207, 223, 224, 0.8);
+    border: solid 1px #333;
     padding: 0.8em;
     -moz-border-radius: 15px;
     -webkit-border-radius: 15px;
@@ -107,19 +108,24 @@ body, p, div, span {
 .followme ul li {
     list-style: none;
 }
-
+.profile_blurb a {
+    text-decoration: none;
+    font-weight: bold;
+}
 /* end profile */
 viewport { }
 #content { width: 590px; text-align: left; min-height: 600px;}
-
+a { color: #7C5F3E; }
+a:hover { color: #692F0A; }
 .feed-entry {
     
     background-color: #E9DFC2;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    /*border: 1px solid #000;*/
+    border: 1px solid #7C5F3E;
+    line-height: 1.5;
+    margin: 0 0 0.2em 0;
     padding: 10px;
-    margin: 0 0 0.3em 0;
     position: relative;
     
 }

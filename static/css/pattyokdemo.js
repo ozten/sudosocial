@@ -22,9 +22,9 @@ $(document).ready(function(){
     $('.powered_by').prepend('<h5>Firefoxzilla protects the city</h5><div>Background imagery By <a href="http://creative.mozilla.org/people/blackmoondev">Blackmoondev</a></div>');
     
     // Shift the background by the height of the profile
-    var pos = $('#viewport').css('background-position'),
+    /*var pos = $('#viewport').css('background-position'),
         parts = pos.split(' '),
         blurb = $('.profile_blurb'),
         profileHeight = blurb.outerHeight() + blurb.offset().top + 10;
-        $('#viewport').css('background-position', parts[0] + ' ' + profileHeight + 'px');
+        $('#viewport').css('background-position', parts[0] + ' ' + profileHeight + 'px');*/
 });
