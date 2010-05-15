@@ -1,4 +1,4 @@
-def prepareEntry(entryJSON, log):
+def prepare_entry(entryJSON, log):
     """
     {
    'license':'http://creativecommons.org/licenses/by-sa/2.0/deed.en',

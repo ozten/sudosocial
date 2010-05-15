@@ -59,7 +59,7 @@ def manage_stream(request, username, streamname):
                                 'form': feedModel,
                                 'request': request,
                                 'streams': streams,
-                                'streamname': streams[0] if (len(streams) > 0) else  '',
+                                'streamname': streams[0] if streams else  '',
                                 'username': request.user.username,
                                 'preferences': preferences},
                               context_instance=django.template.RequestContext(request))
@@ -91,7 +91,7 @@ def manage_all_streams(request, username):
                                 'form': feedModel,
                                 'request': request,
                                 'streams': streams,
-                                'streamname': streams[0] if (len(streams) > 0) else  '',
+                                'streamname': streams[0] if streams else  '',
                                 'username': request.user.username,},
                               context_instance=django.template.RequestContext(request))
     else:

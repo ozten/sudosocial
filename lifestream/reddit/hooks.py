@@ -1,7 +1,7 @@
 from bleach import Bleach
 bleach = Bleach()
 
-def prepareEntry(entryJSON, log):
+def prepare_entry(entryJSON, log):
     content = ''
     if 'content' in entryJSON:
         content = entryJSON['content'][0].value

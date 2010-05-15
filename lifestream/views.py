@@ -53,8 +53,9 @@ def stream(request, username, streamname):
                           )
 
 def common_stream(request, username, streamname):
-    #rawEntries = lifestream.models.Entry.objects.order_by('last_published_date').reverse().all()[:50]
-    rawEntries = lifestream.models.Entry.objects.order_by('last_published_date').reverse().filter(feed__streams__user__username=username, feed__streams__name__exact = streamname)[:50]
+    rawEntries = (lifestream.models.Entry.objects.order_by('-last_published_date')
+                  .filter(feed__streams__user__username=username,
+                          feed__streams__name__exact = streamname))[:50]
     entries = []
     renderedEntries = []
     
@@ -69,8 +70,9 @@ def common_stream(request, username, streamname):
             log.debug(str(jsn))
         feedType = websiteFeedType(jsn)        
         #hooks = __import__(feedType)
+        # TODO use http://docs.python.org/py3k/library/importlib.html
         exec "from %s import hooks" % feedType
-        entryVariables = hooks.prepareEntry(jsn, log)
+        entryVariables = hooks.prepare_entry(jsn, log)
         
         t = django.template.loader.select_template(('foo', feedType + '/entry.html'))
         c = django.template.Context(entryVariables)
@@ -83,7 +85,7 @@ def common_stream(request, username, streamname):
             #Skip List
             if 'ping.fm' == t:
                 continue
-            if not t in identityCount:
+            if t not in identityCount:
                 tagName = tag['tag'].capitalize()
                 if 'name' in tag:
                     tagName = tag['name']
@@ -93,36 +95,12 @@ def common_stream(request, username, streamname):
             identityCount[t]['count'] = identityCount[t]['count'] + 1
             #identities.append({'name': t.capitalize(), 'tag': t.lower()})
             identities.append(identityCount[t]) # should only copy top N
-        """
-        if 'tags' in jsn:
-            tagName = None
-            for tag in jsn['tags']:
-                if 'term' in tag:
-                    tagName = 'term'
-                else:
-                    log.debug("Fix me, saw tags, but term is not the key\n" + str(jsn['tags']))
-                
-                
-                if tagName:
-                    for t in tag[tagName].split():
-                        #Skip List
-                        if 'ping.fm' == t.lower():
-                            continue
-                        if not t.lower() in identityCount:
-                            identityCount[t.lower()] = {'count': 0, 'name': t.capitalize(), 'tag': t.lower()}
-                        entriesWithIdentity[guid]['tags'].append(t.lower())
-                        log.debug("Fixing " + str(identityCount[t.lower()]['count']))
-                        identityCount[t.lower()]['count'] = identityCount[t.lower()]['count'] + 1
-                        #identities.append({'name': t.capitalize(), 'tag': t.lower()})
-                        identities.append(identityCount[t.lower()]) # should only copy top N
-                        
-        elif 'category' in jsn:
-            identities.append({'name': jsn['category'], 'tag': jsn['category']})
-    """
-    # This should be it's own plugin... not in views.py
+        
+    # TODO This should be it's own plugin... not in views.py
     identities = []
     for _ in range(5):
-        #log.debug(sorted(identityCount.items(), cmp=cmpIdentity))
+        # TODO apply decorate-sort-undecorate pattern.
+        # sorted(identity_count.values(), key=lambda x: x['count']) is the preferred way.
         identityList = sorted(identityCount.values(), cmp=cmpIdentity)
         # We skip of up to 5 current topics
         if len(identityList) == 0 or (not identityList[0]['count'] > 1):
@@ -196,15 +174,10 @@ def cmpIdentity(x, y):
     return cmp(y['count'], x['count'])
     
 def renderProfile(request, user, identities):
-    """ Quick n dirty, would be DB driven """
-    sourcesResults = lifestream.models.Feed.objects.order_by('url').filter(user__username=user.username)
-    sources = []
-    for s in sourcesResults:
-        if s.title:
-            sources.append({'title': s.title, 'url': s.url})
+    sourcesResults = lifestream.models.Feed.objects.order_by('url').filter(user=user)    
+    sources = [{'title': s.title, 'url':s.url} for s in sourcesResults]
     
     # avatar
-    
     gravatarHash = hashlib.md5(user.email).hexdigest()
     avatar_url = "http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash
     

@@ -3,7 +3,7 @@ import re
 from bleach import Bleach
 bleach = Bleach()
 
-def prepareEntry(entryJSON, log):
+def prepare_entry(entryJSON, log):
     """ Given entryJSON, output a dictionary of variables for use in
     templates/twitter_com/entry.html
     
@@ -37,16 +37,16 @@ def prepareEntry(entryJSON, log):
    """
     title = entryJSON['title']
     parts = title.split(':')
-    if (len(parts) > 1):
+    if parts:
         tweet = ':'.join(parts[1:])
     else:
         tweet = title
-    rawtags = [s.replace('#', '') for s in re.findall('#\w+', tweet)]
-    tags = []
-    for r in rawtags:
-        tags.append({'tag': r, 'name': r})
-    tweet = re.sub('#(\w+)', '<a href="http://twitter.com/search?q=%23\\1">#\\1</a>', tweet)
-    tweet = re.sub('@(\w+)', '<a href="http://twitter.com/\\1">@\\1</a>', tweet)
+
+    rawtags = re.findall('#(\w+)', tweet)
+    tags = [{'tag': r, 'name': r} for r in rawtags]
+    
+    tweet = re.sub('#(\w+)', r'<a href="http://twitter.com/search?q=%23\1">#\1</a>', tweet)
+    tweet = re.sub('@(\w+)', r'<a href="http://twitter.com/\1">@\1</a>', tweet)
     tweet = bleach.linkify(tweet.replace('\n', '<br />'))
     
     

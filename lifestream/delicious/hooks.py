@@ -1,4 +1,4 @@
-def prepareEntry(entryJSON, log):
+def prepare_entry(entryJSON, log):
     """
 {
    'summary_detail':{
