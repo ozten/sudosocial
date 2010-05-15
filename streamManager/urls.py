@@ -7,6 +7,4 @@ urlpatterns = patterns('streamManager',
     
     (r'^urls/(?P<username>\w+)$', 'views.urls'),
     (r'^url/(?P<username>\w+)/(?P<feed_url_hash>\w+)$', 'views.url'),
-
-    (r'^cron/cron_fetch_feeds/(?P<key>\w+)', 'views.cron_fetch_feeds'),
 )
