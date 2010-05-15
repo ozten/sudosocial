@@ -1,3 +1,4 @@
+cron/config.py
 *.pyc
 settings.py
 *~

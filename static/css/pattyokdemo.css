@@ -194,6 +194,12 @@ div.feed-generic {
 #release-footer {
     
 }
+/* Identi.ca */
+.feed-identica .vcard .nickname {
+    display: inline;
+    clear: none;
+    float: none;
+}
 /* twitter */
 .feed-twitter {
     

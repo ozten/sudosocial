@@ -13,7 +13,12 @@ $(document).ready(function(){
     // Tags shouldn't overlap content
     $('.feed-entry').each(function(i, div){
         var tagWidth = $('.tag-area', div).width();
-        $(div).css('padding-right', tagWidth);
+        if (tagWidth < 120) {
+            $(div).css('padding-right', tagWidth);
+        } else {
+            var tagHeight = $('.tag-area', div).height;
+            $(div).css('padding-bottom', tagHeight)
+        }
     });
     // Fixup Twitter html
     $('.feed-twitter').find('a:last').addClass('permalink');

@@ -110,12 +110,10 @@ def common_stream(request, username, streamname):
             if identityList[0]['tag'] in value['tags']:
                 # nuke entry
                 for t in value['tags']:
-                    log.debug("Removing " + t)
                     # Skips t == identityList[0]['tag'], which we've already removed
                     if t in identityCount:
                         identityCount[t]['count'] -= 1
                 # remove this entry
-                log.debug("Removing guid " + k)
                 entriesWithIdentity.pop(k)
     
     #for k, v in identityCount:
@@ -193,9 +191,11 @@ def renderProfile(request, user, identities):
     
 def websiteFeedType(entryJson):
     if 'link' in entryJson:
-        log.debug(entryJson['link'])
+        log.debug("websiteFeedType %s" % entryJson['link'])
         if re.search('^.*reddit\.com/.*$', entryJson['link']):
             return 'reddit'
+        elif re.search('^.*identi\.ca/.*$', entryJson['link']):
+            return 'identica'
         elif 'summary_detail' in entryJson and 'base' in entryJson['summary_detail'] and re.search('^.*delicious\.com/.*$', entryJson['summary_detail']['base']):
             return 'delicious'
         elif 'title_detail' in entryJson and 'base' in entryJson['title_detail'] and re.search('^.*delicious\.com/.*$', entryJson['title_detail']['base']):
