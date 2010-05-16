@@ -1,11 +1,17 @@
 <div class="profile_blurb">
     <div id="hcard-{{user.first_name}}-{{user.last_name}}" class="vcard profile_image">
         <img id="profile_image" src="{{ avatar_src }}" alt="Profile Photo of {{ username }}"  class="photo"/>
-        <a class="url fn" href="http://sudosocial.me/u/{{user.username}}">{{user.first_name}} {{user.last_name}}</a>
-        {% if preferences.publish_email %}
-            <a class="email" href="mailto:{{user.email}}">{{user.email}}</a>
+        {% if show_fn %}
+        <a class="url fn" href="http://sudosocial.me/u/{{user.username}}" rel="me">{{user.first_name}} {{user.last_name}}</a>
+        {% else %}
+        <a class="url username" href="http://sudosocial.me/u/{{user.username}}" rel="me">{{user.username}}</a>
         {% endif %}
-        <a class="url username" href="http://sudosocial.me/u/{{ username }}">{{username}}</a>
+        {% if preferences.publish_email %}
+           <a class="email" href="mailto:{{user.email}}">{{user.email}}</a>
+        {% endif %}
+        
+        
+        
     </div>        
     
     <div class="social_identities">

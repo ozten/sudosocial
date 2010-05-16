@@ -178,11 +178,16 @@ def renderProfile(request, user, identities):
     # avatar
     gravatarHash = hashlib.md5(user.email).hexdigest()
     avatar_url = "http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash
+
+    show_fn = False
+    if user.first_name or user.last_name:
+        show_fn = True
     
     t = django.template.loader.select_template(('foo', 'lifestream/profile_blurb.html'))
     c = django.template.Context(
         {'avatar_src': avatar_url, 'avatar_width':'80', 'avatar_height':'80',
          'user': user,
+         'show_fn': show_fn,
          'username': user.username,
          'preferences': json.loads(user.get_profile().properties),
          'sources': sources,
