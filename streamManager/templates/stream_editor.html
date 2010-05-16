@@ -28,7 +28,7 @@
 {% for stream in streams %}
     <h2>Stream Sources</h2>
     <ul id="user_streams">
-        {%  for feed in stream.feeds %}
+        {%  for feed in feeds %}
             <li><a href="{{ feed.url }}" class="stream-feed-source"> {{ feed.url }}</a> [<a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed.">x</a>]</li>
         {% empty %}
             <li id="no-stream-feed-blurb"><a href="#" class="stream-feed-source"></a><a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed."></a>You have no stream sources, add a new feed.</li>

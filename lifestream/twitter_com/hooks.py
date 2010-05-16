@@ -34,13 +34,40 @@ def prepare_entry(entryJSON, log):
    'id':'http://twitter.com/ozten/statuses/10653573637'
    }
    #TODO if someone else is tweeting to me, don't remove the username
+   
+   Search is different
+    {u'lang': u'fr', u'updated': u'2010-05-15T10:44:59Z',
+    u'subtitle': u'<a href="http://search.twitter.com/search?q=%23Mozilla">#Mozilla</a> lance <a href="http://search.twitter.com/search?q=%23PluginCheck">#<b>PluginCheck</b></a>, un v\xe9rificateur de <a href="http://search.twitter.com/search?q=%23plugins">#plugins</a> multi-navigateurs | Jean-Marie Gall.com <a href="http://bit.ly/9Zmv8c">http://bit.ly/9Zmv8c</a>',
+    u'published_parsed': [2010, 5, 15, 10, 44, 59, 5, 135, 0],
+    u'links': [{u'href': u'http://twitter.com/jmgall/statuses/14030858884', u'type': u'text/html', u'rel': u'alternate'},
+               {u'href': u'http://a3.twimg.com/profile_images/284467989/jmbg54000_normal.jpg', u'type': u'image/png', u'rel': u'image'}],
+    u'title': u'#Mozilla lance #PluginCheck, un v\xe9rificateur de #plugins multi-navigateurs | Jean-Marie Gall.com http://bit.ly/9Zmv8c',
+    u'author': u'jmgall (Jean-Marie Gall)',
+    u'id': u'tag:search.twitter.com,2005:14030858884',
+    u'content': [{u'base': u'http://search.twitter.com/search.atom?q=plugincheck', u'type': u'text/html', u'language': u'en-US',
+                 u'value': u'<a href="http://search.twitter.com/search?q=%23Mozilla">#Mozilla</a> lance <a href="http://search.twitter.com/search?q=%23PluginCheck">#<b>PluginCheck</b></a>, un v\xe9rificateur de <a href="http://search.twitter.com/search?q=%23plugins">#plugins</a> multi-navigateurs | Jean-Marie Gall.com <a href="http://bit.ly/9Zmv8c">http://bit.ly/9Zmv8c</a>'}],
+    u'source': {},
+    u'title_detail': {u'base': u'http://search.twitter.com/search.atom?q=plugincheck', u'type': u'text/plain', u'language': u'en-US', u'value': u'#Mozilla lance #PluginCheck, un v\xe9rificateur de #plugins multi-navigateurs | Jean-Marie Gall.com http://bit.ly/9Zmv8c'},
+    u'href': u'http://twitter.com/jmgall',
+    u'link': u'http://twitter.com/jmgall/statuses/14030858884',
+    u'published': u'2010-05-15T10:44:59Z',
+    u'author_detail': {u'href': u'http://twitter.com/jmgall',
+                u'name': u'jmgall (Jean-Marie Gall)'},
+    u'geo': u'', u'result_type': u'recent',
+    u'updated_parsed': [2010, 5, 15, 10, 44, 59, 5, 135, 0], u'metadata': u''}
+
    """
     title = entryJSON['title']
-    parts = title.split(':')
-    if parts:
-        tweet = ':'.join(parts[1:])
-    else:
-        tweet = title
+    tweet = title
+    tweeter = ''
+    if re.match(r'^\w+:.*$', title):
+        parts = title.split(':')
+        if parts:
+            tweeter = parts[0]
+            tweet = ':'.join(parts[1:])            
+    elif 'author' in entryJSON and 'name' in entryJSON.author:
+        tweeter = entryJSON.author.name
+    
 
     rawtags = re.findall('#(\w+)', tweet)
     tags = [{'tag': r, 'name': r} for r in rawtags]
@@ -50,4 +77,4 @@ def prepare_entry(entryJSON, log):
     tweet = bleach.linkify(tweet.replace('\n', '<br />'))
     
     
-    return {'tweeter': parts[0], 'tweet': tweet, 'permalink': entryJSON['link'], 'tags': tags}
+    return {'tweeter': tweeter, 'tweet': tweet, 'permalink': entryJSON['link'], 'tags': tags, 'raw': entryJSON}
