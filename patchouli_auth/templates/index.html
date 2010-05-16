@@ -2,18 +2,17 @@
 {% block content %}
 <div id="content">
 
-<h1 class="logo"><strong><code>sudo</code>Social</strong></h1>
-    <h2 class="tagline">Take control of your stream</h2>
+<h1 class="logo"><a href="/"><strong><code>sudo</code>Social</strong></a></h1>
+    <div class="tagline">Take control of your stream</div>
     
 <div id="confirm_profile">
-<h1>Welcome to <code>sudo</code>Social</h1>
-<h2>Did we get your profile info right?</h2>
+<h1>Welcome, did we get your profile info right?</h2>
 {% if error %}
   <div class="error-message"><strong>{{error}}</strong></div>
 {% endif %}
 <form id="confirm_profile" action="" method="post">
 <fieldset class="required"><legend>Required</legend>
-    <div id="profile-image"><img src="{{gravatar}}" /><button>Refresh Avatar</button><p>Your profile image is provided by <a href="http://gravatar.com/">Gravatar</a> based on your email address.</div>
+    <div id="profile-image"><img src="{{gravatar}}" /><button>Refresh Avatar</button><p class="note">Your profile image is provided by <a href="http://gravatar.com/">Gravatar</a> based on your email address.</div>
 <div><label for="username">Username:</label><input type="text" name="username" id="username" value="{{username}}" autofocus required />*</div>
 <div><label for="email">Email:</label><input type="email" name="email" id="email" value="{{email}}" required />*</div>
 <label for="publish_email">Display email address publicly:</label> <input type="checkbox" id="publish_email" name="publish_email" value="true" {{publish_email_flag}} />
@@ -21,7 +20,7 @@
 <fieldset><legend>Optional Full Name</legend>
 <label for="username">First Name:</label><input type="text" name="first_name" id="first_name" value="{{first_name}}" />
 <label for="username">Last Name:</label><input type="text" name="last_name" id="last_name" value="{{last_name}}" />
-<p>Note: You're full name will be displayed. Leave it blank if you don't want this data to be public.</p>
+<p class="note">Note: You're full name will be displayed. Leave it blank if you don't want this data to be public.</p>
 </fieldset>
 <button id="contine">Continue</button>
 </form>

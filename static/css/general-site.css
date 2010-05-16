@@ -64,26 +64,33 @@ h1.logo {
     font-size: 300%;
     line-height: 1;
 }
-h1.logo {
+h1.logo, h1.logo a {
     color: #333;
+    text-decoration: none;
 }
 h1.logo code {
     color: green;
 }
-h2.tagline {
+.tagline {
+    font-size: 110%;
+    font-style: italic;
+    line-height: 1;
     margin-top: 0px;
-    padding-top: 0px;
+    padding-top: 0px;    
 }
 #content {
     text-align: center;
     min-height: 600px;
 }
+/* confirm profile */
 .copy, .login, #confirm_profile {
     margin: 0 auto;
     width: 835px;
     padding-top: 1em;
 }
-
+.note {
+    font-size: 80%;
+}
 /* homepage */
 #call-to-action {
     float: left;
@@ -110,8 +117,15 @@ h2.tagline {
 .login {
     text-align: left;
 }
+/* openid login */
 #fopenid {
     width: 600px;
+    margin-bottom: 1em;
+}
+#fopenid fieldset {
+    border: solid 1px #333;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
 }
 #confirm_profile {
     width: 600px;
@@ -134,9 +148,7 @@ legend {
     float: right;
     width: 200px;
 }
-#profile-image p{
-    font-size: 80%;
-}
+
 div > label{   
     display: block;
     float: left;

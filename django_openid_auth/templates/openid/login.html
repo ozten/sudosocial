@@ -19,10 +19,9 @@ input.openid {
   
 <div id="content">
   <h1 class="logo"><strong><code>sudo</code>Social</strong></h1>
-    <h2 class="tagline">Take control of your stream</h2>
+    <div class="tagline">Take control of your stream</div>
     
   <div class="login">
-<h1>Sign in with your OpenID</h1>
 {% if form.errors %}
 <p class="errors">{% trans "Please correct errors below:" %}<br />
 	{% if form.openid_identifier.errors %} 

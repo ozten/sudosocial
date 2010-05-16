@@ -45,7 +45,7 @@ $('.tab a').click(function(){
     return false;
     });
 $('.tab a:first').trigger('click');
-console.info('hey');
+
 /* auth confirm page */
 $('#profile-image button').click(function(event){
   event.preventDefault();
@@ -53,10 +53,8 @@ $('#profile-image button').click(function(event){
   var button = $(this);
   var img = $(this).parents('div').find('img');
   $.get('gravatar/' + $('#email').val(), function(data){
-    console.info(data);
         img.attr('src', data);
         button.attr('disabled', false);
-                        });
-  //do foo
-  return false;
   });
+  return false;
+});
