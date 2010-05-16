@@ -1,4 +1,5 @@
 import logging
+import datetime
 
 import simplejson as json
 
@@ -111,7 +112,7 @@ def urls(request, username):
                 #params['streams'].append(str(streams[0].id))
                 pass
             #params['user'] = str(request.user.id)
-            aFeed = lifestream.models.Feed(url_hash = feed_url_hash, user=request.user)
+            aFeed = lifestream.models.Feed(url_hash = feed_url_hash, user=request.user, created_date=datetime.datetime.today())
             if len(streams) > 0:
                 aFeed.streams.add(streams[0])
             form = lifestream.models.FeedForm(params, instance=aFeed)
