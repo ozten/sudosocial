@@ -34,14 +34,25 @@ def prepare_entry(entryJSON, log):
                 u'updated_parsed': [2010, 5, 15, 15, 37, 40, 5, 135, 0]}
 
    """
-    log.debug(str(entryJSON))
-    status = entryJSON['subtitle']
-
+    status = ''
+    if 'subtitle' in entryJSON:
+        status = entryJSON['subtitle']
+    elif 'title' in entryJSON:
+        status = entryJSON['title']
+    else:
+        log.debug("subtitle expected, missing %s" % str(entryJSON   ))
+    if re.match(r'^\w+:.*$', status):
+        parts = status.split(':')
+        if parts:
+            tweeter = parts[0]
+            status = ':'.join(parts[1:])            
+    
     rawtags = re.findall('#(\w+)', status)
     tags = [{'tag': r, 'name': r} for r in rawtags]
     
+    status = re.sub('!(\w+)', r'<a href="http://identi.ca/group/\1">!\1</a>', status)
     status = re.sub('#(\w+)', r'<a href="http://identi.ca/tag/\1">#\1</a>', status)
-    status = re.sub('@(\w+)', r'<a href="http://twitter.com/\1">@\1</a>', status)
+    status = re.sub('@(\w+)', r'<a href="http://identi.ca/\1">@\1</a>', status)
     status = bleach.linkify(status.replace('\n', '<br />'))
     
     
