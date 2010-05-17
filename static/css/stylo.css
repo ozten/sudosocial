@@ -1,61 +1,105 @@
+/* v1.0 | 20080212 */
 
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* END CSS RESET */
 body, p, div, span {
     font-family: verdana;
     font-size: 12pt;
+    color: #2A1911;
+    background-color: 7C5F3E;
 }
-
+#viewport {
+    background: #7C5F3E url('/static/css/i/firefoxzilla_big1350.png') repeat fixed top right;
+    
+}
+#content {
+    padding-top: 10px;
+    padding-left: 10px;
+}
 /* profile */
 .profile_blurb {
-    float: left;
+    position: absolute;
+    top: 20px;
+    left: 630px;
+    background-color: rgba(207, 223, 224, 0.8);
+    border: solid 1px #333;
+    padding: 0.8em;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
 }
+
 .profile_blurb img {
 
 }
 
 .profile_image, .followme {
+    clear: right;
+}
 
-}
-.profile_image { }
-.profile_image img {
-    display:block;
-}
 .vcard .fn, .vcard .email, .vcard .username {
     display: block;
-}
-.profile_image acronym {
-
-}
-#profile_blurb_aka {
-
-}
-.profile_image {
-
+    float: right;
+    clear: right;
 }
 
-.profile_image a img {
-
+.profile_blurb li {
+    line-height: 1.5;
 }
-ul li {  }
-.profile_blurb ul li { }
 
 .social_identities { display: none; }
 
-#viewport { text-align: center; width: 100%; margin: 0px;}
-#content { width: 600px; text-align: left; margin: 0 auto; min-height: 600px;}
-.feed-entry {
-    background-color: #eee;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border: 1px solid #000;
-    padding: 10px;
-    margin: 0.3em auto;
-    position: relative;
-}
-.social_identities {
-    
-}
 .profile_blurb h5 {
-    
+    margin-top: 1em;
 }
 .followme ul {
     margin: 0px;
@@ -63,11 +107,48 @@ ul li {  }
 }
 .followme ul li {
     list-style: none;
+}
+.profile_blurb a {
+    text-decoration: none;
+    font-weight: bold;
+}
+/* end profile */
+viewport { }
+#content { width: 590px; text-align: left; min-height: 600px;}
+a { color: #7C5F3E; }
+a:hover { color: #692F0A; }
+.feed-entry {
+    
+    background-color: #E9DFC2;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid #7C5F3E;
+    line-height: 1.5;
+    margin: 0 0 0.2em 0;
+    padding: 10px;
+    position: relative;
     
 }
-
-/* end profile */
-
+.tag-area {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+.tag-area a {
+    text-decoration: none;
+}
+.tag-heading {
+    color: #7C5F3E;
+    font-size: 80%;
+    margin-right: 3em;
+    -moz-transform: translate(-40px, 10px) rotate(-30deg); -moz-transform-origin: bottom left;
+    -webkit-transform: translate(-40px, -5px) rotate(-30deg); -moz-transform-origin: bottom left;    
+}
+.tags li {
+    font-size: 80%;
+    -moz-transform: translate(0px, -10px) rotate(-30deg); -moz-transform-origin: bottom left;
+    -webkit-transform: translate(-5px, -20px) rotate(-30deg); -moz-transform-origin: bottom left;
+}
 .page {
     
 }
@@ -96,9 +177,11 @@ div.feed-generic {
 .tag-heading {
     margin: 0px;
 }
+.tags li a, .tags li {
+    color: #7C5F3E;
+}
 .tags li {
     float: left;
-    margin-right: 0.5em;
     list-style: none;
 }
 .permalink {
@@ -111,15 +194,27 @@ div.feed-generic {
 #release-footer {
     padding-left: 1em;
 }
+/* Identi.ca */
+.feed-identica .vcard .nickname {
+    display: inline;
+    clear: none;
+    float: none;
+}
 /* twitter */
 .feed-twitter {
+    
+}
+.tweet, .feed-delicious .link {
     
 }
 /* end twitter */
 
 /* Flickr */
 .feed-flickr {    
-    
+    text-align: center;
+}
+.feed-flickr a img, {
+    border: solid 12px #239CB6;
 }
 .feed-flickr h4 {
     

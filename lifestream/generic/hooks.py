@@ -10,7 +10,7 @@ def prepare_entry(entryJSON, log):
     elif 'description' in entryJSON:
         content = entryJSON['description']
     else:
-        content = 'unreadable... ' + str(entryJSON)
+        log.debug('unreadable... ' + str(entryJSON))
     content = bleach.linkify(content)
     tags = []
     if 'tags' in entryJSON:
