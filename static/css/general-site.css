@@ -83,13 +83,18 @@ h1.logo code {
     min-height: 600px;
 }
 /* confirm profile */
-.copy, .login, #confirm_profile {
+.copy, .login, #confirm_profile, #delete_profile {
     margin: 0 auto;
     width: 835px;
     padding-top: 1em;
 }
 .note {
     font-size: 80%;
+}
+.cancel-link {
+	font-size: 120%;
+	font-weight: bold;
+	margin-top: 3em;
 }
 /* homepage */
 #call-to-action {
@@ -127,7 +132,7 @@ h1.logo code {
     -moz-border-radius: 15px;
     -webkit-border-radius: 15px;
 }
-#confirm_profile {
+#confirm_profile, #delete_profile {
     width: 600px;
     text-align: left;
 }

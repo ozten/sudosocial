@@ -5,7 +5,10 @@ import simplejson
 import django.http
 from django.shortcuts import render_to_response
 
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+
+
 
 import lifestream.models
 import patchouli_auth.models
@@ -35,6 +38,44 @@ def account_checkauth(request):
     else:        
         return django.http.HttpResponseRedirect('/openid/login')
     return resp
+
+@login_required
+def profile(request, username):
+    """ Don't use username for anything... """
+    profileProps = patchouli_auth.preferences.getPreferences(request.user)
+    if profileProps['publish_email']:
+        publishEmailFlag = 'checked'
+    else:
+        publishEmailFlag = ''
+    
+    gravatarHash = hashlib.md5(request.user.email).hexdigest()
+    avatar_url = "http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash
+
+    return render_to_response('index.html',
+                          { 'show_delete': True,
+                            'css_url': '/static/css/general-site.css',
+                            'username':   request.user.username,                            
+                            'email':      request.user.email,
+                            'publish_email_flag': publishEmailFlag,
+                            'first_name': request.user.first_name,
+                            'last_name':  request.user.last_name,
+                            'gravatar': avatar_url,
+                            },
+                          context_instance=django.template.RequestContext(request))
+    
+def delete_profile(request, username):
+    """ Don't use username for anything... TODO: Add captcha since we can't force / trust an OpenID login step """
+    if 'POST' == request.method:
+        user = request.user
+        logout(request)
+        log.info("Deleting account for username %s" % (user.username))
+        user.delete()
+        log.debug("Redirect to auth")
+        return django.http.HttpResponseRedirect('/auth')
+    else:
+        return render_to_response('confirm_delete.html',
+                          {'css_url': '/static/css/general-site.css',},
+                          context_instance=django.template.RequestContext(request))
 
 @login_required
 def confirm_profile(request):

@@ -6,7 +6,11 @@
     <div class="tagline">Take control of your stream</div>
     
 <div id="confirm_profile">
+{% if show_delete %}
+<h1>Edit Your Profile</h2>
+{% else %}
 <h1>Welcome, did we get your profile info right?</h2>
+{% endif %}
 {% if error %}
   <div class="error-message"><strong>{{error}}</strong></div>
 {% endif %}
@@ -24,8 +28,20 @@
 </fieldset>
 <button id="contine">Continue</button>
 </form>
-</div><!-- /#auth -->
-    </div> <!-- /#confirm_profile -->
+
+</div> <!-- /#confirm_profile -->
+    
+{% if show_delete %}
+    <hr />
+    <div id="delete_profile">
+        <form id="delete_profile" method="get" action="/auth/profile/{{username}}/delete">
+            <fieldset><legend>Delete Your Profile</legend>
+                <p>You are in control of your data... Want to delete your profile and all your streams?</p>
+                <button>Delete My Data</button>
+        </form>
+    </div><!-- /#delete_profile -->
+{% endif %}
+
 </div><!-- /#content -->
 <script src="/static/js/jquery-1.4.1.min.js" type="text/javascript"></script>
 <script src="/static/js/stream_editor.js" type="text/javascript"></script>

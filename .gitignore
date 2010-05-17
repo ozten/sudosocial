@@ -1,6 +1,9 @@
+docs/database/scratch.sql
 cron/config.py
+cron/*.log
 *.pyc
 settings.py
 *~
 *.kpf
 README.html
+static/css/*/*.psd
