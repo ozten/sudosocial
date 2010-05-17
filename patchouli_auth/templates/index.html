@@ -14,7 +14,7 @@
 {% if error %}
   <div class="error-message"><strong>{{error}}</strong></div>
 {% endif %}
-<form id="confirm_profile" action="" method="post">
+<form id="confirm_profile" action="/auth/confirm_profile" method="post">
 <fieldset class="required"><legend>Required</legend>
     <div id="profile-image"><img src="{{gravatar}}" /><button>Refresh Avatar</button><p class="note">Your profile image is provided by <a href="http://gravatar.com/">Gravatar</a> based on your email address.</div>
 <div><label for="username">Username:</label><input type="text" name="username" id="username" value="{{username}}" autofocus required />*</div>
