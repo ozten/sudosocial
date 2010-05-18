@@ -13,7 +13,8 @@ from django.contrib.auth.decorators import login_required
 
 import lifestream.models
 import patchouli_auth.preferences
-
+from patchouli.plugins.stream_editor import StreamEditorPlugin
+from lifestream.views import render_entries
 logging.basicConfig( level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
 log = logging.getLogger()
 
@@ -38,6 +39,11 @@ def manage_stream(request, username, streamname):
     if request.user.username == username:
         feeds = lifestream.models.Feed.objects.filter(user=request.user).all()
         streams = lifestream.models.Stream.objects.filter(user=request.user).all()
+        rawEntries = (lifestream.models.Entry.objects.order_by('-last_published_date')
+                      .filter(feed__user=request.user,
+                              feed__streams__name__exact = streamname))[:50]
+        entries = render_entries(rawEntries, [StreamEditorPlugin()])
+        #entries = lifestream.models.Entry.objects.filter(feed__user=request.user)
         feedModel = lifestream.models.FeedForm()
         
         streamName2Feed = {}
@@ -56,6 +62,7 @@ def manage_stream(request, username, streamname):
         
         return render_to_response('stream_editor.html',
                               { 'feeds': feeds,
+                                'entries': entries,
                                 'unusedFeeds': [],
                                 'form': feedModel,
                                 'request': request,

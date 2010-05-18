@@ -37,6 +37,9 @@
     </ul>
     <p>After 5 minutes, Feed entries should start appearing in <a href="/u/{{username}}/s/{{streamname}}" target="_new" title="View your currenly published Stream in a new window">your stream.</a></p>
 {% endfor %}
+        <div id="stream-preview">
+            {% include "lifestream/display_feed_entries.html" %}
+        </div><!-- /stream-preview -->
     </div><!-- /edit-stream -->
     <div id="design-stream-panel" class="panel">
         <form id="design-form" action="/manage/stream/design" method="post">

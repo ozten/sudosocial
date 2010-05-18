@@ -96,7 +96,7 @@ body, p, div, span {
     line-height: 1.5;
 }
 
-.social_identities { display: none; }
+/* .social_identities { display: none; } */
 
 .profile_blurb h5 {
     margin-top: 1em;

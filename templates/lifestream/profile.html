@@ -5,19 +5,7 @@
 <canvas id="processing-canvas"></canvas>
 <div id="viewport">
     <div id="content">
-{% for entry in entries %}
-    
-    {% if forloop.counter0|divisibleby:"3" %}
-        {% if not forloop.first %}
-        <!-- hr /></div --><!-- /.page --><!-- disabled while playing with layout.js -->
-        {% endif %}
-        <!-- div class="page"-->
-    {% endif %}
-            <div class='feed-entry'>{{ entry }}</div><!-- was entry.content -->
-    
-{% empty %}
-    <div class='default'>Bummer, No Entries
-{% endfor %}
+{% include "lifestream/display_feed_entries.html" %}
     </div><!-- /.page -->
   </div><!-- /#content -->
 </div><!-- /#viewport -->

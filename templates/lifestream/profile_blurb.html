@@ -13,7 +13,7 @@
         
         
     </div>        
-    
+    {% if show_social_identities %}
     <div class="social_identities">
         <h5>Who am I lately?</h5>
         <ul>
@@ -23,6 +23,7 @@
         {% endfor %}
         </ul>
     </div>
+    {% endif %}
     <div class="followme">
         <h5>Follow {{user.first_name|title}} on the Interwebs:</h5>
         <ul>
