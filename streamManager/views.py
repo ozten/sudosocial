@@ -3,10 +3,11 @@ import datetime
 
 import simplejson as json
 
-import django.utils.hashcompat as hashcompat
+import django.http
 import django.template
 import django.template.loaders
-import django.http
+import django.utils.hashcompat as hashcompat
+import django.utils.encoding
 
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
@@ -104,7 +105,8 @@ def urls(request, username):
         if 'POST' == request.method:
             # url_hash is 'exclude' aka editable=False, so we have to create a model
             # and set the url_hash, in order to get the data into the db
-            feed_url_hash = hashcompat.md5_constructor(request.POST['url']).hexdigest()
+            feed_url_hash = hashcompat.md5_constructor(
+                django.utils.encoding.smart_str(request.POST['url'])).hexdigest()
             params = request.POST.copy()
             #params['streams'] = []
             streams = lifestream.models.Stream.objects.filter(user=request.user, name='home')

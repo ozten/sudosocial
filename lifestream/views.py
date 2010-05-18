@@ -8,7 +8,7 @@ import jsonpickle
 import simplejson as json
 
 from django.db import IntegrityError
-import django.utils.hashcompat as hashcompat
+import django.utils.encoding
 import django.template
 import django.template.loaders
 import django.http
@@ -176,7 +176,8 @@ def renderProfile(request, user, identities):
     sources = [{'title': s.title, 'url':s.url} for s in sourcesResults]
     
     # avatar
-    gravatarHash = hashlib.md5(user.email).hexdigest()
+    gravatarHash = hashlib.md5(
+        django.utils.encoding.smart_str(user.email)).hexdigest()
     avatar_url = "http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash
 
     show_fn = False
