@@ -1,10 +1,13 @@
-<div class="feed-generic">{{d}}
+<div class="feed-generic">
    <h3>{{title}}</h3>
     {{ entry|safe }}
-    <a class="permalink" href="{{link}}">#</a>
+    <div class="tag-area">
     <ul class="tags">
         {% for tag in tags %}
             <li>{{tag.tag}}</li>
         {% endfor %}
-    </ul><hr />
+    </ul>
+    </div>
+    <a class="permalink" href="{{link}}">#</a>    
+    <hr />
 </div>
