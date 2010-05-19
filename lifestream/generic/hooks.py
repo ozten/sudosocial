@@ -10,12 +10,13 @@ def prepare_entry(entryJSON, log):
     elif 'description' in entryJSON:
         content = entryJSON['description']
     else:
-        log.debug('unreadable... ' + str(entryJSON))
+        #log.debug('unreadable... ' + str(entryJSON))
+        pass
     content = bleach.linkify(content)
     tags = []
     if 'tags' in entryJSON:
         for tag in entryJSON['tags']:
             if 'term' in tag:
                 tags.append({'tag': tag['term'], 'name': tag['term']})
-    return {'entry': content, 'tags': tags, 'title': entryJSON['title'], 'link': entryJSON['link']}
+    return {'entry': content, 'tags': tags, 'title': entryJSON['title'], 'link': entryJSON['link'], 'raw': entryJSON}
     #return {'entry': str(entryJSON)}

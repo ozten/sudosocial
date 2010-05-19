@@ -3,7 +3,9 @@
 class BasicPlugin(object):
     """
         Part of the plugins module. Gives default behaviors to plugins
-    """    
+    """
+    def __init__(self, log):
+        self.log = log
         
     def observe_stream_entry(self, entry, entry_variables):
         """ Callback for inspecting an entry or it's
@@ -15,7 +17,12 @@ class BasicPlugin(object):
             with every entry """        
         pass
     
-    def template_variables(self):
+    def modify_entry_variables(self, entry, entry_variables):
         """ Callback before rendering templates, should return a Dict of
             items used in templated views """
-        return {}
+        return (entry, entry_variables)
+    
+    def template_variables(self, template_variables):
+        """ Callback before rendering templates, should return a Dict of
+            items used in templated views """
+        return template_variables

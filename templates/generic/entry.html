@@ -1,4 +1,15 @@
-<div class="feed-generic">{{d}}
+<div class="feed-generic"><img class="favicon" src="/static/img/favicon.png" /> {% if show_everything %}
+{{website_name}}
+   Generic {{ published_date }} {% if  time_ago %} and then updated {{ time_ago }} later {% endif %}
+   <p>Author: {{raw.author_detail.name}} {{raw.author_detail}}</p>
+   
+   <p>Title:{{raw.title|safe}}</p>
+   <p>SubTitle: {{ raw.subtitle|safe }}</p>
+   <p>{{ mypublished}}</p>
+   {% for link in raw.links %}
+       <a href="{{link.href}}" rel="{{link.rel}}">{{link.type}}</a>
+   {% endfor %}
+   {% endif %}
    <h3>{{title}}</h3>
     {{ entry|safe }}
     <a class="permalink" href="{{link}}">#</a>

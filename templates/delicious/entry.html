@@ -1,4 +1,9 @@
-<div class="feed-delicious">
+<div class="feed-delicious"><img class="favicon" src="http://delicious.com/favicon.ico" /> 
+    {% if show_everything %} Delicious  {{ published_date }}
+    {% if  time_ago %} and then updated {{ time_ago }} later {% endif %}
+    by {{raw.author}}
+   
+   {% endif %}
     {% if showDescription %} <p class="description">{{ description|safe }}</p> {% endif %}
     <p class="link"><a href="{{ link }}">{{ title }}</a></p>
     {% if tags %}

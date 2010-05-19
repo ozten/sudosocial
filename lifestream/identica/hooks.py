@@ -40,7 +40,8 @@ def prepare_entry(entryJSON, log):
     elif 'title' in entryJSON:
         status = entryJSON['title']
     else:
-        log.debug("subtitle expected, missing %s" % str(entryJSON   ))
+        #log.debug("subtitle expected, missing %s" % str(entryJSON   ))
+        pass
     if re.match(r'^\w+:.*$', status):
         parts = status.split(':')
         if parts:

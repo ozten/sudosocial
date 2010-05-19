@@ -1,4 +1,8 @@
-<div class="feed-identica">
+<div class="feed-identica"><img class="favicon" src="http://identi.ca/favicon.ico" /> 
+    {% if show_everything %} Identica at {{ published_date }} {% if  time_ago %} and then updated {{ time_ago }} later {% endif %}
+   by {{raw.author}}
+   {% endif %}
+    
     <div class="status">
     {{ status|safe }} <a  class="permalink" href="{{permalink}}">#</a>
     </div>

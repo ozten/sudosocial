@@ -1,4 +1,8 @@
-<div class="feed-flickr">
+<div class="feed-flickr"><img class="favicon" src="http://flickr.com/favicon.ico" /> 
+    {% if show_everything %} Flickr  {{ published_date }}
+    {% if  time_ago %} and then updated {{ time_ago }} later {% endif %}
+    by {{raw.author_detail.name}}
+   {% endif %}
     <h4>{{title}}</h4>{{ content|safe }}
     {% if tags %}
     <div class="tag-area">
@@ -10,5 +14,5 @@
         </ul>
     </div>
     {% endif %}
-    <hr />
+    <a href="{{permalink}}">#</a><hr />
 </div>

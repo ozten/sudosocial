@@ -18,5 +18,5 @@ def prepare_entry(entryJSON, log):
             if 'term' in tag:
                 tags.append({'tag': tag['term'], 'name': tag['term']})
     
-    return {'entry': content, 'tags': tags}
+    return {'entry': content, 'tags': tags, 'raw': entryJSON, 'permalink': entryJSON.link}
     #return {'entry': str(entryJSON)}

@@ -1,8 +1,15 @@
-<div class="feed-generic">
+<div class="feed-generic"><img class="favicon" src="http://reddit.com/favicon.ico" /> 
+    {% if show_everything %} Reddit  {{ published_date }}
+    {% if  time_ago %} and then updated {{ time_ago }} later {% endif %}
+    {{raw.author_detail.name}}
+    
+   {% endif %}
+    
+    <p>{{raw}}</p>
     {{ entry|safe }}
     <ul class="tags">
         {% for tag in tags %}
             <li>{{tag.tag}}</li>
         {% endfor %}
-    </ul><hr />
+    </ul><a href="{{permalink}}">#</a><hr />
 </div>

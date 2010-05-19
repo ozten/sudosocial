@@ -99,7 +99,8 @@ def render_entries(rawEntries, plugins=[]):
         # TODO use http://docs.python.org/py3k/library/importlib.html
         exec "from %s import hooks" % feedType
         entry_variables = hooks.prepare_entry(jsn, log)
-        
+        [plugin.modify_entry_variables(jsn, entry_variables) for plugin in plugins]
+        log.debug(entry_variables['show_everything'])
         t = django.template.loader.select_template(('foo', feedType + '/entry.html'))
         c = django.template.Context(entry_variables)
         renderedEntries.append(t.render(c))        
@@ -133,13 +134,13 @@ def renderProfile(request, user, plugins):
     
 def websiteFeedType(entryJson):
     if 'link' in entryJson:
-        log.debug("websiteFeedType %s" % entryJson['link'])
-        if re.search('^.*reddit\.com/.*$', entryJson['link']):
-            return 'reddit'
+        #log.debug("websiteFeedType %s" % entryJson['link'])
+        if 'summary_detail' in entryJson and 'base' in entryJson['summary_detail'] and re.search('^.*delicious\.com/.*$', entryJson['summary_detail']['base']):
+            return 'delicious'
         elif re.search('^.*identi\.ca/.*$', entryJson['link']):
             return 'identica'
-        elif 'summary_detail' in entryJson and 'base' in entryJson['summary_detail'] and re.search('^.*delicious\.com/.*$', entryJson['summary_detail']['base']):
-            return 'delicious'
+        elif re.search('^.*reddit\.com/.*$', entryJson['link']):
+            return 'reddit'
         elif 'title_detail' in entryJson and 'base' in entryJson['title_detail'] and re.search('^.*delicious\.com/.*$', entryJson['title_detail']['base']):
             return 'delicious'
         elif re.search('^.*twitter\.com/.*$', entryJson['link']):

@@ -41,8 +41,9 @@ def manage_stream(request, username, streamname):
         streams = lifestream.models.Stream.objects.filter(user=request.user).all()
         rawEntries = (lifestream.models.Entry.objects.order_by('-last_published_date')
                       .filter(feed__user=request.user,
-                              feed__streams__name__exact = streamname))[:50]
-        entries = render_entries(rawEntries, [StreamEditorPlugin()])
+                              feed__streams__name__exact = streamname))[:150]
+        plugins = [StreamEditorPlugin(log)]
+        entries = render_entries(rawEntries, plugins)
         #entries = lifestream.models.Entry.objects.filter(feed__user=request.user)
         feedModel = lifestream.models.FeedForm()
         
@@ -59,9 +60,7 @@ def manage_stream(request, username, streamname):
             s.url = "/u/%s/s/%s" % (username, s.name)
             
         preferences = patchouli_auth.preferences.getPreferences(request.user)
-        
-        return render_to_response('stream_editor.html',
-                              { 'feeds': feeds,
+        template_data = { 'feeds': feeds,
                                 'entries': entries,
                                 'unusedFeeds': [],
                                 'form': feedModel,
@@ -69,7 +68,10 @@ def manage_stream(request, username, streamname):
                                 'streams': streams,
                                 'streamname': streams[0] if streams else  '',
                                 'username': request.user.username,
-                                'preferences': preferences},
+                                'preferences': preferences}
+        [template_data.update(plugin.template_variables(template_data)) for plugin in plugins]
+        return render_to_response('stream_editor.html',
+                              template_data,
                               context_instance=django.template.RequestContext(request))
     else:
         return django.http.HttpResponse(HACKING_MESSAGE, status=400)
@@ -124,7 +126,6 @@ def urls(request, username):
                 aFeed.streams.add(streams[0])
             form = lifestream.models.FeedForm(params, instance=aFeed)
             if form.is_valid():
-                log.debug('valid, saving to %s' % (feed_url_hash))
                 
                 #newFeedForm = form.save(commit=False)
                 newFeedForm = form.save()
@@ -135,7 +136,6 @@ def urls(request, username):
                 newFeedForm.save()
                 
                 newFeed = lifestream.models.Feed.objects.get(pk=feed_url_hash)
-                log.debug('formatting response')
                 return django.http.HttpResponse(json.dumps({"message":"OK", "feed": newFeed.to_primitives()}), mimetype='application/json')
                 #return django.http.HttpResponse('{"message":"OK"}', mimetype='application/json')
             else:

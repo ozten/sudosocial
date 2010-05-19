@@ -56,15 +56,14 @@ Note: Two flavors ... sometimes summary is blank and title has 'base'
            tags.append({'tag': tag['term'], 'url': tag['scheme'] + tag['term']})
     
     if 'summary' in entryJSON and len(entryJSON['summary']) > 0:
-        log.info('_' + entryJSON['summary'] + '_')
         showDescription = True
         desc = entryJSON['summary']
     else:
-        log.info("No description %s" % showDescription)
         desc = ''
         
     #return {'entry': content}
     return {'title': entryJSON['title'], 'link': entryJSON['link'],
             'description': desc, 'showDescription': showDescription,
             'tags': tags,
-            'permalink': entryJSON.id}
+            'permalink': entryJSON.id,
+            'raw': entryJSON}

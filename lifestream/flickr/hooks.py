@@ -64,4 +64,4 @@ def prepare_entry(entryJSON, log):
             for tag in tag_spaced['term'].split():
                 #tags.append({'tag': tag['term'], 'url': tag['scheme'] + tag['term']})
                 tags.append({'tag': tag, 'url': tag_spaced['scheme'] + tag})
-    return {'title': entryJSON['title'], 'content': content, 'tags': tags}
+    return {'title': entryJSON['title'], 'content': content, 'tags': tags, 'raw': entryJSON, 'permalink': entryJSON.link}

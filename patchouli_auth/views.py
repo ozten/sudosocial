@@ -22,15 +22,13 @@ def account_checkauth(request):
     if request.user.is_authenticated():
         manageUrl = "/manage/account/%s" % request.user.username
         try:
-            stream = lifestream.models.Stream.objects.get(user__exact=request.user)
-            log.debug("Same old same old %s" % stream.name)
+            stream = lifestream.models.Stream.objects.get(user__exact=request.user)            
             resp = django.http.HttpResponseRedirect(manageUrl)
         except:
-            log.debug("New user encountered")
             stream = lifestream.models.Stream()
             stream.user_id = request.user.id
             stream.name = 'home'
-            log.debug("Saving %s %s" % (request.user.id, 'home'))
+            log.info("Saving %s %s" % (request.user.id, 'home'))
             stream.save()
             resp = django.http.HttpResponseRedirect('/auth/confirm_profile')
         resp['X-Account-Manager-Status'] = "active; name=\"%s\"" % request.user.username
@@ -70,8 +68,7 @@ def delete_profile(request, username):
         logout(request)
         log.info("Deleting account for username %s" % (user.username))
         user.delete()
-        log.debug("Redirect to auth")
-        return django.http.HttpResponseRedirect('/auth')
+        return django.http.HttpResponseRedirect('https://sudosocial.me/auth')
     else:
         return render_to_response('confirm_delete.html',
                           {'css_url': '/static/css/general-site.css',},
@@ -123,7 +120,6 @@ def confirm_profile(request):
                             },
                           context_instance=django.template.RequestContext(request))
 def gravatar(request, email):
-    log.debug("Creating gravatar for %s" % email)
     gravatarHash = hashlib.md5(email).hexdigest()
     return django.http.HttpResponse("http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash) 
 

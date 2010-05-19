@@ -1,7 +1,11 @@
-<div class="feed-twitter">
+<div class="feed-twitter"><img class="favicon" src="http://twitter.com/favicon.ico" /> 
+    {% if show_everything %} Twitter  {{ published_date }}
+    {% if  time_ago %} and then updated {{ time_ago }} later {% endif %}
+    by {{tweeter}}
+   {% endif %}
     <!-- a href="http://twitter.com/{{tweeter}}">{{tweeter}}</a -->
     <div class="tweet">
-    {{ tweet|safe }} <a href="{{permalink}}">#</a>
+    {{ tweet|safe }} 
     </div>
     {% if tags %}
     <div class="tag-area">
@@ -13,5 +17,5 @@
         </ul>        
     </div>
     {% endif %}
-        <hr />
+    <a href="{{permalink}}">#</a><hr />
 </div>
