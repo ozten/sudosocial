@@ -49,3 +49,7 @@
 }
 #design-stream-panel .save { float: right; margin: 1em 1em 0em 0em }/* text-align: right; */
 br { clear: both; }
+
+.display_entry {
+    float: right;
+}

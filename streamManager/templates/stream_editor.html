@@ -38,7 +38,16 @@
     <p>After 5 minutes, Feed entries should start appearing in <a href="/u/{{username}}/s/{{streamname}}" target="_new" title="View your currenly published Stream in a new window">your stream.</a></p>
 {% endfor %}
         <div id="stream-preview">
-            {% include "lifestream/display_feed_entries.html" %}
+            <hr />            
+            {% for entry, entryHtml in entryPair %}
+                {% if stream_editor_mode %}
+            <a class="display_entry {% if entry.visible %}entry-visible{% else %}entry-hidden{% endif %}" href="/manage/entry/{{ entry.guid|urlencode }}">{% if entry.visible %}Hide Entry{% else %} Show Entry {% endif %}</a>
+                
+            {% endif %}
+                <div class='feed-entry'>{{ entryHtml }}</div><!-- was entry.content -->
+            {% empty %}
+                <div class='default'>Bummer, No Entries
+            {% endfor %}
         </div><!-- /stream-preview -->
     </div><!-- /edit-stream -->
     <div id="design-stream-panel" class="panel">

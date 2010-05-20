@@ -20,19 +20,21 @@ import jsonpickle
 
 import lifestream.models
 
-logging.basicConfig( level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(process)d %(message)s', )
+logging.basicConfig(level = logging.DEBUG,
+                    format = '%(asctime)s %(levelname)s %(process)d %(message)s', )
 log = logging.getLogger()
 
 def cron_fetch_feeds():
     """ """
     log.info("Starting")
     start = time.time()
-    newEntryCount = 0
+    new_entry_count = 0
     feeds = lifestream.models.Feed.objects.all()
     for feed in feeds:
         stream = feedparser.parse(feed.url)
         if 1 == stream.bozo and 'bozo_exception' in stream.keys():
-            log.error('Unable to fetch %s Exception: %s', feed.url, stream.bozo_exception)
+            log.error('Unable to fetch %s Exception: %s',
+                      feed.url, stream.bozo_exception)
         else:
             log.info('Processing %s', feed.url)
             if 'feed' in stream and 'title' in stream.feed:
@@ -50,21 +52,22 @@ def cron_fetch_feeds():
                     log.info(stream)
             for entry in stream.entries:
                 
-                jsonEntry = jsonpickle.encode(entry)
-                entryGuid = ''
+                json_entry = jsonpickle.encode(entry)
+                entry_guid = ''
                 if 'guid' in entry:
-                    entryGuid = entry.guid
+                    entry_guid = entry.guid
                 else:
-                    entryGuid = hashcompat.md5_constructor(jsonEntry).hexdigest()
+                    entry_guid = hashcompat.md5_constructor(json_entry).hexdigest()
                 yr, mon, d, hr, min, sec = entry.updated_parsed[:-3]
-                lastPub = datetime.datetime(yr, mon, d, hr, min, sec)
-                newEntry = lifestream.models.Entry(feed=feed, guid=entryGuid, raw=jsonEntry, last_published_date=lastPub)
+                last_publication = datetime.datetime(yr, mon, d, hr, min, sec)
+                new_entry = lifestream.models.Entry(feed=feed, guid=entry_guid, raw=json_entry,
+                                                   visible=True, last_published_date=last_publication)
                 try:
-                    newEntry.save()
-                    newEntryCount += 1
+                    new_entry.save()
+                    new_entry_count += 1
                 except IntegrityError, e:
-                    log.info('Skipping duplicate entry %s, caught error: %s', entryGuid, e)
+                    log.info('Skipping duplicate entry %s, caught error: %s', entry_guid, e)
     log.info("Finished run in %f seconds" % (time.time() - start))  
-    return 'Finished importing %d items' % newEntryCount
+    return 'Finished importing %d items' % new_entry_count
 
 cron_fetch_feeds()

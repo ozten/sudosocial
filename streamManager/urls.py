@@ -7,4 +7,6 @@ urlpatterns = patterns('streamManager',
     
     (r'^urls/(?P<username>\w+)$', 'views.urls'),
     (r'^url/(?P<username>\w+)/(?P<feed_url_hash>\w+)$', 'views.url'),
+    
+    (r'^entry/(?P<entry_guid>.*)$', 'views.entry'),
 )

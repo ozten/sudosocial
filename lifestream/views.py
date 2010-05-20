@@ -1,23 +1,17 @@
-import datetime
 import hashlib
 import logging
 import re
 
-import feedparser
 import jsonpickle
 import simplejson as json
 
-from django.db import IntegrityError
-import django.utils.hashcompat as hashcompat
 import django.template
 import django.template.loaders
 import django.http
 from django.shortcuts import render_to_response
 from django.template.loader import render_to_string
 
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.cache import cache
 
 import lifestream.models
 import patchouli_auth.preferences
@@ -57,7 +51,8 @@ def common_stream(request, username, streamname):
     user = User.objects.get(username=username)
     rawEntries = (lifestream.models.Entry.objects.order_by('-last_published_date')
                   .filter(feed__user=user,
-                          feed__streams__name__exact = streamname))[:50]
+                          feed__streams__name__exact = streamname,
+                          visible=True))[:50]
     entries = []
     plugins = []
     if username == 'ozten':
@@ -100,7 +95,7 @@ def render_entries(rawEntries, plugins=[]):
         exec "from %s import hooks" % feedType
         entry_variables = hooks.prepare_entry(jsn, log)
         [plugin.modify_entry_variables(jsn, entry_variables) for plugin in plugins]
-        log.debug(entry_variables['show_everything'])
+        
         t = django.template.loader.select_template(('foo', feedType + '/entry.html'))
         c = django.template.Context(entry_variables)
         renderedEntries.append(t.render(c))        

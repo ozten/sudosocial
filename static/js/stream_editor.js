@@ -58,3 +58,25 @@ $('#profile-image button').click(function(event){
   });
   return false;
 });
+$(document).ready(function(){
+    var changeVisibility = function(jQueryElement, newState, oldClass, newClass, newLabel) {
+        var that = jQueryElement,
+            url = that.attr('href');
+        that.removeAttr('href');
+        $.post(url, {'change-visibility': newState}, function(data, statusText){
+            that.removeClass(oldClass).addClass(newClass);
+            that.attr('href', url);
+            that.text(newLabel);
+        });    
+    }
+    
+    $('a.display_entry').click(function(){
+        var entryIsVisible = $(this).hasClass('entry-visible');
+        if (entryIsVisible) {
+            changeVisibility($(this), false, 'entry-visible', 'entry-hidden', 'Show Entry');
+        } else {
+            changeVisibility($(this), true, 'entry-hidden', 'entry-visible', 'Hide Entry');
+        }
+        return false;
+    });
+});
