@@ -61,9 +61,12 @@ Note: Two flavors ... sometimes summary is blank and title has 'base'
     else:
         desc = ''
         
-    #return {'entry': content}
+    permalink = ''
+    if hasattr(entryJSON, 'id'):
+        permalink = entryJSON.id
+
     return {'title': entryJSON['title'], 'link': entryJSON['link'],
             'description': desc, 'showDescription': showDescription,
             'tags': tags,
-            'permalink': entryJSON.id,
+            'permalink': permalink,
             'raw': entryJSON}
