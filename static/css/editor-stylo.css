@@ -53,3 +53,20 @@ br { clear: both; }
 .display_entry {
     float: right;
 }
+
+.feed-entries-visible-default {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #333;
+    display: inline-table;
+}
+feed-entries-visible-default.hidden {
+    background-color: #666;
+}
+feed-entries-visible-default.shown {
+    background-color: #CCC;
+}
+div.entry-hidden {
+    background-color: #CCC;
+    color: #333;
+}

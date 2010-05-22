@@ -1,16 +1,24 @@
 from django.db import models
 from django.forms import ModelForm
-
+from django.forms import ModelChoiceField
+import django.forms.models
 from django.contrib.auth.models import User
 
 class Stream(models.Model):
     """ A Stream is like a 'page'. A stream is combosed of Feeds. """
     user = models.ForeignKey(User)
-    name = models.CharField(max_length=140)    
+    name = models.CharField(max_length=140)
+    # StreamConfig
+    config = models.TextField()
+    # StreamEditList
+    edit_list = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True,
                                         verbose_name='Created On')
     updated_date = models.DateTimeField(auto_now=True,
                                         verbose_name='Last Modified')
+    # ALTER TABLE lifestream_stream ADD COLUMN `config` longtext NOT NULL;
+    # ALTER TABLE lifestream_stream ADD COLUMN  `edit_list` longtext NOT NULL;
+
 
     def __unicode__(self):
         return self.name

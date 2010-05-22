@@ -35,7 +35,7 @@
     <h2>Unused Sources</h2>
 
     <ul id="user_feeds">
-    {% for feed in unusedFeeds %}
+    {% for feed in unused_feeds %}
         <li><a href="{{ feed.url }}" class="feed-source"> {{ feed.url }}</a> [<a href="{{ feed.pk }}" class="feed-delete">x</a>]</li>
     {% empty %}
         <li>All of your Sources are used in this &quot;{{streamname}}&quot; stream.</li>

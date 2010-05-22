@@ -9,12 +9,15 @@ import django.template.loaders
 import django.http
 
 from django.shortcuts import render_to_response
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 import lifestream.models
 import patchouli_auth.preferences
 from patchouli.plugins.stream_editor import StreamEditorPlugin
 from lifestream.views import render_entries
+from streamManager.stream_config import StreamConfig
+
 logging.basicConfig( level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
 log = logging.getLogger()
 
@@ -37,35 +40,38 @@ def manage(request, username):
 @login_required    
 def manage_stream(request, username, streamname):
     if request.user.username == username:
-        feeds = lifestream.models.Feed.objects.filter(user=request.user).all()
-        streams = lifestream.models.Stream.objects.filter(user=request.user).all()
+        
+        stream = get_object_or_404(lifestream.models.Stream, user=request.user, name=streamname)
+        stream_config = StreamConfig(stream.config)        
+        feed_rows = stream.feed_set.all()
+        stream_config.ensureFeedsConfig(feed_rows)
+        feed_id_to_feed = {}
+        for row in feed_rows:
+            feed_id_to_feed[row.pk] = row
+        feeds = []
+        for feed in stream_config.config['feeds']:
+            feed_row = feed_id_to_feed[feed['url_hash']]
+            feeds.append({'url': feed_row.url,
+                          'pk': feed_row.pk,
+                          'entries_visible_default': feed['entries_visible_default']})
+        
         raw_entries = (lifestream.models.Entry.objects.order_by('-last_published_date')
                       .filter(feed__user=request.user,
                               feed__streams__name__exact = streamname))[:150]
         plugins = [StreamEditorPlugin(log)]
-        entry_pair = zip(raw_entries, render_entries(raw_entries, plugins))
+        entry_pair = zip(raw_entries, render_entries(raw_entries, plugins))        
         feed_model = lifestream.models.FeedForm()
-        
-        stream_name2feed = {}
-        for feed in feeds:
-            for stream in feed.streams.all():
-                if not stream.name in stream_name2feed:
-                    stream_name2feed[stream.name] = []
-                stream_name2feed[stream.name].append(feed)                
-        for stream in streams:
-            if stream.name in stream_name2feed:
-                stream.feeds = stream_name2feed[stream.name]
-        for stream in streams:
-            stream.url = "/u/%s/s/%s" % (username, stream.name)
+                
+        stream.url = "/u/%s/s/%s" % (username, stream.name)
             
         preferences = patchouli_auth.preferences.getPreferences(request.user)
         template_data = { 'feeds': feeds,
                                 'entry_pair': entry_pair,
-                                'unusedFeeds': [],
+                                'unused_feeds': [],
                                 'form': feed_model,
                                 'request': request,
-                                'streams': streams,
-                                'streamname': streams[0] if streams else  '',
+                                'stream': stream,
+                                'stream_config': stream_config,
                                 'username': request.user.username,
                                 'preferences': preferences}
         [template_data.update(plugin.template_variables(template_data)) for plugin in plugins]
@@ -80,8 +86,6 @@ def manage_all_streams(request, username):
     if request.user.username == username:
         feeds = lifestream.models.Feed.objects.filter(user=request.user).all()
         streams = lifestream.models.Stream.objects.filter(user=request.user).all()
-        feed_model = lifestream.models.FeedForm()
-        
         stream_name2feed = {}
         for feed in feeds:
             for stream in feed.streams.all():
@@ -93,11 +97,9 @@ def manage_all_streams(request, username):
                 stream.feeds = stream_name2feed[stream.name]
         for stream in streams:
             stream.url = "/u/%s/s/%s" % (username, stream.name)
-        
         return render_to_response('index.html',
                               { 'feeds': feeds,
-                                'unusedFeeds': [],
-                                'form': feed_model,
+                                'unused_feeds': [],
                                 'request': request,
                                 'streams': streams,
                                 'streamname': streams[0] if streams else  '',
@@ -115,10 +117,12 @@ def urls(request, username):
             feed_url_hash = hashcompat.md5_constructor(request.POST['url']).hexdigest()
             params = request.POST.copy()
             #params['streams'] = []
-            streams = lifestream.models.Stream.objects.filter(user=request.user, name='home')
-            if len(streams) > 0:
-                #params['streams'].append(str(streams[0].id))
-                pass
+            
+            streams = lifestream.models.Stream.objects.filter(user=request.user,
+                                                              name=params['streams[]'])
+            if len(streams) == 0:
+                raise Exception("No such stream")
+                
             #params['user'] = str(request.user.id)
             a_feed = lifestream.models.Feed(url_hash = feed_url_hash, user=request.user, created_date=datetime.datetime.today())
             if len(streams) > 0:
@@ -133,7 +137,11 @@ def urls(request, username):
                 #new_feed_form.streams.add(streams)
                 #new_feed_form.save_m2m()
                 new_feed_form.save()
-                
+                if len(streams) > 0:
+                    stream_config = StreamConfig(streams[0].config)
+                    stream_config.ensureFeedsConfig(streams[0].feed_set.all())
+                    streams[0].config = stream_config.__unicode__()
+                    streams[0].save()
                 new_feed = lifestream.models.Feed.objects.get(pk=feed_url_hash)
                 return django.http.HttpResponse(json.dumps({"message":"OK", "feed": new_feed.to_primitives()}), mimetype='application/json')
                 #return django.http.HttpResponse('{"message":"OK"}', mimetype='application/json')
@@ -142,7 +150,7 @@ def urls(request, username):
                 for error in form.errors:
                     errors += error + ': '
                     for msg in form.errors[error]:
-                        errors += ' ' + msg
+                        errors += ' ' + str(msg)
                 return django.http.HttpResponse('{"message":"Error ' + errors + '"}', mimetype='application/json', status=400)
         else:
             return django.http.HttpResponse('{"message":"Error unsupported method"}', mimetype='applicaiton/json', status=400)

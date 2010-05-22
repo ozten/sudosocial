@@ -13,38 +13,54 @@
 <h1>Stream Editor</h1>
 <div id="stream-editor-panel">
     <ul class="tabs">
-        <li id="edit-stream" class="tab editor"><a href="#">Edit </a><strong>{{streamname}}</strong> Stream</li>
+        <li id="edit-stream" class="tab editor"><a href="#">Edit </a><strong>{{stream.name}}</strong> Stream</li>
         <li id="design-stream" class="tab design active-tab"><a href="#">Design</a></li>
-        <li><a id="preview" href="/u/{{username}}/s/{{streamname}}" target="_new" title="View your currenly published Stream in a new window">View</a></li>
+        <li><a id="preview" href="/u/{{username}}/s/{{stream.name}}" target="_new" title="View your currenly published Stream in a new window">View</a></li>
     </ul>
     <div id="edit-stream-panel" class="panel">
 <h2 class="new-feed">Add A New Feed</h2>
 <p><img src="/static/img/feed-icon-14x14.png" width="14" height="14" alt="Feed Icon" /> Paste in the url to any Atom or RSS feed.</p>
+
 <form id="add-url-form" action="/manage/urls/{{request.user.username}}" method="post">
-    {{ form.as_p }}
-    <input type="submit" value="Add Feed" />
+<p><label for="id_url">Url:</label> <input id="id_url" type="text" name="url" maxlength="2048" /></p>
+<p><label for="id_streams">Streams:</label>
+    <input type="hidden" name="streams" id="id_streams" value="home" /></p>
+<input type="submit" value="Add Feed" />
 </form>
 
-{% for stream in streams %}
+
+
     <h2>Stream Sources</h2>
     <ul id="user_streams">
         {%  for feed in feeds %}
-            <li><a href="{{ feed.url }}" class="stream-feed-source"> {{ feed.url }}</a> [<a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed.">x</a>]</li>
+            <li>
+                <a href="{{ feed.url }}" class="stream-feed-source"> {{ feed.url }}</a>
+                <div class="feed-entries-visible-default {% if feed.entries_visible_default %}.shown{% else %}.hidden{% endif %}"
+                     title="New Items are {% if feed.entries_visible_default %} shown automatically {% else %} hidden until shown individually {% endif %}">
+                </div>
+                <!--a href="../url/{{username}}/{{feed.pk}}">Edit</a -->
+                <a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed.">Delete</a>
+            </li>
         {% empty %}
             <li id="no-stream-feed-blurb"><a href="#" class="stream-feed-source"></a><a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed."></a>You have no stream sources, add a new feed.</li>
         {%  endfor %}
-        <li id="base-stream-feed-link" style="display:none"><a href="{{ feed.url }}" class="stream-feed-source">sample</a> [<a href="#" class="feed-delete" title="Delete this feed.">x</a>]</li>
+        
+        <li id="base-stream-feed-link" style="display:none"><a href="{{ feed.url }}" class="stream-feed-source">sample</a>
+            <div class="feed-entries-visible-default shown" title="New Items are shown automatically"></div>
+            [<a href="#" class="feed-delete" title="Delete this feed.">x</a>]</li>
     </ul>
-    <p>After 5 minutes, Feed entries should start appearing in <a href="/u/{{username}}/s/{{streamname}}" target="_new" title="View your currenly published Stream in a new window">your stream.</a></p>
-{% endfor %}
+    <p>After 5 minutes, Feed entries should start appearing in <a href="/u/{{username}}/s/{{stream.name}}" target="_new" title="View your currenly published Stream in a new window">your stream.</a></p>
+
+
+
+
         <div id="stream-preview">
             <hr />            
-            {% for entry, entryHtml in entryPair %}
-                {% if stream_editor_mode %}
-            <a class="display_entry {% if entry.visible %}entry-visible{% else %}entry-hidden{% endif %}" href="/manage/entry/{{ entry.guid|urlencode }}">{% if entry.visible %}Hide Entry{% else %} Show Entry {% endif %}</a>
-                
-            {% endif %}
-                <div class='feed-entry'>{{ entryHtml }}</div><!-- was entry.content -->
+            {% for entry, entry_html in entry_pair %}                
+                <div class='feed-entry'>
+                    <a class="display_entry {% if entry.visible %}entry-visible{% else %}entry-hidden{% endif %}" href="/manage/entry/{{ entry.guid|urlencode }}">{% if entry.visible %}Hide Entry{% else %} Show Entry {% endif %}</a>
+                    {{ entry_html }}
+                </div>
             {% empty %}
                 <div class='default'>Bummer, No Entries
             {% endfor %}
@@ -87,10 +103,10 @@
     <h2>Unused Sources</h2>
 
     <ul id="user_other_feeds">
-    {% for feed in unusedFeeds %}
+    {% for feed in unused_feeds %}
         <li><a href="{{ feed.url }}" class="other-feed-source"> {{ feed.url }}</a> [<a href="{{ feed.pk }}" class="feed-delete">x</a>]</li>
     {% empty %}
-        <li>All of your Sources are used in this &quot;{{streamname}}&quot; stream.</li>
+        <li>All of your Sources are used in this &quot;{{stream.name}}&quot; stream.</li>
     {% endfor %}
     </ul>
 </div><!-- /other-sources-panel -->

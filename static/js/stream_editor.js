@@ -19,7 +19,7 @@ $('#add-url-form').submit(function(){
     };
     $('input').attr('disabled', 'disabled');
     //$('#add-url-form').serialize()
-    $.ajax({url: '/manage/urls/' + $('#auth-username').text(), type: 'POST', data: {url: $('input[name=url]').val()}, success: successFn, complete: completeFn, dataType:'json'});
+    $.ajax({url: '/manage/urls/' + $('#auth-username').text(), type: 'POST', data: {url: $('input[name=url]').val(), streams:[$('input[name=streams]').val()]}, success: successFn, complete: completeFn, dataType:'json'});
     
     return false;
     });
@@ -74,9 +74,12 @@ $(document).ready(function(){
         var entryIsVisible = $(this).hasClass('entry-visible');
         if (entryIsVisible) {
             changeVisibility($(this), false, 'entry-visible', 'entry-hidden', 'Show Entry');
+            $(this).parent().addClass('entry-hidden');
         } else {
             changeVisibility($(this), true, 'entry-hidden', 'entry-visible', 'Hide Entry');
+            $(this).parent().removeClass('entry-hidden');
         }
         return false;
     });
+    $('a.display_entry.entry-hidden').parent().addClass('entry-hidden');
 });
