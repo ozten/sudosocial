@@ -14,6 +14,7 @@ import logging
 import time
 
 from django.db import IntegrityError
+import django.utils.encoding
 import django.utils.hashcompat as hashcompat
 import feedparser
 import jsonpickle
@@ -57,7 +58,9 @@ def cron_fetch_feeds():
                 if 'guid' in entry:
                     entry_guid = entry.guid
                 else:
-                    entry_guid = hashcompat.md5_constructor(json_entry).hexdigest()
+                    entry_guid = hashcompat.md5_constructor(
+                        django.utils.encoding.smart_str(
+                            json_entry)).hexdigest()
                 yr, mon, d, hr, min, sec = entry.updated_parsed[:-3]
                 last_publication = datetime.datetime(yr, mon, d, hr, min, sec)
                 new_entry = lifestream.models.Entry(feed=feed, guid=entry_guid, raw=json_entry,
@@ -70,4 +73,5 @@ def cron_fetch_feeds():
     log.info("Finished run in %f seconds" % (time.time() - start))  
     return 'Finished importing %d items' % new_entry_count
 
-cron_fetch_feeds()
+if __name__ == '__main__':
+    cron_fetch_feeds()

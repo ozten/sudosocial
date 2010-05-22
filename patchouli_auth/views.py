@@ -4,11 +4,10 @@ import simplejson
 
 import django.http
 from django.shortcuts import render_to_response
+import django.utils.encoding
 
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-
-
 
 import lifestream.models
 import patchouli_auth.models
@@ -46,7 +45,8 @@ def profile(request, username):
     else:
         publishEmailFlag = ''
     
-    gravatarHash = hashlib.md5(request.user.email).hexdigest()
+    gravatarHash = hashlib.md5(
+        django.utils.encoding.smart_str(request.user.email)).hexdigest()
     avatar_url = "http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash
 
     return render_to_response('index.html',
@@ -105,7 +105,8 @@ def confirm_profile(request):
     else:
         publishEmailFlag = ''
     
-    gravatarHash = hashlib.md5(request.user.email).hexdigest()
+    gravatarHash = hashlib.md5(
+        django.utils.encoding.smart_str(request.user.email)).hexdigest()
     avatar_url = "http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash
 
     return render_to_response('index.html',
@@ -120,7 +121,8 @@ def confirm_profile(request):
                             },
                           context_instance=django.template.RequestContext(request))
 def gravatar(request, email):
-    gravatarHash = hashlib.md5(email).hexdigest()
+    gravatarHash = hashlib.md5(
+        django.utils.encoding.smart_str(email)).hexdigest()
     return django.http.HttpResponse("http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash) 
 
 import django.contrib.auth.views
