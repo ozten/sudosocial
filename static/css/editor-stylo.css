@@ -1,3 +1,25 @@
+div.logo {
+    font-size: 300%;
+    line-height: 1;
+}
+div.logo, div.logo a {
+    color: #333;
+    text-decoration: none;
+}
+div.logo code {
+    color: green;
+}
+.tagline {
+    font-size: 110%;
+    font-style: italic;
+    line-height: 1;
+    margin-top: 0px;
+    padding-top: 0px;    
+}
+.logo-panel { float: left; }
+.logo-panel .logo { font-size: 200%;}
+.logo-panel .tagline { font-size: 90%;}
+
 #auth {
     
     float: right;
@@ -17,7 +39,10 @@
     margin-left: 220px;
     width: 1030px;
 }
-
+#content h1 {
+    padding-top: 0px;
+    margin-top: -30px;
+}
 #stream-editor-panel {
     width: 700px;
     float: left;
