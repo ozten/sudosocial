@@ -106,6 +106,7 @@ h1.logo code {
     border: solid 1px: #666;
     -moz-border-radius: 15px;
     -webkit-border-radius: 15px;
+    margin-bottom: 1em;
     padding: 0.5em 1em;
 }
 #call-to-action li {
@@ -118,6 +119,7 @@ h1.logo code {
     width: 350px;
     margin-left: 1em;
 }
+
 /* admin and other app specific styles */
 .login {
     text-align: left;

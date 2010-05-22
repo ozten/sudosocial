@@ -18,6 +18,7 @@
     {{ entry|safe }}
     <div class="tag-area">
     <ul class="tags">
+        <h6 class="tag-heading">Tags:</h6>        
         {% for tag in tags %}
             <li>{{tag.tag}}</li>
         {% endfor %}

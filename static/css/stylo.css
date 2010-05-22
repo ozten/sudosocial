@@ -56,8 +56,8 @@ body, p, div, span {
     font-family: verdana;
     font-size: 12pt;
     color: #2A1911;
-    background-color: 7C5F3E;
 }
+body { background-color: 7C5F3E; }
 #viewport {
     background: #7C5F3E url('/static/css/i/firefoxzilla_big1350.png') repeat fixed top right;
     
