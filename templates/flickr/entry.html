@@ -1,5 +1,6 @@
-<div class="feed-flickr"><img class="favicon" src="http://flickr.com/favicon.ico" /> 
-    {% if show_everything %} Flickr  {{ published_date }}
+<div class="feed-flickr">
+    {% if show_everything %}
+    <img class="favicon" src="http://flickr.com/favicon.ico" /> Flickr  {{ published_date }}
     {% if  time_ago %} and then updated {{ time_ago }} later {% endif %}
     by {{raw.author_detail.name}}
    {% endif %}

@@ -1,5 +1,6 @@
-<div class="feed-identica"><img class="favicon" src="http://identi.ca/favicon.ico" /> 
-    {% if show_everything %} Identica at {{ published_date }} {% if  time_ago %} and then updated {{ time_ago }} later {% endif %}
+<div class="feed-identica">
+    {% if show_everything %}<img class="favicon" src="http://identi.ca/favicon.ico" />
+    Identica at {{ published_date }} {% if  time_ago %} and then updated {{ time_ago }} later {% endif %}
    by {{raw.author}}
    {% endif %}
     
