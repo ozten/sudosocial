@@ -196,13 +196,13 @@ def manage_stream_design(request):
 import django.http
 from django.shortcuts import render_to_response
 
-def entry(request, entry_guid):
+def entry(request, entry_id):
     """
         change-visibility set to true - show entry
         change-visibility set to false - hide entry
     """
     if 'POST' == request.method:
-        entry = lifestream.models.Entry.objects.get(guid=entry_guid)
+        entry = get_object_or_404(lifestream.models.Entry, id=entry_id,feed__user=request.user)
         if entry:            
             if 'change-visibility' in request.POST and request.POST['change-visibility'] == 'true':
                 entry.visible = True
@@ -214,8 +214,9 @@ def entry(request, entry_guid):
                     mimetype='applicaiton/json', status=400)
             try:
                 entry.save()
-                fresh_entry = lifestream.models.Entry.objects.get(guid=entry_guid)
+                fresh_entry = lifestream.models.Entry.objects.get(id=entry_id)
                 payload = {'status': 'OK', 'guid': fresh_entry.guid,
+                           'id': fresh_entry.id,
                            'visible': fresh_entry.visible}
                 return django.http.HttpResponse(
                     json.dumps(payload), mimetype='applicaiton/json')
@@ -226,7 +227,7 @@ def entry(request, entry_guid):
                     json.dumps(payload),
                     mimetype='applicaiton/json', status=500)
         else:
-            return django.http.HttpResponse(entry_guid, status=404)
+            return django.http.HttpResponse(entry_id, status=404)
 
 def homepage(request):
     

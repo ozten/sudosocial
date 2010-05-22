@@ -58,7 +58,7 @@
             <hr />            
             {% for entry, entry_html in entry_pair %}                
                 <div class='feed-entry'>
-                    <a class="display_entry {% if entry.visible %}entry-visible{% else %}entry-hidden{% endif %}" href="/manage/entry/{{ entry.guid|urlencode }}">{% if entry.visible %}Hide Entry{% else %} Show Entry {% endif %}</a>
+                    <a class="display_entry {% if entry.visible %}entry-visible{% else %}entry-hidden{% endif %}" href="/manage/entry/{{ entry.id }}">{% if entry.visible %}Hide Entry{% else %} Show Entry {% endif %}</a>
                     {{ entry_html }}
                 </div>
             {% empty %}
