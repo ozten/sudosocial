@@ -52,6 +52,7 @@ def manage_stream(request, username, streamname):
         for feed in stream_config.config['feeds']:
             feed_row = feed_id_to_feed[feed['url_hash']]
             feeds.append({'url': feed_row.url,
+                          'title': feed_row.title,
                           'pk': feed_row.pk,
                           'entries_visible_default': feed['entries_visible_default']})
         

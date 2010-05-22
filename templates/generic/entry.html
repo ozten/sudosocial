@@ -1,6 +1,6 @@
 <div class="feed-generic"><img class="favicon" src="/static/img/favicon.png" /> {% if show_everything %}
 {{website_name}}
-   Generic {{ published_date }} {% if  time_ago %} and then updated {{ time_ago }} later {% endif %}
+   Generic {{ published_date }} {% if  time_ago %} and then updated {{ time_ago }} later<!-- TODO use |timesince django template --> {% endif %}
    by
    {% if raw.author_detail %}
      {% if raw.author_detail.name %}

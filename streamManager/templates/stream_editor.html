@@ -34,7 +34,7 @@
     <ul id="user_streams">
         {%  for feed in feeds %}
             <li>
-                <a href="{{ feed.url }}" class="stream-feed-source"> {{ feed.url }}</a>
+                <a href="{{ feed.url }}" class="stream-feed-source"> {% if feed.title %}{{ feed.title }}{% else %} {{ feed.url }} {% endif %}</a>
                 <div class="feed-entries-visible-default {% if feed.entries_visible_default %}.shown{% else %}.hidden{% endif %}"
                      title="New Items are {% if feed.entries_visible_default %} shown automatically {% else %} hidden until shown individually {% endif %}">
                 </div>
