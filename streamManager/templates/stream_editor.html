@@ -18,8 +18,8 @@
         <li><a id="preview" href="/u/{{username}}/s/{{stream.name}}" target="_new" title="View your currenly published Stream in a new window">View</a></li>
     </ul>
     <div id="edit-stream-panel" class="panel">
-<h2 class="new-feed">Add A New Feed</h2>
-<p><img src="/static/img/feed-icon-14x14.png" width="14" height="14" alt="Feed Icon" /> Paste in the url to any Atom or RSS feed.</p>
+<h2 class="new-feed">Add A Source</h2>
+<p>Paste in the Url to a website or any Atom or RSS feed <img src="/static/img/feed-icon-14x14.png" width="14" height="14" alt="Feed Icon" />.</p>
 
 <form id="add-url-form" action="/manage/urls/{{request.user.username}}" method="post">
 <p><label for="id_url">Url:</label> <input id="id_url" type="text" name="url" maxlength="2048" /></p>
@@ -47,7 +47,7 @@
         
         <li id="base-stream-feed-link" style="display:none"><a href="{{ feed.url }}" class="stream-feed-source">sample</a>
             <div class="feed-entries-visible-default shown" title="New Items are shown automatically"></div>
-            [<a href="#" class="feed-delete" title="Delete this feed.">x</a>]</li>
+            [<a href="#" class="feed-delete" title="Delete this feed.">Delete</a>]</li>
     </ul>
     <p>After 5 minutes, Feed entries should start appearing in <a href="/u/{{username}}/s/{{stream.name}}" target="_new" title="View your currenly published Stream in a new window">your stream.</a></p>
 

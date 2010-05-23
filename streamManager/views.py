@@ -110,43 +110,51 @@ def manage_all_streams(request, username):
     else:
         return django.http.HttpResponse(HACKING_MESSAGE, status=400)
 
+def save_feeds(request, username):
+    feed_url_hash = hashcompat.md5_constructor(
+        django.utils.encoding.smart_str(request.POST['url'])).hexdigest()
+    params = request.POST.copy()
+    #params['streams'] = []
+    
+    streams = lifestream.models.Stream.objects.filter(user=request.user,
+                                                      name=params['streams[]'])
+    if len(streams) == 0:
+        raise Exception("No such stream")
+        
+    #params['user'] = str(request.user.id)
+    a_feed = lifestream.models.Feed(url_hash = feed_url_hash, user=request.user, created_date=datetime.datetime.today())
+    if len(streams) > 0:
+        a_feed.streams.add(streams[0])
+    form = lifestream.models.FeedForm(params, instance=a_feed)
+    if form.is_valid():
+        
+        #new_feed_form = form.save(commit=False)
+        new_feed_form = form.save()
+        #new_feed_form.user = request.user
+        
+        #new_feed_form.streams.add(streams)
+        #new_feed_form.save_m2m()
+        new_feed_form.save()
+        if len(streams) > 0:
+            stream_config = StreamConfig(streams[0].config)
+            stream_config.ensureFeedsConfig(streams[0].feed_set.all())
+            streams[0].config = stream_config.__unicode__()
+            streams[0].save()
+        new_feed = lifestream.models.Feed.objects.get(pk=feed_url_hash)
+    return (True, [new_feed])
+
 @login_required
 def urls(request, username):
     if request.user.username == username:
         if 'POST' == request.method:
             # url_hash is 'exclude' aka editable=False, so we have to create a model
             # and set the url_hash, in order to get the data into the db
-            feed_url_hash = hashcompat.md5_constructor(
-                django.utils.encoding.smart_str(request.POST['url'])).hexdigest()
-            params = request.POST.copy()
-            #params['streams'] = []
-            
-            streams = lifestream.models.Stream.objects.filter(user=request.user,
-                                                              name=params['streams[]'])
-            if len(streams) == 0:
-                raise Exception("No such stream")
-                
-            #params['user'] = str(request.user.id)
-            a_feed = lifestream.models.Feed(url_hash = feed_url_hash, user=request.user, created_date=datetime.datetime.today())
-            if len(streams) > 0:
-                a_feed.streams.add(streams[0])
-            form = lifestream.models.FeedForm(params, instance=a_feed)
-            if form.is_valid():
-                
-                #new_feed_form = form.save(commit=False)
-                new_feed_form = form.save()
-                #new_feed_form.user = request.user
-                
-                #new_feed_form.streams.add(streams)
-                #new_feed_form.save_m2m()
-                new_feed_form.save()
-                if len(streams) > 0:
-                    stream_config = StreamConfig(streams[0].config)
-                    stream_config.ensureFeedsConfig(streams[0].feed_set.all())
-                    streams[0].config = stream_config.__unicode__()
-                    streams[0].save()
-                new_feed = lifestream.models.Feed.objects.get(pk=feed_url_hash)
-                return django.http.HttpResponse(json.dumps({"message":"OK", "feed": new_feed.to_primitives()}), mimetype='application/json')
+            status, new_feeds = save_feeds(request, username)
+            if status:
+                feeds = []
+                for new_feed in new_feeds:
+                    feeds.append(new_feed.to_primitives())
+                return django.http.HttpResponse(json.dumps({"message":"OK", "feeds": feeds}), mimetype='application/json')
                 #return django.http.HttpResponse('{"message":"OK"}', mimetype='application/json')
             else:
                 errors = ''

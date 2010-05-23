@@ -5,15 +5,18 @@ $('#add-url-form').submit(function(){
     var successFn = function(data, status, xhr) {
 
         $('#no-stream-feed-blurb').hide();
-        $('input[name=url]').val('');        
-        var newFeedLi = $('#base-stream-feed-link').clone();
-        newFeedLi.attr('id', null);
-        $('a.stream-feed-source', newFeedLi).attr('href', data.feed.url)
-                                     .text(data.feed.url);
-        $('a.feed-delete', newFeedLi).attr('href', '' + data.feed.url_hash);
-        newFeedLi.show();
-        $('#user_streams').append(newFeedLi);
-        };
+        $('input[name=url]').val('');
+        for (var i=0; i < data.feeds.length; i++) {
+            var feed = data.feeds[i];
+            var newFeedLi = $('#base-stream-feed-link').clone();
+            newFeedLi.attr('id', null);        
+            $('a.stream-feed-source', newFeedLi).attr('href', feed.url)
+                .text(feed.url);
+            $('a.feed-delete', newFeedLi).attr('href', '' + feed.url_hash);        
+            newFeedLi.show();
+            $('#user_streams').append(newFeedLi);
+        }
+    };
     var completeFn = function (xhr, status) {
         $('input').attr('disabled', null);
     };
