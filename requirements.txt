@@ -5,7 +5,12 @@ feedparser==4.1
 html5lib==0.90
 ipython==0.10
 jsonpickle==0.3.1
+logilab-astng==0.20.1
+logilab-common==0.50.1
+lxml==2.2.6
 pyflakes==0.4.0
+pylint==0.21.0
+pyquery==0.5
 python-openid==2.2.4
-simplejson==2.0.9
+simplejson==2.1.0
 wsgiref==0.1.2
