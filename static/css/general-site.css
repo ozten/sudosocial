@@ -109,7 +109,7 @@ h1.logo code {
     margin-bottom: 1em;
     padding: 0.5em 1em;
 }
-#call-to-action li {
+#call-to-action li, #learn-more-sidebar li {
     list-style: circle outside none;
     margin-left: 2em;
 }
