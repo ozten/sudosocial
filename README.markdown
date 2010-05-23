@@ -43,6 +43,12 @@ and be published with standards based markup (Microformats).
 And of course, the overall Mozilla mission of keeping the web open
 and accessible.
 
+## License ##
+This codebase is tri-licensed
+  * [Mozilla Public License](http://www.mozilla.org/MPL/MPL-1.1.html), version 1.1 or later
+  * [GNU General Public License](http://www.gnu.org/licenses/gpl-2.0.html), version 2.0 or later
+  * [GNU Lesser General Public License](http://www.gnu.org/licenses/lgpl-2.1.html), version 2.1 or later
+
 ## Hacking ##
 You can use the [VirtualBox applicance](http://sudosocial.me/static/sudosocial.zip) and your good to go.
 
