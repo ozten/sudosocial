@@ -1,6 +1,8 @@
 import logging
 import datetime
 
+import feedparser
+from pyquery import PyQuery
 import simplejson as json
 
 import django.http
@@ -109,39 +111,80 @@ def manage_all_streams(request, username):
                               context_instance=django.template.RequestContext(request))
     else:
         return django.http.HttpResponse(HACKING_MESSAGE, status=400)
+        
+def is_possible_feed(url):
+    """ Attempts to read url as a valid RSS or Atom feed.
+        returns a Dict with metadata or
+                False if url is not a feed """
+    possible_feed = feedparser.parse(url)
+    if 1 == possible_feed.bozo:
+        return False
+    else:
+        # The url is a feed
+        feed_title = 'Unknown'
+        if 'feed' in possible_feed and 'title' in possible_feed['feed']:
+            feed_title = possible_feed['feed']['title']
+        return {'feed_url': feed_url, 'feed_title': feed_title}
+        
+def make_possible_feed(link_element):
+    """ Visits each <link rel="alternate" href="http://..." /> element """
+    link = PyQuery(link_element)
+    title = 'Unknown'
+    if link.attr('title'):
+        title = link.attr('title')
+    if link.attr('href'):
+        return {'feed_url': link.attr('href'), 'feed_title': title}
+    else:
+        log.info("Skipping malformed link element for feed, missing href")
+        return False
+
+def append_if_dict(a_list, maybe_dict):
+    """ Shim to avoid global variables in PyQuery callback """
+    if maybe_dict:
+        a_list.append(maybe_dict)
 
 def save_feeds(request, username):
-    feed_url_hash = hashcompat.md5_constructor(
-        django.utils.encoding.smart_str(request.POST['url'])).hexdigest()
+    new_feeds_to_save = []
     params = request.POST.copy()
-    #params['streams'] = []
-    
-    streams = lifestream.models.Stream.objects.filter(user=request.user,
+    stream = get_object_or_404(lifestream.models.Stream, user=request.user,
                                                       name=params['streams[]'])
-    if len(streams) == 0:
-        raise Exception("No such stream")
+    new_feeds_to_save = []
+    feed_url = request.POST['url']
+    possible_feed = is_possible_feed(feed_url)
+    if possible_feed:
+        new_feeds_to_save.append(possible_feed)
+    else:
+        pq = PyQuery(feed_url)
+        pq('link[rel=alternate]').each(
+            lambda link_el: append_if_dict(new_feeds_to_save,
+                                           make_possible_feed(link_el)))
+    new_feeds = []
+    forms = []
+    something_saved = False
+    for new_feed_to_save in new_feeds_to_save:
+        feed_url_hash = hashcompat.md5_constructor(
+            django.utils.encoding.smart_str(new_feed_to_save['feed_url'])).hexdigest()
         
-    #params['user'] = str(request.user.id)
-    a_feed = lifestream.models.Feed(url_hash = feed_url_hash, user=request.user, created_date=datetime.datetime.today())
-    if len(streams) > 0:
-        a_feed.streams.add(streams[0])
-    form = lifestream.models.FeedForm(params, instance=a_feed)
-    if form.is_valid():
-        
-        #new_feed_form = form.save(commit=False)
-        new_feed_form = form.save()
-        #new_feed_form.user = request.user
-        
-        #new_feed_form.streams.add(streams)
-        #new_feed_form.save_m2m()
-        new_feed_form.save()
-        if len(streams) > 0:
-            stream_config = StreamConfig(streams[0].config)
-            stream_config.ensureFeedsConfig(streams[0].feed_set.all())
-            streams[0].config = stream_config.__unicode__()
-            streams[0].save()
-        new_feed = lifestream.models.Feed.objects.get(pk=feed_url_hash)
-    return (True, [new_feed])
+        a_feed = lifestream.models.Feed(url_hash = feed_url_hash, title=new_feed_to_save['feed_title'],
+                                        user=request.user, created_date=datetime.datetime.today())        
+        a_feed.streams.add(stream)            
+        form = lifestream.models.FeedForm(params, instance=a_feed)
+        forms.append(form)
+        if form.is_valid():        
+            form.save()
+            db_feed = lifestream.models.Feed.objects.get(pk=feed_url_hash)
+            new_feeds.append(db_feed.to_primitives())
+            something_saved = True
+        else:
+            pass # Keep trying other feeds
+    if something_saved:
+        stream_config = StreamConfig(stream.config)
+        stream_config.ensureFeedsConfig(stream.feed_set.all())
+        stream.config = stream_config.__unicode__()
+        stream.save()
+        return (True, new_feeds, forms)
+    else:
+        return (False, [], forms)
 
 @login_required
 def urls(request, username):
@@ -149,19 +192,17 @@ def urls(request, username):
         if 'POST' == request.method:
             # url_hash is 'exclude' aka editable=False, so we have to create a model
             # and set the url_hash, in order to get the data into the db
-            status, new_feeds = save_feeds(request, username)
-            if status:
-                feeds = []
-                for new_feed in new_feeds:
-                    feeds.append(new_feed.to_primitives())
-                return django.http.HttpResponse(json.dumps({"message":"OK", "feeds": feeds}), mimetype='application/json')
+            status, new_feeds, forms = save_feeds(request, username)
+            if status:                
+                return django.http.HttpResponse(json.dumps({"message":"OK", "feeds": new_feeds}), mimetype='application/json')
                 #return django.http.HttpResponse('{"message":"OK"}', mimetype='application/json')
             else:
                 errors = ''
-                for error in form.errors:
-                    errors += error + ': '
-                    for msg in form.errors[error]:
-                        errors += ' ' + str(msg)
+                for form in forms:
+                    for error in form.errors:
+                        errors += error + ': '
+                        for msg in form.errors[error]:
+                            errors += ' ' + str(msg)
                 return django.http.HttpResponse('{"message":"Error ' + errors + '"}', mimetype='application/json', status=400)
         else:
             return django.http.HttpResponse('{"message":"Error unsupported method"}', mimetype='applicaiton/json', status=400)

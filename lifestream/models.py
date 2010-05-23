@@ -35,7 +35,7 @@ class Feed(models.Model):
                                         verbose_name='Last Modified')
     
     def to_primitives(self):
-        return {'url': self.url, 'url_hash': self.url_hash,
+        return {'url': self.url, 'title': self.title, 'url_hash': self.url_hash,
                 'created_date': str(self.created_date),
                 'updated_date': str(self.updated_date)}
     

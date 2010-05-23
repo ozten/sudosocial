@@ -11,7 +11,7 @@ $('#add-url-form').submit(function(){
             var newFeedLi = $('#base-stream-feed-link').clone();
             newFeedLi.attr('id', null);        
             $('a.stream-feed-source', newFeedLi).attr('href', feed.url)
-                .text(feed.url);
+                .text(feed.title);
             $('a.feed-delete', newFeedLi).attr('href', '' + feed.url_hash);        
             newFeedLi.show();
             $('#user_streams').append(newFeedLi);
