@@ -118,8 +118,10 @@ def is_possible_feed(url):
                 False if url is not a feed """
     possible_feed = feedparser.parse(url)
     if 1 == possible_feed.bozo:
+        log.info("%s triggered feedparser's bozo detection" % url)
         return False
     else:
+        log.info("%s is a valid feed according to feedparser" % url)
         # The url is a feed
         feed_title = 'Unknown'
         if 'feed' in possible_feed and 'title' in possible_feed['feed']:
@@ -132,7 +134,7 @@ def make_possible_feed(link_element):
     title = 'Unknown'
     if link.attr('title'):
         title = link.attr('title')
-    if link.attr('href'):
+    if link.attr('href'):        
         return {'feed_url': link.attr('href'), 'feed_title': title}
     else:
         log.info("Skipping malformed link element for feed, missing href")
@@ -148,7 +150,6 @@ def save_feeds(request, username):
     params = request.POST.copy()
     stream = get_object_or_404(lifestream.models.Stream, user=request.user,
                                                       name=params['streams[]'])
-    new_feeds_to_save = []
     feed_url = request.POST['url']
     possible_feed = is_possible_feed(feed_url)
     if possible_feed:
@@ -162,20 +163,23 @@ def save_feeds(request, username):
     forms = []
     something_saved = False
     for new_feed_to_save in new_feeds_to_save:
+        # This might have been 1 URL posted that turned into multiple embeded Feed links
+        params['url'] = new_feed_to_save['feed_url']
         feed_url_hash = hashcompat.md5_constructor(
-            django.utils.encoding.smart_str(new_feed_to_save['feed_url'])).hexdigest()
-        
+            django.utils.encoding.smart_str(new_feed_to_save['feed_url'])).hexdigest()        
         a_feed = lifestream.models.Feed(url_hash = feed_url_hash, title=new_feed_to_save['feed_title'],
+                                        url = new_feed_to_save['feed_url'],
                                         user=request.user, created_date=datetime.datetime.today())        
-        a_feed.streams.add(stream)            
+        a_feed.streams.add(stream)
         form = lifestream.models.FeedForm(params, instance=a_feed)
         forms.append(form)
         if form.is_valid():        
-            form.save()
+            form.save()            
             db_feed = lifestream.models.Feed.objects.get(pk=feed_url_hash)
             new_feeds.append(db_feed.to_primitives())
             something_saved = True
         else:
+            log.info("Error, couldn't save %s" % feed_url_hash)            
             pass # Keep trying other feeds
     if something_saved:
         stream_config = StreamConfig(stream.config)
@@ -195,7 +199,6 @@ def urls(request, username):
             status, new_feeds, forms = save_feeds(request, username)
             if status:                
                 return django.http.HttpResponse(json.dumps({"message":"OK", "feeds": new_feeds}), mimetype='application/json')
-                #return django.http.HttpResponse('{"message":"OK"}', mimetype='application/json')
             else:
                 errors = ''
                 for form in forms:
