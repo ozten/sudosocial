@@ -87,7 +87,9 @@ $(document).ready(function(){
     });
     $('a.display_entry.entry-hidden').parent().addClass('entry-hidden');
 });
-$('#username').bind('change, keypress, submit', function(){
+console.info("What happen", $('#username'));
+$('#username').bind('focus, blur', function(){
+    console.info("huh");
     $(this).val($(this).val().toLowerCase());
     });
 $('#username').trigger('change');
