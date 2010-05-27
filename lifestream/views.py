@@ -49,6 +49,7 @@ def stream(request, username, streamname):
                           )
 
 def common_stream(request, username, streamname):
+    username = username.lower()
     user = User.objects.get(username=username)
     rawEntries = (lifestream.models.Entry.objects.order_by('-last_published_date')
                   .filter(feed__user=user,

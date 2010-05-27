@@ -1,7 +1,8 @@
 function patchouliUsername() {
     return $('#auth-username').text();
 }
-$('#add-url-form').submit(function(){    
+$('#add-url-form').submit(function(){
+    $('#auth-username').text($('#auth-username').text().toLowerCase());
     var successFn = function(data, status, xhr) {
 
         $('#no-stream-feed-blurb').hide();
@@ -86,3 +87,7 @@ $(document).ready(function(){
     });
     $('a.display_entry.entry-hidden').parent().addClass('entry-hidden');
 });
+$('#username').bind('change, keypress, submit', function(){
+    $(this).val($(this).val().toLowerCase());
+    });
+$('#username').trigger('change');

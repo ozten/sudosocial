@@ -61,7 +61,7 @@ def profile(request, username):
                             },
                           context_instance=django.template.RequestContext(request))
     
-def delete_profile(request, username):
+def delete_profile(request, username):    
     """ Don't use username for anything... TODO: Add captcha since we can't force / trust an OpenID login step """
     if 'POST' == request.method:
         user = request.user
@@ -78,10 +78,11 @@ def delete_profile(request, username):
 def confirm_profile(request):
     """ TODO use a FormModel """
     profileProps = patchouli_auth.preferences.getPreferences(request.user)
-        
+    
     error = None
     if 'POST' == request.method:
         params = request.POST.copy()
+        params['username'] = params['username'].lower()
         request.user.username   = params['username']
         request.user.email      = params['email']
         request.user.first_name = params['first_name']
