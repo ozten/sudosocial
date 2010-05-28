@@ -126,7 +126,7 @@ def is_possible_feed(url):
         feed_title = 'Unknown'
         if 'feed' in possible_feed and 'title' in possible_feed['feed']:
             feed_title = possible_feed['feed']['title']
-        return {'feed_url': feed_url, 'feed_title': feed_title}
+        return {'feed_url': url, 'feed_title': feed_title}
         
 def make_possible_feed(link_element):
     """ Visits each <link rel="alternate" href="http://..." /> element """

@@ -74,7 +74,11 @@ def prepare_entry(entryJSON, log):
     
     tweet = re.sub('#(\w+)', r'<a href="http://twitter.com/search?q=%23\1">#\1</a>', tweet)
     tweet = re.sub('@(\w+)', r'<a href="http://twitter.com/\1">@\1</a>', tweet)
-    tweet = bleach.linkify(tweet.replace('\n', '<br />'))
+    try:        
+        tweet = bleach.linkify(tweet.replace('\n', '<br />'))
+    except Exception, x:
+        log.error("Ouch, unable to linkify _%s_ caught" % tweet)
+        log.exception(x)
     
     
     return {'tweeter': tweeter, 'tweet': tweet, 'permalink': entryJSON['link'], 'tags': tags, 'raw': entryJSON}

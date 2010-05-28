@@ -54,7 +54,12 @@ def prepare_entry(entryJSON, log):
     status = re.sub('!(\w+)', r'<a href="http://identi.ca/group/\1">!\1</a>', status)
     status = re.sub('#(\w+)', r'<a href="http://identi.ca/tag/\1">#\1</a>', status)
     status = re.sub('@(\w+)', r'<a href="http://identi.ca/\1">@\1</a>', status)
-    status = bleach.linkify(status.replace('\n', '<br />'))
+    
+    try:
+        status = bleach.linkify(status.replace('\n', '<br />'))
+    except Exception, x:
+        log.error("Ouch, unable to linkify _%s_" % status)
+        log.exception(x)
     
     
     return {'status': status, 'permalink': entryJSON['link'], 'tags': tags, 'raw': entryJSON}

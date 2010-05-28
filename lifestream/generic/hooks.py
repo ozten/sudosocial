@@ -12,7 +12,11 @@ def prepare_entry(entryJSON, log):
     else:
         #log.debug('unreadable... ' + str(entryJSON))
         pass
-    content = bleach.linkify(content)
+    try:
+        content = bleach.linkify(content)
+    except Exception, x:
+        log.error("Ouch, unable to linkify _%s_" % content)
+        log.exception(x)
     tags = []
     if 'tags' in entryJSON:
         for tag in entryJSON['tags']:
