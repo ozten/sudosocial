@@ -1,3 +1,4 @@
+{% load common_tags %}
 <div class="profile_blurb">
     <div id="hcard-{{user.first_name}}-{{user.last_name}}" class="vcard profile_image">
         <img id="profile_image" src="{{ avatar_src }}" alt="Profile Photo of {{ username }}"  class="photo"/>
@@ -34,6 +35,6 @@
     </div><!-- /followme -->
     <div class="powered_by">
         <h5 class="logo"><strong><code>sudo</code>Social</strong></h5>
-        <a href="https://sudosocial.me/auth">Take control of your stream</a>
+        <a href="{% secure %}{% url confirm_profile %}{% endsecure %}">Take control of your stream</a>
     </div>
 </div><!-- /profile_blurb -->

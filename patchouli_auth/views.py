@@ -68,7 +68,7 @@ def delete_profile(request, username):
         logout(request)
         log.info("Deleting account for username %s" % (user.username))
         user.delete()
-        return django.http.HttpResponseRedirect('https://sudosocial.me/auth')
+        return django.http.HttpResponseRedirect('/auth')
     else:
         return render_to_response('confirm_delete.html',
                           {'css_url': '/static/css/general-site.css',},

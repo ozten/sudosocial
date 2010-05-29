@@ -59,7 +59,7 @@ def common_stream(request, username, streamname):
     plugins = []
     if username == 'ozten':
         plugins = [SocialIdentityFromTagsPlugin()]
-    renderedEntries = render_entries(rawEntries, plugins)
+    renderedEntries = render_entries(request, rawEntries, plugins)
     
     profile = renderProfile(request, user, plugins)
         
@@ -84,7 +84,7 @@ def common_stream(request, username, streamname):
                 'user': user,
                 'username': username}
             
-def render_entries(rawEntries, plugins=[]):
+def render_entries(request, rawEntries, plugins=[]):
     """ plugins - list of functions to be run once for each entry's variables """
     renderedEntries = []    
     for entry in rawEntries:
@@ -98,9 +98,9 @@ def render_entries(rawEntries, plugins=[]):
         entry_variables = hooks.prepare_entry(jsn, log)
         [plugin.modify_entry_variables(jsn, entry_variables) for plugin in plugins]
         
-        t = django.template.loader.select_template(('foo', feedType + '/entry.html'))
-        c = django.template.Context(entry_variables)
-        renderedEntries.append(t.render(c))        
+        t = django.template.loader.select_template(('foo', feedType + '/entry.html')) #TODO provide a fallback        
+        c = django.template.RequestContext(request, entry_variables)
+        renderedEntries.append(t.render(c))
         [p.observe_stream_entry(entry, entry_variables) for p in plugins]
     [p.post_observe_stream_entries() for p in plugins]    
     return renderedEntries
@@ -127,7 +127,7 @@ def renderProfile(request, user, plugins):
     
     #data.update()
     t = django.template.loader.select_template(('foo', 'lifestream/profile_blurb.html'))
-    c = django.template.Context(data)
+    c = django.template.RequestContext(request, data)
     return t.render(c)
     
 def websiteFeedType(entryJson):

@@ -1,11 +1,12 @@
 {% extends "basic_template.html" %}
+{% load common_tags %}
 {% block title %}sudoSocial - sudo make me social{% endblock %}
 {% block content %}
-<div id="content">
-    <div id="auth"><a href="https://sudosocial.me/auth">Login</a></div>
+<div id="content" class="homepage">
+    <div id="auth"><a href="{% secure %} {% url auth_or_editor %} {% endsecure %}">Login</a></div>
     <h1 class="logo"><strong><code>sudo</code>Social</strong></h1>
     <div class="tagline">Take control of your stream</div>
-    <div class="copy">
+    <div class="copy">    
     <ul id="call-to-action">
         <p><strong><code>sudo</code>Social</strong> is an
         <!-- a href="http://mozillalabs.com/conceptseries/">Mozilla labs</a --> exeriment around
@@ -14,7 +15,7 @@
     
         <li>Check out a <a id="basic-demo" href="/u/pattyokdemo/s/home">basic HomeStream</a></li>
         <li>Next, a customized stream, embedded via a script tag: <a id="embed-demo" href="http://ozten.com/index-demo.html">customized HomeStream</a></li>
-        <li>Okay, <a id="create-homestream" href="https://sudosocial.me/auth">create your own HomeStream</a> and take control!</li>
+        <li>Okay, <a id="create-homestream" href="{% secure %} {% url auth_or_editor %} {% endsecure %}">create your own HomeStream</a> and take control!</li>
     </ul>
     <div id="learn-more-sidebar">
         <!-- p class="screencast"><object width="400" height="300"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=11819816&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=11819816&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="300"></embed></object></p>

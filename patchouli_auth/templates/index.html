@@ -1,4 +1,5 @@
 {% extends "basic_template.html" %}
+{% load common_tags %}
 {% block content %}
 <div id="content">
 
@@ -14,7 +15,7 @@
 {% if error %}
   <div class="error-message"><strong>{{error}}</strong></div>
 {% endif %}
-<form id="confirm_profile" action="/auth/confirm_profile" method="post">
+<form id="confirm_profile" action="{% secure %} {% url confirm_profile %} {% endsecure %}" method="post">
 <fieldset class="required"><legend>Required</legend>
     <div id="profile-image"><img src="{{gravatar}}" /><button>Refresh Avatar</button><p class="note">Your profile image is provided by <a href="http://gravatar.com/">Gravatar</a> based on your email address.</div>
 <div><label for="username">Username:</label><input type="text" name="username" id="username" value="{{username}}" autofocus required />*</div>
@@ -34,7 +35,7 @@
 {% if show_delete %}
     <hr />
     <div id="delete_profile">
-        <form id="delete_profile" method="get" action="/auth/profile/{{username}}/delete">
+        <form id="delete_profile" method="get" action="{% secure %}{% url delete_profile username %}{% endsecure %}">
             <fieldset><legend>Delete Your Profile</legend>
                 <p>You are in control of your data... Want to delete your profile and all your streams?</p>
                 <button>Delete My Data</button>

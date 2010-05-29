@@ -63,7 +63,7 @@ def manage_stream(request, username, streamname):
                       .filter(feed__user=request.user,
                               feed__streams__name__exact = streamname))[:150]
         plugins = [StreamEditorPlugin(log)]
-        entry_pair = zip(raw_entries, render_entries(raw_entries, plugins))        
+        entry_pair = zip(raw_entries, render_entries(request, raw_entries, plugins))        
         feed_model = lifestream.models.FeedForm()
                 
         stream.url = "/u/%s/s/%s" % (username, stream.name)
@@ -243,7 +243,7 @@ def manage_stream_design(request):
         
         preferences['processing_js'] = params['processing']        
         patchouli_auth.preferences.savePreferences(request.user, preferences)
-        return django.http.HttpResponseRedirect('/auth')
+        return django.http.HttpResponseRedirect('/auth') #TODO django.core.urlresolvers reverse('confirm_profile')
         
 import django.http
 from django.shortcuts import render_to_response
@@ -280,9 +280,22 @@ def entry(request, entry_id):
                     mimetype='applicaiton/json', status=500)
         else:
             return django.http.HttpResponse(entry_id, status=404)
-
+# ----------------- Sitewide Functions --------------#
 def homepage(request):
-    
     return render_to_response('homepage.html',
+                          {'css_url': '/static/css/general-site.css', },
+                          context_instance=django.template.RequestContext(request))
+
+def page_not_found(request):
+    response = render_to_response('404.html',
                           {'css_url': '/static/css/general-site.css'},
                           context_instance=django.template.RequestContext(request))
+    response.status_code = 404
+    return response
+    
+def server_error(request):
+    response = render_to_response('500.html',
+                          {'css_url': '/static/css/general-site.css'},
+                          context_instance=django.template.RequestContext(request))
+    response.status_code = 500
+    return response
