@@ -97,6 +97,12 @@ h1.logo code {
 	margin-top: 3em;
 }
 /* homepage */
+.homepage .logo {
+	margin-top: 2em;
+}
+.homepage .tagline {
+	margin-bottom: 1em;
+}
 #call-to-action {
     float: left;
     /* margin-left: 300px; */
