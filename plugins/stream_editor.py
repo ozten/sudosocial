@@ -33,8 +33,7 @@ class StreamEditorPlugin(BasicPlugin):
         entry_variables.update(metadata)
         return (entry, entry_variables)
         
-    def template_variables(self, template_variables):
+    def template_variables(self):
         """ Callback before rendering templates, should return a Dict of
             items used in templated views """
-        template_variables.update({'stream_editor_mode': True})
-        return template_variables
+        return {'stream_editor_mode': True}

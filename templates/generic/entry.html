@@ -1,4 +1,4 @@
-<div class="feed-generic">
+<div class="feed-generic {{hostname_css_class}}">
     {% if show_everything %}<img class="favicon" src="/static/img/favicon.png" />
 {{website_name}} {{ published_date }} {% if  time_ago %} and then updated {{ time_ago }} later<!-- TODO use |timesince django template --> {% endif %}
    by
@@ -13,16 +13,16 @@
    {% endif %}
       
    {% endif %}
-   <h3>{{title}}</h3>
+   <h3>{{title|safe}}</h3>
     {{ entry|safe }}
     <div class="tag-area">
-    <ul class="tags">
-        <h6 class="tag-heading">Tags:</h6>        
+    <h6 class="tag-heading">Tags:</h6>        
+    <ul class="tags">        
         {% for tag in tags %}
             <li>{{tag.tag}}</li>
         {% endfor %}
     </ul>
-    </div>
-    <a class="permalink" href="{{link}}">#</a>    
+    </div><!-- /tag-area -->
+    <a class="permalink" href="{{permalink}}">#</a>    
     <hr />
-</div>
+</div><!-- /feed-generic -->

@@ -7,3 +7,5 @@ settings.py
 *.kpf
 README.html
 static/css/*/*.psd
+Text*.txt
+debug_toolbar

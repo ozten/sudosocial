@@ -78,7 +78,7 @@ def manage_stream(request, username, streamname):
                                 'stream_config': stream_config,
                                 'username': request.user.username,
                                 'preferences': preferences}
-        [template_data.update(plugin.template_variables(template_data)) for plugin in plugins]
+        [template_data.update(plugin.template_variables()) for plugin in plugins]
         return render_to_response('stream_editor.html',
                               template_data,
                               context_instance=django.template.RequestContext(request))

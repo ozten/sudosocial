@@ -48,6 +48,12 @@ This codebase is tri-licensed
   * [Mozilla Public License](http://www.mozilla.org/MPL/MPL-1.1.html), version 1.1 or later
   * [GNU General Public License](http://www.gnu.org/licenses/gpl-2.0.html), version 2.0 or later
   * [GNU Lesser General Public License](http://www.gnu.org/licenses/lgpl-2.1.html), version 2.1 or later
+  
+## CREDITS ##
+Jeff Balogh
+James Socol (Bleach)
+Zach Hale
+Ian Bicking (Silver Lining)
 
 ## Hacking ##
 You can use the [VirtualBox applicance](http://sudosocial.me/static/sudosocial.zip) and your good to go.
@@ -59,6 +65,21 @@ If you want to setup from scratch, this is a Django app and borrows from
 Please follow [the docs](http://jbalogh.github.com/zamboni/topics/installation/) from
 the [zamboni](http://github.com/jbalogh/zamboni) project 
 as well as [Django 1.1 docs](http://docs.djangoproject.com/en/1.1/).
+
+Those urls above have more info, but basically:
+  # rename your checkout from sudosocial to patchouli (sorry, lame)
+  # setup a virtualenv sudosocial (optional, see link above for zamboni virtual env setup)
+  ## workon sudosocial
+  # pip install -r requirements.txt
+  # Any errors?
+  # create a database
+  # update settings.py
+  # run python manage.py syncdb
+  # python manage.py runserver 0.0.0.0:8000
+  # edit urls.py and update '/home/aking/patchouli/static/' to your path (sorry, lame)
+  # from mysql prompt, execute the migrations under docs/database/migrations/
+  
+You may need to sudo apt-get install python-lxml depending on your setup.
 
 ### Requirements ###
 Again, you can find these in the VM, but:

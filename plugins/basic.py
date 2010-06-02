@@ -22,7 +22,7 @@ class BasicPlugin(object):
             items used in templated views """
         return (entry, entry_variables)
     
-    def template_variables(self, template_variables):
+    def template_variables(self):
         """ Callback before rendering templates, should return a Dict of
             items used in templated views """
-        return template_variables
+        return {}

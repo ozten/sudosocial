@@ -22,7 +22,6 @@ $(document).ready(function(){
         }
         var maxWidth = 0;
         $('li', tagArea).each(function(i, li){
-            console.info(li);
             if ($(li).outerWidth() > maxWidth) {
                 maxWidth = $(li).outerWidth();
             }
