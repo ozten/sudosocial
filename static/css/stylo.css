@@ -130,7 +130,7 @@ a:hover { color: #692F0A; }
     
 }
 .tag-area {
-    position: absolute;
+    position: relative;
     bottom: 0px;
     right: 0px;
 }
@@ -144,16 +144,21 @@ a:hover { color: #692F0A; }
     -moz-transform: translate(-40px, 10px) rotate(-30deg); -moz-transform-origin: bottom left;
     -webkit-transform: translate(-40px, -5px) rotate(-30deg); -moz-transform-origin: bottom left;    
 }
+.tags {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
 .tags li {
     font-size: 80%;
-    -moz-transform: translate(0px, -10px) rotate(-30deg); -moz-transform-origin: bottom left;
-    -webkit-transform: translate(-5px, -20px) rotate(-30deg); -moz-transform-origin: bottom left;
+    -moz-transform: translate(0px, 0px) rotate(-30deg); -moz-transform-origin: bottom left;
+    -webkit-transform: translate(-5px, -10px) rotate(-30deg); -moz-transform-origin: bottom left;
 }
 .page {
     
 }
 hr {
-  visibility: hidden;
+  display: none;
 }
 
 #viewport {
