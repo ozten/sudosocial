@@ -12,13 +12,23 @@ $(document).ready(function(){
     
     // Tags shouldn't overlap content
     $('.feed-entry').each(function(i, div){
-        var tagWidth = $('.tag-area', div).width();
+        var tagArea = $('.tag-area', div);
+        var tagWidth = tagArea.width();
         if (tagWidth < 120) {
             $(div).css('padding-right', tagWidth);
         } else {
             var tagHeight = $('.tag-area', div).height;
             $(div).css('padding-bottom', tagHeight)
         }
+        var maxWidth = 0;
+        $('li', tagArea).each(function(i, li){
+            console.info(li);
+            if ($(li).outerWidth() > maxWidth) {
+                maxWidth = $(li).outerWidth();
+            }
+            });
+        // TODO use geometry 30 degrees
+        tagArea.css('height', (maxWidth * 0.6) + 'px');
     });
     // Fixup Twitter html
     $('.feed-twitter').find('a:last').addClass('permalink');
