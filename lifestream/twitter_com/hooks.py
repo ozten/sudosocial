@@ -65,8 +65,8 @@ def prepare_entry(entryJSON, log):
         if parts:
             tweeter = parts[0]
             tweet = ':'.join(parts[1:])            
-    elif 'author' in entryJSON and 'name' in entryJSON.author:
-        tweeter = entryJSON.author.name
+    elif 'author' in entryJSON:
+        tweeter = entryJSON.author
     
 
     rawtags = re.findall('#(\w+)', tweet)
