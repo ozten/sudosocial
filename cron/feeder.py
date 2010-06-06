@@ -32,6 +32,7 @@ def cron_fetch_feeds():
     new_entry_count = 0
     feeds = lifestream.models.Feed.objects.all()
     for feed in feeds:
+        
         stream = feedparser.parse(feed.url)
         if 1 == stream.bozo and 'bozo_exception' in stream.keys():
             log.error('Unable to fetch %s Exception: %s',
@@ -52,24 +53,27 @@ def cron_fetch_feeds():
                     log.warn("Feed doesn't have a title property")
                     log.info(stream)
             for entry in stream.entries:
-                
-                json_entry = jsonpickle.encode(entry)
-                entry_guid = ''
-                if 'guid' in entry:
-                    entry_guid = entry.guid
-                else:
-                    entry_guid = hashcompat.md5_constructor(
-                        django.utils.encoding.smart_str(
-                            json_entry)).hexdigest()
-                yr, mon, d, hr, min, sec = entry.updated_parsed[:-3]
-                last_publication = datetime.datetime(yr, mon, d, hr, min, sec)
-                new_entry = lifestream.models.Entry(feed=feed, guid=entry_guid, raw=json_entry,
-                                                   visible=True, last_published_date=last_publication)
                 try:
-                    new_entry.save()
-                    new_entry_count += 1
-                except IntegrityError, e:
-                    log.info('Skipping duplicate entry %s, caught error: %s', entry_guid, e)
+                    json_entry = jsonpickle.encode(entry)
+                    entry_guid = ''
+                    if 'guid' in entry:
+                        entry_guid = entry.guid
+                    else:
+                        entry_guid = hashcompat.md5_constructor(
+                            django.utils.encoding.smart_str(
+                                json_entry)).hexdigest()
+                    yr, mon, d, hr, min, sec = entry.updated_parsed[:-3]
+                    last_publication = datetime.datetime(yr, mon, d, hr, min, sec)
+                    new_entry = lifestream.models.Entry(feed=feed, guid=entry_guid, raw=json_entry,
+                                                       visible=True, last_published_date=last_publication)
+                    try:
+                        new_entry.save()
+                        new_entry_count += 1
+                    except IntegrityError, e:
+                        log.info('Skipping duplicate entry %s, caught error: %s', entry_guid, e)
+                except:
+                    # TODO monitor exceptions here, for now this keeps us from a dead cron
+                    pass
     log.info("Finished run in %f seconds" % (time.time() - start))  
     return 'Finished importing %d items' % new_entry_count
 
