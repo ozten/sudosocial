@@ -50,8 +50,8 @@ def stream(request, username, streamname):
                           )
 
 def common_stream(request, username, streamname):
-    username = username.lower()
-    user = User.objects.get(username=username)
+    username = username.lower()    
+    user = User.objects.get(username=username)    
     rawEntries = (lifestream.models.Entry.objects.order_by('-last_published_date')
                   .filter(feed__user=user,
                           feed__streams__name__exact = streamname,
@@ -119,14 +119,13 @@ def renderProfile(request, user, plugins):
     if user.first_name or user.last_name:
         show_fn = True
     data = {'avatar_src': avatar_url, 'avatar_width':'80', 'avatar_height':'80',
-            'user': user,
+            'a_user': user,
             'show_fn': show_fn,
             'username': user.username,
             'preferences': json.loads(user.get_profile().properties),
             'sources': sources}
     [data.update(plugin.template_variables()) for plugin in plugins]
     
-    #data.update()
     t = django.template.loader.select_template(('foo', 'lifestream/profile_blurb.html'))
     c = django.template.RequestContext(request, data)
     return t.render(c)

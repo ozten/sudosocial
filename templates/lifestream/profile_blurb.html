@@ -1,14 +1,14 @@
 {% load common_tags %}
 <div class="profile_blurb">
-    <div id="hcard-{{user.first_name}}-{{user.last_name}}" class="vcard profile_image">
+    <div id="hcard-{{a_user.first_name}}-{{a_user.last_name}}" class="vcard profile_image">
         <img id="profile_image" src="{{ avatar_src }}" alt="Profile Photo of {{ username }}"  class="photo"/>
         {% if show_fn %}
-        <a class="url fn" href="http://sudosocial.me/u/{{user.username}}" rel="me">{{user.first_name}} {{user.last_name}}</a>
+        <a class="url fn" href="http://sudosocial.me/u/{{a_user.username}}" rel="me">{{a_user.first_name}} {{a_user.last_name}}</a>
         {% else %}
-        <a class="url username" href="http://sudosocial.me/u/{{user.username}}" rel="me">{{user.username}}</a>
+        <a class="url username" href="http://sudosocial.me/u/{{a_user.username}}" rel="me">{{a_user.username}}</a>
         {% endif %}
         {% if preferences.publish_email %}
-           <a class="email" href="mailto:{{user.email}}">{{user.email}}</a>
+           <a class="email" href="mailto:{{a_user.email}}">{{a_user.email}}</a>
         {% endif %}
         
         
