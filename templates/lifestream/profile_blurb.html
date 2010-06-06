@@ -26,7 +26,7 @@
     </div><!-- /social_identities-->
     {% endif %}
     <div class="followme">
-        <h5>Follow {{user.first_name|title}} on the Interwebs:</h5>
+        <h5>Follow {{a_user.first_name|title}} on the Interwebs:</h5>
         <ul>
         {% for source in sources %}
             <li><a class="feed_source" href="{{ source.url }}">{{ source.title }}</a></li>            
