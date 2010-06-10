@@ -1,7 +1,11 @@
+import re
+
+import lxml.etree
+import lxml.html
+
 from bleach import Bleach
 bleach = Bleach()
 
-import re
 
 def tidy_up(entry, log):
     # TODO Security, mostly using bleach to linkify and cleanup (tidy style)
@@ -36,7 +40,10 @@ def tidy_up(entry, log):
     }
     try:
         return bleach.linkify(
-                bleach.clean(entry, tags=html_tags, attributes=attrs))
+                bleach.clean(
+                    lxml.html.tostring(
+                        lxml.etree.fromstring(entry, tags=html_tags, attributes=attrs))))
+                    #entry, tags=html_tags, attributes=attrs))
     except Exception, x:
         log.error("Ouch, unable to linkify or clean _%s_" % entry)
         log.exception(x)

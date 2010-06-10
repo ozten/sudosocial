@@ -13,7 +13,7 @@
    {% endif %}
       
    {% endif %}
-   <h3>{{title|safe}}</h3>
+   <h3>{%if permalink %}<a href="{{permalink}}">{% endif %}{{title|safe}}{%if permalink %}</a>{% endif %}</h3>
     {{ entry|safe }}
     <div class="tag-area">
     <h6 class="tag-heading">Tags:</h6>        
