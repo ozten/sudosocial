@@ -6,6 +6,7 @@ import django.http
 from django.shortcuts import render_to_response
 import django.utils.encoding
 
+
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
@@ -19,18 +20,22 @@ log = logging.getLogger()
 #@login_required
 def account_checkauth(request):
     if request.user.is_authenticated():
-        manageUrl = "/manage/account/%s" % request.user.username
+        manageUrl = "/manage/account/%s" % request.user.username.encode('utf-8')
         try:
-            stream = lifestream.models.Stream.objects.get(user__exact=request.user)            
-            resp = django.http.HttpResponseRedirect(manageUrl)
-        except:
+            stream = lifestream.models.Stream.objects.get(user__exact=request.user)
+            encoded_url = django.utils.encoding.iri_to_uri(manageUrl)            
+            resp = django.http.HttpResponseRedirect(encoded_url)
+        except lifestream.models.Stream.DoesNotExist:
             stream = lifestream.models.Stream()
             stream.user_id = request.user.id
             stream.name = 'home'
             log.info("Saving %s %s" % (request.user.id, 'home'))
             stream.save()
             resp = django.http.HttpResponseRedirect('/auth/confirm_profile')
-        resp['X-Account-Manager-Status'] = "active; name=\"%s\"" % request.user.username
+        except Exception, exception:
+            log.exception("Unable to load user... trying to save %s", exception)
+        encoded_username = django.utils.encoding.iri_to_uri(request.user.username)
+        resp['X-Account-Manager-Status'] = "active; name=\"%s\"" % encoded_username
         return resp
     else:        
         return django.http.HttpResponseRedirect('/openid/login')
