@@ -1,2 +1,3 @@
 path = '/home/ozten/patchouli'
 cache = True
+timeout = 6

@@ -10,7 +10,9 @@ setup_environ(settings)
 
 # Imports for this cron
 import datetime
+import fcntl
 import logging
+import socket
 import time
 
 from django.db import IntegrityError
@@ -33,11 +35,18 @@ def cron_fetch_feeds():
     log.info("Starting")
     start = time.time()
     new_entry_count = 0
+    socket.setdefaulttimeout(config.timeout)
     feeds = lifestream.models.Feed.objects.all()
     
     if config.cache:
-        storage = shelve.open('.feedcache')
-        
+        storage = shelve.open("%s/cron/.feedcache" % config.path )
+    
+    # Only 1 cron instance
+    lock = open("%s/cron/lock" % config.path, 'a+')
+    try:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)        
+    except IOError:
+        log.warn("Looks like the old cron is still running... Exiting")
     try:
         if config.cache:
             fc = cache.Cache(storage)
@@ -85,16 +94,18 @@ def cron_fetch_feeds():
                         except IntegrityError, e:
                             pass
                             #log.info('Skipping duplicate entry %s, caught error: %s', entry_guid, e)
-                    except:
+                    except Exception, e:                        
+                        log.error('General Error: %s', feed.url, e)
                         # TODO monitor exceptions here, for now this keeps us from a dead cron
                         pass            
     finally:
+        lock.close()
         if config.cache:
             log.info("Done with cache")
             storage.close()
         else:
             log.info("Without caching")
-    log.info("Finished run in %f seconds" % (time.time() - start))  
+    log.info("Finished run in %f seconds for %d new entries" % ((time.time() - start), new_entry_count))  
     return 'Finished importing %d items' % new_entry_count
 
 if __name__ == '__main__':
