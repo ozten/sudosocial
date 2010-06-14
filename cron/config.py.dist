@@ -1,3 +1,6 @@
+import logging
+
 path = '/home/ozten/patchouli'
 cache = True
 timeout = 6
+log_level = logging.DEBUG

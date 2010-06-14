@@ -26,7 +26,7 @@ if config.cache:
 
 import lifestream.models
 
-logging.basicConfig(level = logging.DEBUG,
+logging.basicConfig(level = config.log_level,
                     format = '%(asctime)s %(levelname)s %(process)d %(message)s', )
 log = logging.getLogger()
 
@@ -60,9 +60,9 @@ def cron_fetch_feeds():
                 log.error('Unable to fetch %s Exception: %s',
                           feed.url, stream.bozo_exception)
             else:
-                log.info('Processing %s', feed.url)
+                log.debug('Processing %s', feed.url)
                 if 'feed' in stream and 'title' in stream.feed:
-                    log.info('Processing title: %s', stream.feed.title)
+                    log.debug('Processing title: %s', stream.feed.title)
                 if 'feed' in stream and 'title' in stream.feed and feed.title != stream.feed.title:
                     feed.title = stream.feed.title
                     try:
@@ -101,10 +101,10 @@ def cron_fetch_feeds():
     finally:
         lock.close()
         if config.cache:
-            log.info("Done with cache")
+            log.debug("Done with cache")
             storage.close()
         else:
-            log.info("Without caching")
+            log.debug("Without caching")
     log.info("Finished run in %f seconds for %d new entries" % ((time.time() - start), new_entry_count))  
     return 'Finished importing %d items' % new_entry_count
 
