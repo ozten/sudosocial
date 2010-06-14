@@ -95,7 +95,7 @@ def cron_fetch_feeds():
                             pass
                             #log.info('Skipping duplicate entry %s, caught error: %s', entry_guid, e)
                     except Exception, e:                        
-                        log.error('General Error: %s', feed.url, e)
+                        log.error('General Error on %s: %s', feed.url, e)
                         # TODO monitor exceptions here, for now this keeps us from a dead cron
                         pass            
     finally:
