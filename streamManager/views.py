@@ -57,6 +57,8 @@ def manage_stream(request, username, streamname):
             feeds.append({'url': feed_row.url,
                           'title': feed_row.title,
                           'pk': feed_row.pk,
+                          'enabled': feed_row.enabled,
+                          'disabled_reason': feed_row.disabled_reason,
                           'entries_visible_default': feed['entries_visible_default']})
         
         raw_entries = (lifestream.models.Entry.objects.order_by('-last_published_date')
@@ -169,17 +171,19 @@ def save_feeds(request, username):
             django.utils.encoding.smart_str(new_feed_to_save['feed_url'])).hexdigest()        
         a_feed = lifestream.models.Feed(url_hash = feed_url_hash, title=new_feed_to_save['feed_title'],
                                         url = new_feed_to_save['feed_url'],
+                                        etag='', last_modified=datetime.datetime(1975, 1, 10),
+                                        enabled=True, disabled_reason='',
                                         user=request.user, created_date=datetime.datetime.today())        
         a_feed.streams.add(stream)
         form = lifestream.models.FeedForm(params, instance=a_feed)
         forms.append(form)
-        if form.is_valid():        
+        if form.is_valid():
             form.save()            
             db_feed = lifestream.models.Feed.objects.get(pk=feed_url_hash)
             new_feeds.append(db_feed.to_primitives())
             something_saved = True
         else:
-            log.info("Error, couldn't save %s" % feed_url_hash)            
+            log.info("Error, couldn't save %s" % feed_url_hash)
             pass # Keep trying other feeds
     if something_saved:
         stream_config = StreamConfig(stream.config)

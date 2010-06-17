@@ -26,6 +26,7 @@ def account_checkauth(request):
             encoded_url = django.utils.encoding.iri_to_uri(manageUrl)            
             resp = django.http.HttpResponseRedirect(encoded_url)
         except lifestream.models.Stream.DoesNotExist:
+            log.debug("Account didn't exist")
             stream = lifestream.models.Stream()
             stream.user_id = request.user.id
             stream.name = 'home'

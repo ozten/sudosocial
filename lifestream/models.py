@@ -29,6 +29,14 @@ class Feed(models.Model):
     url_hash = models.CharField(max_length=32, primary_key=True)
     user = models.ForeignKey(User)
     streams = models.ManyToManyField(Stream)
+    # HTTP Headers
+    etag = models.CharField(max_length=140)
+    last_modified = models.DateTimeField()
+    
+    # If a feed has issues, it will be disabled
+    enabled = models.BooleanField(default=True)
+    disabled_reason = models.CharField(max_length=2048)
+    
     created_date = models.DateTimeField(auto_now_add=True,
                                         verbose_name='Created On')
     updated_date = models.DateTimeField(auto_now=True,
@@ -46,6 +54,7 @@ class FeedForm(ModelForm):
     class Meta:
         model = Feed        
         exclude = ('title', 'user', 'streams', 'url_hash',
+                   'etag', 'last_modified', 'enabled', 'disabled_reason',
                    'created_date', 'updated_date')
         # excluded columns won't be displayed in the form,
         # but you can't set their values either

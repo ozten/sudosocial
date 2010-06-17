@@ -59,7 +59,8 @@ def common_stream(request, username, streamname):
     entries = []
     plugins = []
     if username == 'ozten':
-        plugins = [SocialIdentityFromTagsPlugin(), HostnameCssPlugin(log)]
+        plugins = [SocialIdentityFromTagsPlugin()]
+    plugins.append(HostnameCssPlugin(log))
     renderedEntries = render_entries(request, rawEntries, plugins)
     
     profile = renderProfile(request, user, plugins)
@@ -145,6 +146,8 @@ def websiteFeedType(entryJson):
             return 'twitter_com'
         elif re.search('^.*flickr\.com/.*$', entryJson['link']):
             return 'flickr'
+        elif re.search('^.*gowalla\.com/.*$', entryJson['link']):
+            return 'gowalla'
         else:
             return'generic'
     else:

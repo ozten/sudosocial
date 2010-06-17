@@ -1,11 +1,7 @@
-import re
-
-import lxml.etree
-import lxml.html.soupparser
-
 from bleach import Bleach
 bleach = Bleach()
 
+import re
 
 def tidy_up(entry, log):
     # TODO Security, mostly using bleach to linkify and cleanup (tidy style)
@@ -39,35 +35,40 @@ def tidy_up(entry, log):
         
     }
     try:
-        
-        htmlElement = lxml.html.soupparser.fromstring(entry)
-        if htmlElement.getchildren():            
-            elements = ''.join([lxml.html.tostring(el) for el in htmlElement.getchildren()])
-        else:
-            elements = entry        
         return bleach.linkify(
-                bleach.clean(elements, tags=html_tags, attributes=attrs))
+                bleach.clean(entry, tags=html_tags, attributes=attrs))
     except Exception, x:
-        log.error("Ouch, unable to linkify or clean _%s_\nError: %s" % (entry, x))
+        log.error("Ouch, unable to linkify or clean _%s_" % entry)
         log.exception(x)
         return entry
 
-def prepare_entry(entryJSON, log):    
+def prepare_entry(entryJSON, log):
     content = ''
-    if 'content' in entryJSON:        
+    if 'content' in entryJSON:
         content = entryJSON['content'][0].value
     elif 'description' in entryJSON:
         content = entryJSON['description']
     else:
         #log.debug('unreadable... ' + str(entryJSON))
         pass
-        
+    image = None
+    if 'links' in entryJSON:
+        for link in entryJSON['links']:
+            log.info(link)
+            if link['rel'] == 'image':
+                image = link['href']
+            else:
+                log.info("No photo")
+    else:
+        log.info("No links")
+    
     title = tidy_up(entryJSON['title'], log)
     content = tidy_up(content, log)
-            
+    
     tags = []
     if 'tags' in entryJSON:
         for tag in entryJSON['tags']:
             if 'term' in tag:
                 tags.append({'tag': tag['term'], 'name': tag['term']})
-    return {'entry': content, 'tags': tags, 'title': title, 'permalink': entryJSON['link'], 'raw': entryJSON}
+    return {'entry': content, 'tags': tags, 'title': title, 'image': image, 'permalink': entryJSON['link'], 'raw': entryJSON}
+    #return {'entry': str(entryJSON)}
