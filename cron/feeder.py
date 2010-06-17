@@ -20,9 +20,6 @@ import django.utils.encoding
 import django.utils.hashcompat as hashcompat
 import feedparser
 import jsonpickle
-if config.cache:
-    import shelve
-    from feedcache import cache
 
 import lifestream.models
 
@@ -38,8 +35,6 @@ def cron_fetch_feeds():
     socket.setdefaulttimeout(config.timeout)
     feeds = lifestream.models.Feed.objects.filter(enabled=True)
     
-    if config.cache:
-        storage = shelve.open("%s/cron/.feedcache" % config.path )
     
     # Only 1 cron instance
     lock = open("%s/cron/lock" % config.path, 'a+')
@@ -49,8 +44,6 @@ def cron_fetch_feeds():
         log.warn("Looks like the old cron is still running... Exiting")
         sys.exit(0)
     try:
-        if config.cache:
-            fc = cache.Cache(storage)
         for feed in feeds:
             dirty_feed = False
             has_updates = False
@@ -60,10 +53,7 @@ def cron_fetch_feeds():
                 if feed.last_modified == None:
                     feed.last_modified = datetime.datetime(1975, 1, 10)                
                 log.debug("feed id=%s feed url=%s etag=%s last_modified=%s" % (feed.url_hash, feed.url, feed.etag, str(feed.last_modified)))
-                if config.cache:
-                    stream = fc.fetch(feed.url)
-                else:
-                    stream = feedparser.parse(feed.url, etag=feed.etag, modified=feed.last_modified.timetuple())                    
+                stream = feedparser.parse(feed.url, etag=feed.etag, modified=feed.last_modified.timetuple())                    
                 if 'links' in stream.feed:
                     feed_hub_link = 0
                     for link in stream.feed.links:
@@ -191,9 +181,6 @@ def cron_fetch_feeds():
                 log.exception(e)
     finally:
         lock.close()
-        if config.cache:
-            log.debug("Done with cache")
-            storage.close()
         else:
             log.debug("Without caching")
     log.info("Finished run in %f seconds for %d new entries" % ((time.time() - start), new_entry_count))  
