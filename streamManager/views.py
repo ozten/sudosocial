@@ -119,7 +119,7 @@ def is_possible_feed(url):
         returns a Dict with metadata or
                 False if url is not a feed """
     possible_feed = feedparser.parse(url)
-    if 1 == possible_feed.bozo:
+    if 1 == possible_feed.bozo and len(possible_feed.entries) == 0:
         log.info("%s triggered feedparser's bozo detection" % url)
         return False
     else:
