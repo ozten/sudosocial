@@ -14,6 +14,7 @@
       
    {% endif %}
    <h3>{%if permalink %}<a href="{{permalink}}">{% endif %}{{title|safe}}{%if permalink %}</a>{% endif %}</h3>
+   {% if image %} <img src="{{image}}" class="feed-linked-image" /> {% endif %}
     {{ entry|safe }}
     <div class="tag-area">
     <h6 class="tag-heading">Tags:</h6>        

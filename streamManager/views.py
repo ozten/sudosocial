@@ -1,10 +1,12 @@
 import logging
 import datetime
+import hashlib
 
 import feedparser
 from pyquery import PyQuery
 import simplejson as json
 
+from django.conf import settings
 import django.http
 import django.template
 import django.template.loaders
@@ -19,9 +21,10 @@ import lifestream.models
 import patchouli_auth.preferences
 from patchouli.plugins.stream_editor import StreamEditorPlugin
 from lifestream.views import render_entries
+from lifestream.generic.hooks import tidy_up
 from streamManager.stream_config import StreamConfig
 
-logging.basicConfig( level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
+logging.basicConfig(filename=settings.LOG_FILENAME, level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
 log = logging.getLogger()
 
 HACKING_MESSAGE = 'Hack much? Your request has been logged. Authorities have been dispatched.'
@@ -43,7 +46,8 @@ def manage(request, username):
 @login_required    
 def manage_stream(request, username, streamname):
     if request.user.username == username:
-        
+        webpage = get_object_or_404(lifestream.models.Webpage, user=request.user, name=streamname)
+        webpage_properties = patchouli_auth.preferences.getPageProperties(webpage)
         stream = get_object_or_404(lifestream.models.Stream, user=request.user, name=streamname)
         stream_config = StreamConfig(stream.config)        
         feed_rows = stream.feed_set.all()
@@ -63,22 +67,29 @@ def manage_stream(request, username, streamname):
         
         raw_entries = (lifestream.models.Entry.objects.order_by('-last_published_date')
                       .filter(feed__user=request.user,
-                              feed__streams__name__exact = streamname))[:150]
+                              feed__streams__name__exact = streamname))[:150] #24 - 50
         plugins = [StreamEditorPlugin(log)]
         entry_pair = zip(raw_entries, render_entries(request, raw_entries, plugins))        
         feed_model = lifestream.models.FeedForm()
                 
         stream.url = "/u/%s/s/%s" % (username, stream.name)
+        
+        gravatarHash = hashlib.md5(
+            django.utils.encoding.smart_str(request.user.email)).hexdigest()
+        gravatar = "http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash
             
         preferences = patchouli_auth.preferences.getPreferences(request.user)
         template_data = { 'feeds': feeds,
                                 'entry_pair': entry_pair,
                                 'unused_feeds': [],
                                 'form': feed_model,
+                                'gravatar': gravatar,
+                                'page_name': stream.name,
                                 'request': request,
                                 'stream': stream,
                                 'stream_config': stream_config,
                                 'username': request.user.username,
+                                'page_props': webpage_properties,
                                 'preferences': preferences}
         [template_data.update(plugin.template_variables()) for plugin in plugins]
         return render_to_response('stream_editor.html',
@@ -122,8 +133,7 @@ def is_possible_feed(url):
     if 1 == possible_feed.bozo and len(possible_feed.entries) == 0:
         log.info("%s triggered feedparser's bozo detection" % url)
         return False
-    else:
-        log.info("%s is a valid feed according to feedparser" % url)
+    else:        
         # The url is a feed
         feed_title = 'Unknown'
         if 'feed' in possible_feed and 'title' in possible_feed['feed']:
@@ -231,9 +241,9 @@ def url(request, username, feed_url_hash):
 @login_required
 def manage_stream_design(request):
     if 'POST' == request.method:
-        preferences = patchouli_auth.preferences.getPreferences(request.user)        
+        preferences = patchouli_auth.preferences.getPreferences(request.user)
         params = request.POST.copy()
-        log.info(str(preferences))
+        #log.debug(str(preferences))
         
         if 'default' == params['css_type']:
             preferences['css_url'] = 'default'
@@ -247,11 +257,29 @@ def manage_stream_design(request):
         
         preferences['processing_js'] = params['processing']        
         patchouli_auth.preferences.savePreferences(request.user, preferences)
-        return django.http.HttpResponseRedirect('/auth') #TODO django.core.urlresolvers reverse('confirm_profile')
+        return django.http.HttpResponseRedirect("/auth") #TODO django.core.urlresolvers reverse('confirm_profile')
         
-import django.http
-from django.shortcuts import render_to_response
-
+@login_required
+def manage_page_widgets(request, page_name):    
+    if 'POST' == request.method:
+        params = request.POST.copy()
+        # KISS stream and page have the same name
+        page = get_object_or_404(lifestream.models.Webpage, name=page_name, user=request.user)        
+        preferences = patchouli_auth.preferences.getPageProperties(page)
+        
+        preferences['before_profile_html_area'] = tidy_up(params['before_profile_html_area'], log)
+        preferences['show_profile_blurb'] = tidy_up(params['show_profile_blurb'], log)
+        preferences['show_follow_me_links'] = tidy_up(params['show_follow_me_links'], log)
+        
+        preferences['after_profile_html_area'] = tidy_up(params['after_profile_html_area'], log)
+        preferences['before_stream_html_area'] = tidy_up(params['before_stream_html_area'], log)
+        preferences['after_stream_html_area'] = tidy_up(params['after_stream_html_area'], log)
+        
+        
+        patchouli_auth.preferences.savePageOrStreamProperties(page, preferences)
+        manageUrl = "/manage/account/%s" % request.user.username.encode('utf-8')
+        return django.http.HttpResponseRedirect(manageUrl)
+        
 def entry(request, entry_id):
     """
         change-visibility set to true - show entry

@@ -42,14 +42,17 @@ $('.tab a').click(function(){
     
     if (other != newActive) {
         $('#' + other).removeClass('active-tab');
-        $('#' + other + '-panel').hide();
+        $('.tab').each(function(i, li) {
+		if ($(li).attr('id') != newActive) {
+                    $('#' + $(li).attr('id') + '-panel').hide();
+		} 
+	    });
         $('#' + newActive).addClass('active-tab');
         $('#' + newActive + '-panel').show();
     }
     return false;
     });
 $('.tab a:first').trigger('click');
-
 /* auth confirm page */
 $('#profile-image button').click(function(event){
   event.preventDefault();
@@ -86,9 +89,24 @@ $(document).ready(function(){
         return false;
     });
     $('a.display_entry.entry-hidden').parent().addClass('entry-hidden');
+    $('.optional-widget').each(function(i, div) {
+            var linkActive = $('.add-widget', $(div)).hasClass('active');
+            if (linkActive) {
+		$('.field', $(div)).hide();
+            } else {
+                $('.add-widget', $(div)).hide();
+	    }
+            $('.add-widget', $(div)).click(function() {
+		    window.art = $(this);
+		    $(this).removeClass('active').hide('slow');
+		    $(this).parent().find('.field').show('slow');
+		    return false;
+            });
+        });
 });
 
 $('#username').bind('focus, blur', function(){
     $(this).val($(this).val().toLowerCase());
     });
 $('#username').trigger('change');
+

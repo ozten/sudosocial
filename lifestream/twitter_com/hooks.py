@@ -1,8 +1,4 @@
-import re
-
-from bleach import Bleach
-bleach = Bleach()
-
+from lifestream.generic.hooks import tidy_up
 def prepare_entry(entryJSON, log):
     """ Given entryJSON, output a dictionary of variables for use in
     templates/twitter_com/entry.html
@@ -75,7 +71,7 @@ def prepare_entry(entryJSON, log):
     tweet = re.sub('#(\w+)', r'<a href="http://twitter.com/search?q=%23\1">#\1</a>', tweet)
     tweet = re.sub('@(\w+)', r'<a href="http://twitter.com/\1">@\1</a>', tweet)
     try:        
-        tweet = bleach.linkify(tweet.replace('\n', '<br />'))
+        tweet = tidy_up(tweet.replace('\n', '<br />'), log)
     except Exception, x:
         log.error("Ouch, unable to linkify _%s_ caught" % tweet)
         log.exception(x)

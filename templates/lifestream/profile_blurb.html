@@ -1,5 +1,7 @@
 {% load common_tags %}
 <div class="profile_blurb">
+    {{page_props.before_profile_html_area|safe}}
+    {% if page_props.show_profile_blurb %}
     <div id="hcard-{{a_user.first_name}}-{{a_user.last_name}}" class="vcard profile_image">
         <img id="profile_image" src="{{ avatar_src }}" alt="Profile Photo of {{ username }}"  class="photo"/>
         {% if show_fn %}
@@ -9,11 +11,9 @@
         {% endif %}
         {% if preferences.publish_email %}
            <a class="email" href="mailto:{{a_user.email}}">{{a_user.email}}</a>
-        {% endif %}
-        
-        
-        
+        {% endif %}        
     </div><!-- /hcard-->
+    {% endif %}
     {% if show_social_identities %}
     <div class="social_identities">
         <h5>Who am I lately?</h5>
@@ -25,6 +25,7 @@
         </ul>
     </div><!-- /social_identities-->
     {% endif %}
+    {% if page_props.show_follow_me_links %}
     <div class="followme">
         <h5>Follow {{a_user.first_name|title}} on the Interwebs:</h5>
         <ul>
@@ -33,8 +34,11 @@
         {% endfor %}
         </ul>
     </div><!-- /followme -->
+    {% endif %}
+    {{page_props.after_profile_html_area|safe}}
     <div class="powered_by">
         <h5 class="logo"><strong><code>sudo</code>Social</strong></h5>
         <a href="{% secure %}{% url confirm_profile %}{% endsecure %}">Take control of your stream</a>
     </div>
+    
 </div><!-- /profile_blurb -->

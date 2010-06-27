@@ -73,6 +73,12 @@ div.logo code {
     float: right;
 }
 #design-stream-panel .save { float: right; margin: 1em 1em 0em 0em }/* text-align: right; */
+                                                             
+#page-widgets-panel label { font-weight: bold; font-size: 115%; }
+#page-widgets-panel textarea { width: 600px; height: 300px; margin:10px}
+#page-widgets-panel strong { display: block; }
+.checkbox-label {font-weight: bold;}
+#page-widgets-panel label.checkbox {font-weight: normal; font-size: 100%;}
 br { clear: both; }
 
 .display_entry {
@@ -94,4 +100,12 @@ feed-entries-visible-default.shown {
 div.entry-hidden {
     background-color: #CCC;
     color: #333;
+}
+fieldset, .field {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid #000;
+    margin: 10px auto 10px auto;
+    padding: 10px;
+    width: 650px;
 }

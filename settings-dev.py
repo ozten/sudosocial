@@ -112,3 +112,7 @@ CACHE_BACKEND = 'file:///var/tmp/django_cache'
 # dev
 # CACHE_BACKEND = 'dummy://'
 AUTH_PROFILE_MODULE = 'patchouli_auth.UserProfile'
+
+# Cut off extermely log entries
+PATCHOULI_TLDR = 8192
+LOG_FILENAME = '/tmp/django.log'

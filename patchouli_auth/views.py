@@ -2,10 +2,10 @@ import logging
 import hashlib
 import simplejson
 
+from django.conf import settings
 import django.http
 from django.shortcuts import render_to_response
 import django.utils.encoding
-
 
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -14,7 +14,7 @@ import lifestream.models
 import patchouli_auth.models
 import patchouli_auth.preferences
 
-logging.basicConfig( level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
+logging.basicConfig(filename=settings.LOG_FILENAME, level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
 log = logging.getLogger()
 
 #@login_required
@@ -26,12 +26,15 @@ def account_checkauth(request):
             encoded_url = django.utils.encoding.iri_to_uri(manageUrl)            
             resp = django.http.HttpResponseRedirect(encoded_url)
         except lifestream.models.Stream.DoesNotExist:
-            log.debug("Account didn't exist")
+            log.debug("Account didn't exist")            
             stream = lifestream.models.Stream()
             stream.user_id = request.user.id
             stream.name = 'home'
             log.info("Saving %s %s" % (request.user.id, 'home'))
             stream.save()
+            webpage = lifestream.models.Webpage(name=stream.name, user=request.user, config='{}')
+            patchouli_auth.preferences.savePageOrStreamProperties(
+                webpage, patchouli_auth.preferences.getPageProperties(webpage))            
             resp = django.http.HttpResponseRedirect('/auth/confirm_profile')
         except Exception, exception:
             log.exception("Unable to load user... trying to save %s", exception)

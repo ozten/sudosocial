@@ -4,8 +4,22 @@ from django.forms import ModelChoiceField
 import django.forms.models
 from django.contrib.auth.models import User
 
+class Webpage(models.Model):
+    """ A webpage is composed of Streams, page widgets,
+        and other funage.    
+    """
+    user = models.ForeignKey(User)
+    name = models.CharField(max_length=140)
+    title = models.CharField(max_length=140)
+    # PageConfig
+    config = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True,
+                                        verbose_name='Created On')
+    updated_date = models.DateTimeField(auto_now=True,
+                                        verbose_name='Last Modified')
+    
 class Stream(models.Model):
-    """ A Stream is like a 'page'. A stream is combosed of Feeds. """
+    """ A stream is composed of Feeds. """
     user = models.ForeignKey(User)
     name = models.CharField(max_length=140)
     # StreamConfig
@@ -18,7 +32,6 @@ class Stream(models.Model):
                                         verbose_name='Last Modified')
     # ALTER TABLE lifestream_stream ADD COLUMN `config` longtext NOT NULL;
     # ALTER TABLE lifestream_stream ADD COLUMN  `edit_list` longtext NOT NULL;
-
 
     def __unicode__(self):
         return self.name

@@ -181,8 +181,6 @@ def cron_fetch_feeds():
                 log.exception(e)
     finally:
         lock.close()
-        else:
-            log.debug("Without caching")
     log.info("Finished run in %f seconds for %d new entries" % ((time.time() - start), new_entry_count))  
     return 'Finished importing %d items' % new_entry_count
 

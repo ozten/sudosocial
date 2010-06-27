@@ -177,3 +177,7 @@ div > label{
     clear: both;
     padding-left: 1em;
 }
+
+.error-message {
+    color: red;
+}

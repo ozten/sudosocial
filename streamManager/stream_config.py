@@ -5,7 +5,10 @@ import logging
 
 import simplejson
 
-logging.basicConfig( level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
+
+from django.conf import settings
+
+logging.basicConfig(filename=settings.LOG_FILENAME, level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
 log = logging.getLogger()
 
 class StreamConfig(object):
@@ -54,10 +57,11 @@ class StreamConfig(object):
             self.ensureFeedConfig(feed)
         for feed_config in self.config['feeds'][:]:
             if feed_config['url_hash'] not in active_feeds:
-                log.debug("Removing %s", feed_config)
+                #log.debug("Removing %s", feed_config)
                 self.config['feeds'].remove(feed_config)
             else:
-                log.debug("Keeping %s", feed_config)
+                #log.debug("Keeping %s", feed_config)
+                pass
             
     def ensureFeedConfig(self, feed):
         """ Make sure this feed is in the feedsConfig """

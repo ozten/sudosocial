@@ -5,6 +5,7 @@ import re
 import jsonpickle
 import simplejson as json
 
+from django.conf import settings
 import django.utils.encoding
 import django.template
 import django.template.loaders
@@ -19,7 +20,7 @@ import patchouli_auth.preferences
 from patchouli.plugins.hostname_css_class import HostnameCssPlugin
 from patchouli.plugins.social_identities import SocialIdentityFromTagsPlugin
 
-logging.basicConfig( level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
+logging.basicConfig(filename=settings.LOG_FILENAME, level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
 log = logging.getLogger()
 
 def profile(request, username):
@@ -41,9 +42,8 @@ def js_embed_stream(request, username, streamname):
 def stream(request, username, streamname):
     ctx = django.template.RequestContext(request)
     ctx.autoescape=False #TODO Need more thinking around best way to handle this...
-    
     pageVars = common_stream(request, username, streamname)
-
+    
     return render_to_response('lifestream/profile.html',
                           pageVars,
                           context_instance=ctx,
@@ -51,20 +51,26 @@ def stream(request, username, streamname):
 
 def common_stream(request, username, streamname):
     username = username.lower()    
-    user = User.objects.get(username=username)    
+    user = User.objects.get(username=username)
+    
     rawEntries = (lifestream.models.Entry.objects.order_by('-last_published_date')
                   .filter(feed__user=user,
                           feed__streams__name__exact = streamname,
-                          visible=True))[:50]
+                          visible=True))[:150]
+    
     entries = []
     plugins = []
     if username == 'ozten':
         plugins = [SocialIdentityFromTagsPlugin()]
     plugins.append(HostnameCssPlugin(log))
+    
     renderedEntries = render_entries(request, rawEntries, plugins)
     
-    profile = renderProfile(request, user, plugins)
-        
+    webpage = lifestream.models.Webpage.objects.get(name=streamname, user=user)
+    webpage_properties = patchouli_auth.preferences.getPageProperties(webpage)
+    
+    profile = renderProfile(request, user, plugins, webpage_properties)
+    
     preferences = patchouli_auth.preferences.getPreferences(user)
     
     if 'default' == preferences['javascript_url']:
@@ -76,7 +82,6 @@ def common_stream(request, username, streamname):
         css_url = '/static/css/stylo.css'
     else:
         css_url = preferences['css_url']
-    
     return {'entries': renderedEntries,
                 'profile': profile,
                 'css_url': css_url,
@@ -84,7 +89,8 @@ def common_stream(request, username, streamname):
                 'processing_js': preferences['processing_js'],
                 'stream_name': streamname,
                 'user': user,
-                'username': username}
+                'username': username,
+                'page_props': webpage_properties,}
             
 def render_entries(request, rawEntries, plugins=[]):
     """ plugins - list of functions to be run once for each entry's variables """
@@ -107,7 +113,7 @@ def render_entries(request, rawEntries, plugins=[]):
     [p.post_observe_stream_entries() for p in plugins]    
     return renderedEntries
         
-def renderProfile(request, user, plugins):
+def renderProfile(request, user, plugins, webpage_properties):
     sourcesResults = lifestream.models.Feed.objects.order_by('url').filter(user=user)    
     sources = [{'title': s.title, 'url':s.url} for s in sourcesResults]
     
@@ -124,7 +130,8 @@ def renderProfile(request, user, plugins):
             'show_fn': show_fn,
             'username': user.username,
             'preferences': json.loads(user.get_profile().properties),
-            'sources': sources}
+            'sources': sources,
+            'page_props': webpage_properties,}
     [data.update(plugin.template_variables()) for plugin in plugins]
     
     t = django.template.loader.select_template(('foo', 'lifestream/profile_blurb.html'))

@@ -14,9 +14,11 @@
 <div id="stream-editor-panel">
     <ul class="tabs">
         <li id="edit-stream" class="tab editor"><a href="#">Edit </a><strong>{{stream.name}}</strong> Stream</li>
-        <li id="design-stream" class="tab design active-tab"><a href="#">Design</a></li>
+        <li id="design-stream" class="tab design xactive-tab"><a href="#">Design</a></li>
+        <li id="page-widgets" class="tab pagewidget active-tab"><a href="#">Page Widgets</a></li>
         <li><a id="preview" href="/u/{{username}}/s/{{stream.name}}" target="_new" title="View your currenly published Stream in a new window">View</a></li>
     </ul>
+<!--------------------- Edit Stream Panel ------------------------->
     <div id="edit-stream-panel" class="panel">
 <h2 class="new-feed">Add A Source</h2>
 <p>Paste in the Url to a website or any Atom or RSS feed <img src="/static/img/feed-icon-14x14.png" width="14" height="14" alt="Feed Icon" />.</p>
@@ -67,6 +69,70 @@
             {% endfor %}
         </div><!-- /stream-preview -->
     </div><!-- /edit-stream-panel -->
+<!--------------------- Page Widgets Panel ------------------------->
+    <div id="page-widgets-panel" class="panel">
+        <h2>Page Widgets</h2>
+        <p>In addition to a stream, this profile page can have other pieces content.</p>
+        
+        <form id="manage-page-widgets" action="/manage/page/{{page_name}}" method="post">
+        <input id="page_name" type="hidden" value="{{page_name}}" />
+        
+        <div class="optional-widget">
+        <a class="add-widget optional-text-widget {% if not page_props.before_profile_html_area %}active{% endif %}" href="#">Add Custom HTML</a>
+        <div class="field optional-text-widget {% if page_props.before_profile_html_area %}active{% endif %}">
+        <label for="before_profile_html_area">Before Profile Custom HTML</label>
+        <p class="help">Custom HTML or text that should show up before the profile. Most tags supported.</p>
+        <textarea id="before_profile_html_area" name="before_profile_html_area">{{page_props.before_profile_html_area|safe}}</textarea>
+        </div><!-- /field -->
+        </div><!-- /optional-widget -->
+        
+        <fieldset><legend>Profile</legend>
+        <div class="profile">
+          <img src="{{gravatar}}" />
+        </div>
+        <span class="checkbox-label">Display:</span>
+        <label for="show_profile_blurb" class="checkbox">Profile Blurb</label>
+        <input id="show_profile_blurb" name="show_profile_blurb" type="checkbox" checked=checked />
+        <label for="show_follow_me_links" class="checkbox">Follow Me Links</label>
+        <input id="show_follow_me_links" name="show_follow_me_links" type="checkbox" checked=checked />
+        </fieldset>
+       
+        <div class="optional-widget">
+        <a class="add-widget optional-text-widget {% if not page_props.after_profile_html_area %}active{% endif %}" href="#">Add Custom HTML</a>
+        <div class="field optional-text-widget {% if page_props.after_profile_html_area %}active{% endif %}">
+        <label for="after_profile_html_area">After Profile Custom HTML</label>
+        <p class="help">Custom HTML or text that should show up after the profile. Most tags supported.</p>
+        <textarea id="after_profile_html_area" name="after_profile_html_area">{{page_props.after_profile_html_area|safe}}</textarea> 
+        </div><!-- /field -->
+        </div><!-- /optional-widget -->
+        
+        <div class="optional-widget">
+        <a class="add-widget optional-text-widget {% if not page_props.before_stream_html_area %}active{% endif %}" href="#">Add Custom HTML</a>
+        <div class="field optional-text-widget {% if page_props.before_stream_html_area %}active{% endif %}">
+        <label for="before_stream_html_area">Before Stream Custom HTML</label>
+        <p class="help">Custom HTML or text that should show up before your stream.</p>
+        <textarea id="before_stream_html_area" name="before_stream_html_area">{{page_props.before_stream_html_area|safe}}</textarea>
+        </div><!-- /field -->
+        </div><!-- /optional-widget -->
+        
+        <div class="stream-icon">
+          <h3>Your {{stream.name}} Stream</h3>
+          <img src="/static/img/StreamDiagram_25perc.jpg" width="76" height="95" />
+        </div>
+        
+        <div class="optional-widget">
+        <a class="add-widget optional-text-widget {% if not page_props.after_stream_html_area %}active{% endif %}" href="#">Add Custom HTML</a>
+        <div class="field optional-text-widget {% if page_props.after_stream_html_area %}active{% endif %}">
+        <label for="after_stream_html_area">After Streamm Custom HTML</label>
+        <p class="help">Custom HTML or text that should show up after the stream.</p>
+        <textarea id="after_stream_html_area" name="after_stream_html_area">{{page_props.after_stream_html_area}}</textarea>
+        </div><!-- /field -->
+        </div><!-- /optional-widget -->
+        
+        <input type="submit" id="page-widget-save" name="page-widget-save" value="save" />
+        </form>
+    </div>
+<!--------------------- Design Stream Panel ------------------------->
     <div id="design-stream-panel" class="panel">
         <form id="design-form" action="/manage/stream/design" method="post">
         <div class="save"><input type="submit" id="design-submit1" value="Save" /></div>

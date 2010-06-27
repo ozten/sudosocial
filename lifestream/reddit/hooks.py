@@ -1,5 +1,4 @@
-from bleach import Bleach
-bleach = Bleach()
+from lifestream.generic.hooks import tidy_up
 
 def prepare_entry(entryJSON, log):
     content = ''
@@ -12,7 +11,7 @@ def prepare_entry(entryJSON, log):
     else:
         content = 'unreadable... ' + str(entryJSON)    
     try:
-        content = bleach.linkify(content)    
+        content = tidy_up(content, log)    
     except Exception, x:
         log.error("Ouch, unable to linkify _%s_" % content)
         log.exception(x)

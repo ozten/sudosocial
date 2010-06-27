@@ -1,7 +1,6 @@
 import re
 
-from bleach import Bleach
-bleach = Bleach()
+from lifestream.generic.hooks import tidy_up
 
 def prepare_entry(entryJSON, log):
     """ Given entryJSON, output a dictionary of variables for use in
@@ -56,7 +55,7 @@ def prepare_entry(entryJSON, log):
     status = re.sub('@(\w+)', r'<a href="http://identi.ca/\1">@\1</a>', status)
     
     try:
-        status = bleach.linkify(status.replace('\n', '<br />'))
+        status = tidy_up(status.replace('\n', '<br />'), log)
     except Exception, x:
         log.error("Ouch, unable to linkify _%s_" % status)
         log.exception(x)

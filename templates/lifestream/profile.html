@@ -5,7 +5,9 @@
 <canvas id="processing-canvas"></canvas>
 <div id="viewport">
     <div id="content">
+    {{page_props.before_stream_html_area|safe}}
 {% include "lifestream/display_feed_entries.html" %}
+    {{page_props.after_stream_html_area|safe}}
   </div><!-- /#content -->
 </div><!-- /#viewport -->
 

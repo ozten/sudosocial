@@ -3,9 +3,10 @@ import re
 import lxml.etree
 import lxml.html.soupparser
 
+from django.conf import settings
+
 from bleach import Bleach
 bleach = Bleach()
-
 
 def tidy_up(entry, log):
     # TODO Security, mostly using bleach to linkify and cleanup (tidy style)
@@ -37,16 +38,15 @@ def tidy_up(entry, log):
         'span': basic_attrs,
         'p': basic_attrs,
         
-    }
+    }    
     try:
+        # Bugfix wrap content in <div> and then pop it out, othewise 'foo <span>bar</span>' will fail        
+        htmlElement = lxml.html.soupparser.fromstring("<div>%s</div>" % entry[0:settings.PATCHOULI_TLDR])
+        elements = ''.join([lxml.html.tostring(el) for el in htmlElement.getchildren()])
         
-        htmlElement = lxml.html.soupparser.fromstring(entry)
-        if htmlElement.getchildren():            
-            elements = ''.join([lxml.html.tostring(el) for el in htmlElement.getchildren()])
-        else:
-            elements = entry        
+        # <div> - 5 </div> - 6 characters
         return bleach.linkify(
-                bleach.clean(elements, tags=html_tags, attributes=attrs))
+                bleach.clean(elements[5:-6], tags=html_tags, attributes=attrs))
     except Exception, x:
         log.error("Ouch, unable to linkify or clean _%s_\nError: %s" % (entry, x))
         log.exception(x)
@@ -59,15 +59,22 @@ def prepare_entry(entryJSON, log):
     elif 'description' in entryJSON:
         content = entryJSON['description']
     else:
-        #log.debug('unreadable... ' + str(entryJSON))
+        log.debug('unreadable... ' + str(entryJSON))
         pass
         
     title = tidy_up(entryJSON['title'], log)
     content = tidy_up(content, log)
+    
+    # Generic image in feed?
+    image = None
+    if 'links' in entryJSON:
+        for link in entryJSON['links']:
+            if link['rel'] == 'image':
+                image = link['href']
             
     tags = []
     if 'tags' in entryJSON:
         for tag in entryJSON['tags']:
             if 'term' in tag:
                 tags.append({'tag': tag['term'], 'name': tag['term']})
-    return {'entry': content, 'tags': tags, 'title': title, 'permalink': entryJSON['link'], 'raw': entryJSON}
+    return {'entry': content, 'tags': tags, 'title': title, 'permalink': entryJSON['link'], 'raw': entryJSON, 'image': image}
