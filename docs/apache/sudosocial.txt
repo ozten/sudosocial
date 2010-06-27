@@ -1,0 +1,32 @@
+# WSGI http://jbalogh.github.com/zamboni/topics/production/
+# apt-get install libapache2-mod-wsgi
+LoadModule wsgi_module modules/mod_wsgi.so
+WSGIPythonHome /home/sudosocial/.virtualenvs/sudosocial
+ServerName  sudosocial.me.ubuntu
+<VirtualHost *:80>
+	ServerAdmin shout@ozten.com
+        
+        Alias /static /home/sudosocial/patchouli/static
+
+        Alias /robots.txt /home/sudosocial/robots.txt
+
+        Alias /favicon.ico /home/sudosocial/patchouli/static/img/favicon.png
+
+        WSGIScriptAlias / /home/sudosocial/patchouli/wsgi/sudosocial.wsgi
+
+        WSGIDaemonProcess www-data processes=8 threads=1 python-path=/home/sudosocial/.virtualenvs/sudosocial/lib/python2.6/site-packages:/home/sudosocial:/home/sudosocial/patchouli
+        WSGIProcessGroup www-data
+
+	<Directory /home/sudosocial/patchouli/wsgi>
+                Order allow,deny
+                Allow from all
+	</Directory>
+
+	ErrorLog /var/log/apache2/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog /var/log/apache2/access.log combined
+</VirtualHost>
