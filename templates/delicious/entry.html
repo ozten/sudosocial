@@ -3,9 +3,9 @@
     {% if  time_ago %} and then updated {{ time_ago }} later {% endif %}
     by {{raw.author}}
    
-   {% endif %}
-    {% if showDescription %} <p class="description">{{ description|safe }}</p> {% endif %}
-    <p class="link"><a href="{{ link }}">{{ title }}</a></p>
+   {% endif %}    
+    <h4 class="link"><a href="{{ link }}">{{ title }}</a></h4>
+    {% if showDescription %} <div class="description">{{ description|safe }}</div> {% endif %}
     {% if tags %}
     <div class="tag-area">
         <h6 class="tag-heading">Tags:</h6>

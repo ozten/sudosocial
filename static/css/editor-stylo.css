@@ -47,6 +47,21 @@ div.logo code {
     width: 700px;
     float: left;
 }
+.feed-entry hr { display: none; }
+.feed-entry {
+    border: solid 1px #666;
+    border-top: solid 3px #333;
+    border-right: solid 2px #333;
+    
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;    
+    margin-bottom: 10px;
+    max-height: 400px;
+    
+    overflow: auto;
+    padding: 5px;
+}
+
     .tabs li {
         
         float: left;
@@ -72,7 +87,7 @@ div.logo code {
     width: 300px;
     float: right;
 }
-#design-stream-panel .save { float: right; margin: 1em 1em 0em 0em }/* text-align: right; */
+#design-stream-panel .save, #page-widgets-panel .save { float: right; margin: 1em 1em 0em 0em }/* text-align: right; */
                                                              
 #page-widgets-panel label { font-weight: bold; font-size: 115%; }
 #page-widgets-panel textarea { width: 600px; height: 300px; margin:10px}
@@ -108,4 +123,7 @@ fieldset, .field {
     margin: 10px auto 10px auto;
     padding: 10px;
     width: 650px;
+}
+input.url {
+    width: 600px;
 }

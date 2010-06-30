@@ -13,11 +13,11 @@
    {% endif %}
       
    {% endif %}
-   <h3>{%if permalink %}<a href="{{permalink}}">{% endif %}{{title|safe}}{%if permalink %}</a>{% endif %}</h3>
+   <h4 class="title">{%if permalink %}<a href="{{permalink}}">{% endif %}{{title|safe}}{%if permalink %}</a>{% endif %}</h4>
    {% if image %} <img src="{{image}}" class="feed-linked-image" /> {% endif %}
-    {{ entry|safe }}
+    <div class="description">{{ entry|safe }}</div>
     <div class="tag-area">
-    <h6 class="tag-heading">Tags:</h6>        
+    <h6 class="tag-heading">Tags:</h6>
     <ul class="tags">        
         {% for tag in tags %}
             <li>{{tag.tag}}</li>

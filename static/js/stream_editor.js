@@ -103,6 +103,23 @@ $(document).ready(function(){
 		    return false;
             });
         });
+    
+    $('.multi-choice-input-parent-panel .multi-choice-input-panel').hide();
+    var multi = ['#css_type_widget', '#js_type_widget'];
+    
+    var makeMulti = function(multiPanel) {
+        return function(){            
+            var id = $(this).attr('id');            
+            $('.multi-choice-input-panel:visible', $(multiPanel)).hide('fast');            
+            $('#' + id + '_panel', $(multiPanel)).show('fast');
+        };
+    };
+    
+    
+    $('input[name=css_type].multi-choice-input-selector').bind('click', makeMulti('#css_type_widget'));
+    $('input[name=js_type].multi-choice-input-selector').bind('click', makeMulti('#js_type_widget'));
+    $('.multi-choice-input-selector[checked=checked]').trigger('click');
+    
 });
 
 $('#username').bind('focus, blur', function(){

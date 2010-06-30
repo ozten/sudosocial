@@ -1,4 +1,10 @@
-/* v1.0 | 20080212 */
+/* For a simple CSS file start with http://sudosocial.me/static/css/lifestream-blank.css
+
+   This CSS file starts with a CSS Reset, then designs the profile, then each entry by website type.
+*/
+
+/* http://meyerweb.com/eric/tools/css/reset/
+   v1.0 | 20080212 */
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -113,12 +119,13 @@ body { background-color: 7C5F3E; }
     font-weight: bold;
 }
 /* end profile */
-viewport { }
+#viewport {
+    
+}
 #content { width: 590px; text-align: left; min-height: 600px;}
 a { color: #7C5F3E; }
 a:hover { color: #692F0A; }
 .feed-entry {
-    
     background-color: #E9DFC2;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -137,6 +144,7 @@ a:hover { color: #692F0A; }
 .tag-area a {
     text-decoration: none;
 }
+/* tilt the tags at 30 degress to match an isometric point of view */
 .tag-heading {
     color: #7C5F3E;
     font-size: 80%;
@@ -154,16 +162,10 @@ a:hover { color: #692F0A; }
     -moz-transform: translate(0px, 0px) rotate(-30deg); -moz-transform-origin: bottom left;
     -webkit-transform: translate(-5px, -10px) rotate(-30deg); -moz-transform-origin: bottom left;
 }
-.page {
-    
-}
 hr {
   display: none;
 }
 
-#viewport {
-    
-}
 #processing-canvas {
     position: absolute;
     top: 300px;
@@ -172,13 +174,7 @@ hr {
     height: 200px;
     z-index: -1;
 }
-div.feed-generic {
-    
-}
 
-.feed-generic, .feed-twitter, .feed-delicious {
-    
-}
 .tag-heading {
     margin: 0px;
 }
@@ -205,39 +201,21 @@ div.feed-generic {
     clear: none;
     float: none;
 }
+
 /* twitter */
-.feed-twitter {
+.twitter-com{
     
 }
-.tweet, .feed-delicious .link {
-    
-}
-/* end twitter */
 
 /* Flickr */
-.feed-flickr {    
+.www-flickr-com, .flickr-com {
     text-align: center;
 }
-.feed-flickr a img, {
-    border: solid 12px #239CB6;
-}
-.feed-flickr h4 {
+.www-flickr-com a img, .flickr-com a img {
     
 }
-.feed-flickr a img {
-    
-}
-/* end Flickr */
 
-/* delicious */
-.feed-delicious {
-    
-}
-/* github */
-.feed-8aebbd89274c9356403136ab9e9b7a6d  {
-  
-}
-/* reddit */
-.feed-302f56c0fe262ce9b153eab6ac8652e3 {
-  
-}
+/* You may have other websites... the will show up as
+  .example-com { }
+  if you had imported http://example.com/some/feed.atom
+*/

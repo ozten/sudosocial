@@ -7,9 +7,6 @@ import patchouli_auth.models
 def getPreferences(user):
     # Put all known preferences here...
     profileProps = {
-        'css_url': 'default',
-        'javascript_url': 'default',
-        'processing_js': '',
         'publish_email':False,
         }
     try:
@@ -44,12 +41,22 @@ def getPageProperties(page):
 <div>Background imagery By <a href="http://creative.mozilla.org/people/blackmoondev">Blackmoondev</a></div>
     """
     pageProps = {
-        'before_stream_html_area': 'before stream',
-        'after_stream_html_area': 'after stream',
+        'before_stream_html_area': '',
+        'after_stream_html_area': '',
+
         'show_profile_blurb': True,
         'show_follow_me_links': True,
-        'before_profile_html_area': 'before profile',
+
+        'before_profile_html_area': '',
         'after_profile_html_area': after_profile_html_area,
+        
+        'js_type': 'default',
+        'js_value': '',
+        
+        'css_type': 'default',
+        'css_value': '',
+        
+        'processing_js': '',
     }
     
     existingProps = simplejson.loads(page.config)

@@ -1,3 +1,5 @@
+import re
+
 from lifestream.generic.hooks import tidy_up
 def prepare_entry(entryJSON, log):
     """ Given entryJSON, output a dictionary of variables for use in

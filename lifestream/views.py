@@ -73,20 +73,22 @@ def common_stream(request, username, streamname):
     
     preferences = patchouli_auth.preferences.getPreferences(user)
     
-    if 'default' == preferences['javascript_url']:
+    if 'default' == webpage_properties['js_type']:
         js_url = '/static/js/behavior.js'
     else:
-        js_url = preferences['javascript_url']
+        js_url = webpage_properties['js_value']
         
-    if 'default' == preferences['css_url']:
+    if 'default' == webpage_properties['css_type']:
         css_url = '/static/css/stylo.css'
+    elif 'css_raw' == webpage_properties['css_type']:
+        css_url = "/u/%s/s/%s/css" % (username, streamname)
     else:
-        css_url = preferences['css_url']
+        css_url = webpage_properties['css_value']
     return {'entries': renderedEntries,
                 'profile': profile,
                 'css_url': css_url,
                 'javascript_url': js_url,
-                'processing_js': preferences['processing_js'],
+                'processing_js': webpage_properties['processing_js'],
                 'stream_name': streamname,
                 'user': user,
                 'username': username,
@@ -137,6 +139,12 @@ def renderProfile(request, user, plugins, webpage_properties):
     t = django.template.loader.select_template(('foo', 'lifestream/profile_blurb.html'))
     c = django.template.RequestContext(request, data)
     return t.render(c)
+    
+def custom_css(requst, usernamez, webpage):
+    user = User.objects.get(username=usernamez)
+    page = lifestream.models.Webpage.objects.get(name=webpage, user=user)
+    webpage_props = patchouli_auth.preferences.getPageProperties(page)
+    return django.http.HttpResponse(webpage_props['css_value'], mimetype='text/css')
     
 def websiteFeedType(entryJson):
     if 'link' in entryJson:

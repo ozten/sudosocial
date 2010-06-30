@@ -75,6 +75,7 @@
         <p>In addition to a stream, this profile page can have other pieces content.</p>
         
         <form id="manage-page-widgets" action="/manage/page/{{page_name}}" method="post">
+        <div class="save"><input type="submit" id="page-widget-save1" name="page-widget-save1" value="save" /></div>
         <input id="page_name" type="hidden" value="{{page_name}}" />
         
         <div class="optional-widget">
@@ -92,9 +93,9 @@
         </div>
         <span class="checkbox-label">Display:</span>
         <label for="show_profile_blurb" class="checkbox">Profile Blurb</label>
-        <input id="show_profile_blurb" name="show_profile_blurb" type="checkbox" checked=checked />
+        <input id="show_profile_blurb" name="show_profile_blurb" type="checkbox" {% if page_props.show_profile_blurb %} checked=checked {% endif %} />
         <label for="show_follow_me_links" class="checkbox">Follow Me Links</label>
-        <input id="show_follow_me_links" name="show_follow_me_links" type="checkbox" checked=checked />
+        <input id="show_follow_me_links" name="show_follow_me_links" type="checkbox" {% if page_props.show_follow_me_links %} checked=checked {% endif %} />
         </fieldset>
        
         <div class="optional-widget">
@@ -129,40 +130,69 @@
         </div><!-- /field -->
         </div><!-- /optional-widget -->
         
-        <input type="submit" id="page-widget-save" name="page-widget-save" value="save" />
+        <div class="save"><input type="submit" id="page-widget-save2" name="page-widget-save2" value="save" /></div>
+        <br />
         </form>
     </div>
 <!--------------------- Design Stream Panel ------------------------->
     <div id="design-stream-panel" class="panel">
         <form id="design-form" action="/manage/stream/design" method="post">
-        <div class="save"><input type="submit" id="design-submit1" value="Save" /></div>
-        <h2>CSS override</h2>
-        <p>Put up a CSS file anywhere on the internet, and you can take control of your design</p>        
+            <input type="hidden" name="page_name" value="{{page_name}}" />
+            <div class="save"><input type="submit" id="design-submit1" value="Save" /></div>
+            <h2>CSS override</h2>
+            <p>Put up a CSS file anywhere on the internet, and you can take control of your design.</p>
+            <p><a href="/static/css/lifestream-blank.css">Basic blank sudoSocial CSS file</a> is a good place to start.</p>        
         
-        <input type="radio" id="css_type_default" name="css_type" value="default" {% ifequal preferences.css_url 'default' %} checked="checked" {% endifequal %} />
-        <label for="css_type_default">Default</label>
+            
+            <input type="radio" id="css_type_default" name="css_type" value="default" {% ifequal page_props.css_type 'default' %} checked="checked" {% endifequal %} class="multi-choice-input-selector" />
+            <label for="css_type_default">Default</label>
+            
+            <input type="radio" id="css_type_raw" name="css_type" value="css_raw" {% ifequal page_props.css_type 'css_raw' %} checked="checked" {% endifequal %} class="multi-choice-input-selector" />
+            <label for="css_type_raw">Edit CSS</label>
         
-        <input type="radio" id="css_type_url" name="css_type" value="my_url" {% ifnotequal preferences.css_url 'default' %} checked="checked" {% endifnotequal %} />
-        <label for="css_type_default">Custom</label>
-        <label for="css_url">URL</label>
-        <input type="url" id="css_url" name="css_url" value="{% ifnotequal preferences.css_url 'default' %}{{preferences.css_url}}{% endifnotequal %}" />
+            <input type="radio" id="css_type_url" name="css_type" value="css_url" {% ifequal page_props.css_type 'css_url' %} checked="checked" {% endifequal %} class="multi-choice-input-selector" />
+            <label for="css_type_url">Hosted Link</label>
         
-        <h2>JavaScript override</h2>
-        <p>Put up a JS file anywhere on the internet, and you can take control of the behavior of your stream</p>
+            <div id="css_type_widget" class="multi-choice-input-parent-panel">
+              <div id="css_type_url_panel" class="multi-choice-input-panel">
+                <p class="help">Enter the URL to a css file to control the style of your stream.
+                This style will override the default style. Example: <code>http://example.com/foo.css</code></p>
+                <input type="url" id="css_url" name="css_url" value="{{css_url_default}}" class="url" />
+              </div>
+              <div id="css_type_raw_panel" class="multi-choice-input-panel">
+                <p class="help">Any CSS code pasted in below will override the default style.</p>
+                <textarea id="css_raw" name="css_raw" cols="80" rows="30">{{css_raw_default}}</textarea>
+              </div>
+            </div><!-- /#css_type_widget -->
         
-        <input type="radio" id="js_type_default" name="js_type" value="default" {% ifequal preferences.javascript_url 'default' %} checked="checked" {% endifequal %} />
-        <label for="js_type_default">Default:</label>
+            <h2>JavaScript override</h2>
+            <p>Put up a JS file anywhere on the internet, and you can take control of the behavior of your stream</p>
         
-        <input type="radio" id="js_type_url" name="js_type" value="my_url" {% ifnotequal preferences.javascript_url 'default' %} checked="checked" {% endifnotequal %} />
-        <label for="js_type_url">Custom url:</label>
-        <input type="url" id="js_url" name="js_url" value="{% ifnotequal preferences.javascript_url 'default' %}{{preferences.javascript_url}}{% endifnotequal %}" />
+            
+            <input type="radio" id="js_type_default" name="js_type" value="default" {% ifequal page_props.js_type 'default' %} checked="checked" {% endifequal %} class="multi-choice-input-selector" />
+            <label for="js_type_default">Default:</label>
+            <input type="radio" id="js_type_raw" name="js_type" value="js_raw" {% ifequal page_props.js_type 'js_raw' %} checked="checked" {% endifequal %} class="multi-choice-input-selector" />
+            <label for="js_type_raw">Edit Style</label>
+            <input type="radio" id="js_type_url" name="js_type" value="js_url" {% ifequal page_props.js_type 'js_url' %} checked="checked" {% endifequal %} class="multi-choice-input-selector" />
+            <label for="js_type_url">Custom url:</label>
         
-        <h2>Processing.js</h2>
-        <p><a href="http://processing.org">Processing</a> is a creative environment for hacking your stream.
-        <a href="http://processingjs.org">Processing.js</a> brings this generative power to the web. Paste your Processing code in below,
-        and it will paint the <code>processing-canvas</code> canvas behind your stream.</p>
-        <textarea id="processing" name="processing" cols="80" rows="30">{{preferences.processing_js}}</textarea>
-        <div class="save"><input type="submit" id="design-submit2" value="Save" /></div>
+            <div id="js_type_widget" class="multi-choice-input-parent-panel">
+              <div id="js_type_url_panel" class="multi-choice-input-panel">
+                <p class="help">Enter the URL to a css file to control the style of your stream.
+                This style will override the default style. Example: <code>http://example.com/foo.css</code></p>
+                <input type="url" id="js_url" name="js_url" value="{{js_url_default}}" class="url" />
+              </div>
+              <div id="js_type_raw_panel" class="multi-choice-input-panel">
+                <p class="help">Any JavaScript code pasted in below will override the default style.</p>
+                <textarea id="js_raw" name="js_raw" cols="80" rows="30">{{js_raw_default}}</textarea>
+              </div>
+            </div><!-- /#css_type_widget -->
+            <h2>Processing.js</h2>
+            <p><a href="http://processing.org">Processing</a> is a creative environment for hacking your stream.
+            <a href="http://processingjs.org">Processing.js</a> brings this generative power to the web. Paste your Processing code in below,
+            and it will paint the <code>processing-canvas</code> canvas behind your stream.</p>
+            <textarea id="processing" name="processing" cols="80" rows="30">{{page_props.processing_js}}</textarea>
+            <div class="save"><input type="submit" id="design-submit2" value="Save" /></div>
         </form>
     </div><!-- /design-stream -->
 </div><!-- /stream-editor-panel -->

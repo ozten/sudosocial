@@ -79,18 +79,42 @@ def manage_stream(request, username, streamname):
         gravatar = "http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash
             
         preferences = patchouli_auth.preferences.getPreferences(request.user)
+        
+        if webpage_properties['css_type'] == 'css_raw':
+            css_raw_default = webpage_properties['css_value']
+        else:
+            css_raw_default = ''
+        if webpage_properties['css_type'] == 'css_url':
+            css_url_default = webpage_properties['css_value']
+        else:
+            css_url_default = 'http://'
+            
+        if webpage_properties['js_type'] == 'js_raw':
+            js_raw_default = webpage_properties['js_value']
+        else:
+            js_raw_default = ''
+        if webpage_properties['js_type'] == 'js_url':
+            js_url_default = webpage_properties['js_value']
+        else:
+            js_url_default = 'http://'
+        
         template_data = { 'feeds': feeds,
-                                'entry_pair': entry_pair,
-                                'unused_feeds': [],
-                                'form': feed_model,
-                                'gravatar': gravatar,
-                                'page_name': stream.name,
-                                'request': request,
-                                'stream': stream,
-                                'stream_config': stream_config,
-                                'username': request.user.username,
-                                'page_props': webpage_properties,
-                                'preferences': preferences}
+                          'css_raw_default': css_raw_default,
+                          'css_url_default': css_url_default,
+                          'page_props_s': str(webpage_properties),
+                          'entry_pair': entry_pair,
+                          'unused_feeds': [],
+                          'form': feed_model,
+                          'gravatar': gravatar,
+                          'js_raw_default': js_raw_default,
+                          'js_url_default': js_url_default,
+                          'page_name': stream.name,
+                          'request': request,
+                          'stream': stream,
+                          'stream_config': stream_config,
+                          'username': request.user.username,
+                          'page_props': webpage_properties,
+                          'preferences': preferences}
         [template_data.update(plugin.template_variables()) for plugin in plugins]
         return render_to_response('stream_editor.html',
                               template_data,
@@ -241,22 +265,26 @@ def url(request, username, feed_url_hash):
 @login_required
 def manage_stream_design(request):
     if 'POST' == request.method:
-        preferences = patchouli_auth.preferences.getPreferences(request.user)
         params = request.POST.copy()
-        #log.debug(str(preferences))
+        webpage = get_object_or_404(lifestream.models.Webpage, name=params['page_name'], user=request.user)
+        props = patchouli_auth.preferences.getPageProperties(webpage)
+
+        props['css_type'] = params['css_type']
+        props['css_value'] = ''
+        if 'css_url' == params['css_type']:
+            props['css_value'] = params['css_url']
+        elif 'css_raw' == params['css_type']:
+            props['css_value'] = params['css_raw']
         
-        if 'default' == params['css_type']:
-            preferences['css_url'] = 'default'
-        else:
-            preferences['css_url'] = params['css_url']
-            
-        if 'default' == params['js_type']:
-            preferences['javascript_url'] = 'default'
-        else:
-            preferences['javascript_url'] = params['js_url']
+        props['js_type'] = params['js_type']
+        props['js_value'] = ''
+        if 'js_url' == params['js_type']:
+            props['js_value'] = params['js_url']
+        elif 'js_raw' == params['js_type']:
+            props['js_value'] = params['js_raw']
         
-        preferences['processing_js'] = params['processing']        
-        patchouli_auth.preferences.savePreferences(request.user, preferences)
+        props['processing_js'] = params['processing']
+        patchouli_auth.preferences.savePageOrStreamProperties(webpage, props)
         return django.http.HttpResponseRedirect("/auth") #TODO django.core.urlresolvers reverse('confirm_profile')
         
 @login_required
@@ -267,13 +295,20 @@ def manage_page_widgets(request, page_name):
         page = get_object_or_404(lifestream.models.Webpage, name=page_name, user=request.user)        
         preferences = patchouli_auth.preferences.getPageProperties(page)
         
-        preferences['before_profile_html_area'] = tidy_up(params['before_profile_html_area'], log)
-        preferences['show_profile_blurb'] = tidy_up(params['show_profile_blurb'], log)
-        preferences['show_follow_me_links'] = tidy_up(params['show_follow_me_links'], log)
-        
+        preferences['before_profile_html_area'] = tidy_up(params['before_profile_html_area'], log)        
         preferences['after_profile_html_area'] = tidy_up(params['after_profile_html_area'], log)
         preferences['before_stream_html_area'] = tidy_up(params['before_stream_html_area'], log)
         preferences['after_stream_html_area'] = tidy_up(params['after_stream_html_area'], log)
+        
+        # Checkboxes
+        if 'show_profile_blurb' in params:
+            preferences['show_profile_blurb'] = True
+        else:
+            preferences['show_profile_blurb'] = False
+        if 'show_follow_me_links' in params:
+            preferences['show_follow_me_links'] = True
+        else:
+            preferences['show_follow_me_links'] = False
         
         
         patchouli_auth.preferences.savePageOrStreamProperties(page, preferences)

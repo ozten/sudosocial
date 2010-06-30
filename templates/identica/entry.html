@@ -4,8 +4,8 @@
    by {{raw.author}}
    {% endif %}
     
-    <div class="status">
-    {{ status|safe }} <a  class="permalink" href="{{permalink}}">#</a>
+    <div class="status description">
+    {{ status|safe }} 
     </div>
     {% if tags %}
     <div class="tag-area">
@@ -17,5 +17,6 @@
         </ul>        
     </div>
     {% endif %}
+        <a class="permalink" href="{{permalink}}">#</a>
         <hr />
 </div>
