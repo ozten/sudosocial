@@ -1,0 +1,23 @@
+/* profile */
+.profile_blurb { }
+    .vcard { }
+        #profile_image { }
+        .fn { }
+        .email { }
+    /* feed links */
+    .followme { }
+        h5 { }
+        .feed_source { }
+/* homestream */
+#viewport { }
+    #content { }
+        .feed-entry { }
+            /* This one varies by website... Examples flickr-com, twitter-com, etc */
+            .identi-ca { }
+                /* there will usually be h4.title p.content h6.tag-heading ul.tags and a.permalink */
+                .title { }
+                .tag-area { }
+                    .tag-heading { }
+                    .tags
+                .permalink
+                hr { }

@@ -120,6 +120,26 @@ $(document).ready(function(){
     $('input[name=js_type].multi-choice-input-selector').bind('click', makeMulti('#js_type_widget'));
     $('.multi-choice-input-selector[checked=checked]').trigger('click');
     
+    /* Started creating Flickr style edits... Not in use currently. */
+    $('.editable').hover(function() {
+        $(this).data('old-background-color', $(this).css('background-color'));
+        $(this).css('background-color', 'yellow');
+    }, function() {
+        $(this).css('background-color', $(this).data('old-background-color'));
+    }).attr('title', "Click to Edit").click(function(){
+        $(this).hide();
+        var id = $(this).attr('id');
+        $(this).data('old-value', $('#' + id + '_field input').val());
+        var input = $('#' + id + '_field').show()
+            .find('.editable-cancel').click(function() {
+                $('#' + id + '_field').hide();
+                $('#' + id).show();
+                $('#' + id + '_field input').val($('#' + id).data('old-value'));
+                // Revert the value of the input field
+                return false;
+                });
+        return false;
+    });
 });
 
 $('#username').bind('focus, blur', function(){

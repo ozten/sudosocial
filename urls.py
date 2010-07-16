@@ -18,4 +18,5 @@ urlpatterns = patterns('',
     #(r'^openid/logout$', 'django.contrib.auth.views.logout', {'next_page':'/openid/login'}),
     # temporarily now auth
     (r'^openid/', include('django_openid_auth.urls')),
+    (r'^session_status$', 'patchouli.patchouli_auth.views.session_status', {}, 'session_status')
 )

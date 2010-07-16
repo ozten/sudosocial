@@ -72,6 +72,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'patchouli_auth.middleware.account_manager.AccountManagerMiddleware'
 )
 
 ROOT_URLCONF = 'patchouli.urls'

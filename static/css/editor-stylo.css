@@ -94,7 +94,7 @@ div.logo code {
 #page-widgets-panel strong { display: block; }
 .checkbox-label {font-weight: bold;}
 #page-widgets-panel label.checkbox {font-weight: normal; font-size: 100%;}
-br { clear: both; }
+br, .optional-widget { clear: both; }
 
 .display_entry {
     float: right;

@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 import lifestream.models
+from lifestream import lang
 import patchouli_auth.preferences
 from patchouli.plugins.stream_editor import StreamEditorPlugin
 from lifestream.views import render_entries
@@ -108,6 +109,15 @@ def manage_stream(request, username, streamname):
                           'gravatar': gravatar,
                           'js_raw_default': js_raw_default,
                           'js_url_default': js_url_default,
+                          
+                          # Common 
+                          'lang_dir': 'LTR',
+                          'page_lang': 'en',
+                          
+                          
+                          'page_langs': lang.HTML_LANG,
+                          'page_lang_desc': lang.HTML_LANG[webpage_properties['page_lang']],
+                          'page_lang_dirs': lang.DIR_CHOICES,
                           'page_name': stream.name,
                           'request': request,
                           'stream': stream,
@@ -140,6 +150,10 @@ def manage_all_streams(request, username):
             stream.url = "/u/%s/s/%s" % (username, stream.name)
         return render_to_response('index.html',
                               { 'feeds': feeds,
+                                                               
+                                'lang_dir': 'LTR',
+                                'page_lang': 'en',
+                          
                                 'unused_feeds': [],
                                 'request': request,
                                 'streams': streams,
@@ -299,6 +313,13 @@ def manage_page_widgets(request, page_name):
         preferences['after_profile_html_area'] = tidy_up(params['after_profile_html_area'], log)
         preferences['before_stream_html_area'] = tidy_up(params['before_stream_html_area'], log)
         preferences['after_stream_html_area'] = tidy_up(params['after_stream_html_area'], log)
+        #aok
+        preferences['page_lang'] = params['page_lang']
+        if preferences['page_lang'] not in lang.HTML_LANG.keys():
+            preferences['page_lang'] = 'en'
+        preferences['page_lang_dir'] = params['page_lang_dir']
+        if preferences['page_lang_dir'] not in lang.DIR_CHOICES.keys():
+            preferences['page_lang_dir'] = 'LTR'
         
         # Checkboxes
         if 'show_profile_blurb' in params:
@@ -350,7 +371,9 @@ def entry(request, entry_id):
 # ----------------- Sitewide Functions --------------#
 def homepage(request):
     return render_to_response('homepage.html',
-                          {'css_url': '/static/css/general-site.css', },
+                          {'css_url': '/static/css/general-site.css',
+                           'lang_dir': 'LTR',
+                           'page_lang': 'en',},
                           context_instance=django.template.RequestContext(request))
 
 def page_not_found(request):

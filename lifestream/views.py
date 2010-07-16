@@ -88,6 +88,10 @@ def common_stream(request, username, streamname):
                 'profile': profile,
                 'css_url': css_url,
                 'javascript_url': js_url,
+                
+                'lang_dir': webpage_properties['page_lang_dir'],
+                'page_lang': webpage_properties['page_lang'],
+                          
                 'processing_js': webpage_properties['processing_js'],
                 'stream_name': streamname,
                 'user': user,

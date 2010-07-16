@@ -39,7 +39,9 @@ def account_checkauth(request):
         except Exception, exception:
             log.exception("Unable to load user... trying to save %s", exception)
         encoded_username = django.utils.encoding.iri_to_uri(request.user.username)
-        resp['X-Account-Manager-Status'] = "active; name=\"%s\"" % encoded_username
+        name = "%s %s" % (request.user.first_name, request.user.last_name)
+        id = request.user.useropenid_set.all()[0].display_id
+        resp['X-Account-Management-Status'] = "active; name=\"%s\"; id=\"%s\"" % (name, id)
         return resp
     else:        
         return django.http.HttpResponseRedirect('/openid/login')
@@ -47,12 +49,16 @@ def account_checkauth(request):
 
 @login_required
 def profile(request, username):
-    """ Don't use username for anything... """
+    """ Don't use username for anything... """    
     profileProps = patchouli_auth.preferences.getPreferences(request.user)
     if profileProps['publish_email']:
         publishEmailFlag = 'checked'
     else:
         publishEmailFlag = ''
+    if 'langauge_code' in profileProps:
+        lang_code = profileProps['language_code']
+    else:
+        lang_code = request.LANGUAGE_CODE
     
     gravatarHash = hashlib.md5(
         django.utils.encoding.smart_str(request.user.email)).hexdigest()
@@ -63,9 +69,14 @@ def profile(request, username):
                             'css_url': '/static/css/general-site.css',
                             'username':   request.user.username,                            
                             'email':      request.user.email,
+                            
+                            'lang_dir': 'LTR',
+                            'page_lang': 'en',
+                          
                             'publish_email_flag': publishEmailFlag,
                             'first_name': request.user.first_name,
                             'last_name':  request.user.last_name,
+                            'language_code': lang_code,
                             'gravatar': avatar_url,
                             },
                           context_instance=django.template.RequestContext(request))
@@ -80,7 +91,11 @@ def delete_profile(request, username):
         return django.http.HttpResponseRedirect('/auth')
     else:
         return render_to_response('confirm_delete.html',
-                          {'css_url': '/static/css/general-site.css',},
+                          {
+                            'css_url': '/static/css/general-site.css',
+                            'lang_dir': 'LTR',
+                            'page_lang': 'en',
+                           },
                           context_instance=django.template.RequestContext(request))
 
 @login_required
@@ -123,6 +138,10 @@ def confirm_profile(request):
                           { 'css_url': '/static/css/general-site.css',
                             'username':   request.user.username,                            
                             'email':      request.user.email,
+                            
+                            'lang_dir': 'LTR',
+                            'page_lang': 'en',
+                            
                             'publish_email_flag': publishEmailFlag,
                             'first_name': request.user.first_name,
                             'last_name':  request.user.last_name,
@@ -140,5 +159,17 @@ import django.contrib.auth.views
 # Messing with Account Manager
 def logout(request):
     resp = django.contrib.auth.views.logout(request, '/openid/login')
-    resp['X-Account-Management-Status'] ='none'
+    resp['X-Account-Management-Status'] = "none;"
+    return resp
+
+#====== Account Manager ==========
+def session_status(request):
+    if request.user.is_authenticated and request.user.is_active:        
+        name = "%s %s" % (request.user.first_name, request.user.last_name)
+        id = request.user.useropenid_set.all()[0].display_id
+        amstatus = "active; name=\"%s\"; id=\"%s\"" % (name, id)
+    else:
+        amstatus = "none;"
+    resp = django.http.HttpResponse("X-Account-Managment-Status will be %s" % amstatus)
+    resp['X-Account-Management-Status'] = amstatus
     return resp

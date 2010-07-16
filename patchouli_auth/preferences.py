@@ -41,6 +41,8 @@ def getPageProperties(page):
 <div>Background imagery By <a href="http://creative.mozilla.org/people/blackmoondev">Blackmoondev</a></div>
     """
     pageProps = {
+        'page_lang': 'en',
+        'page_lang_dir': 'LTR',
         'before_stream_html_area': '',
         'after_stream_html_area': '',
 

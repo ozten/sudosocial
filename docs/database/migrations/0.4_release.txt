@@ -1,0 +1,4 @@
+python manage.py syncdb
+mysql -u -p patchouli < 0.4-ensure-utf8.sql
+edit path in docs/database/migrations/0.4-add-feed-meta.py
+ ~/.virtualenvs/patchouli/bin/python docs/database/migrations/0.4-add-feed-meta.py

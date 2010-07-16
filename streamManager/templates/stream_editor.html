@@ -11,7 +11,7 @@
 
 {% block content %}
 <h1>Stream Editor</h1>
-<div id="stream-editor-panel">
+<div id="stream-editor-panel" lang="{{page_props.page_lang}}" dir="{{page_props.page_lang_dir}}">
     <ul class="tabs">
         <li id="edit-stream" class="tab editor"><a href="#">Edit </a><strong>{{stream.name}}</strong> Stream</li>
         <li id="design-stream" class="tab design xactive-tab"><a href="#">Design</a></li>
@@ -29,8 +29,6 @@
     <input type="hidden" name="streams" id="id_streams" value="home" /></p>
 <input type="submit" value="Add Feed" />
 </form>
-
-
 
     <h2>Stream Sources</h2>
     <ul id="user_streams">
@@ -77,6 +75,27 @@
         <form id="manage-page-widgets" action="/manage/page/{{page_name}}" method="post">
         <div class="save"><input type="submit" id="page-widget-save1" name="page-widget-save1" value="save" /></div>
         <input id="page_name" type="hidden" value="{{page_name}}" />
+        
+        <div class="optional-widget">
+        <p class="add-widget optional-text-widget {% if not page_props.before_profile_html_area %}active{% endif %}">
+             This page is written in <strong>{{page_lang_desc}}. </strong> <a class="" href="#">Change Languages</a></p>
+        <div class="field optional-text-widget">
+        <label for="page_lang">Language</label>
+        <p class="help">Set the language that this page is published in. Some users may also need to change the direction for languages which are not written left to right.</p>
+        <select id="page_lang" name="page_lang">
+            {% for code, desc in page_langs.iteritems %}
+            <option value="{{code}}" {% ifequal page_props.page_lang code %} selected="selected" {% endifequal %}>{{desc}}</option>
+            {% endfor %}            
+        </select>
+        <label for="page_lang_dir">Language Direction</label>
+        <select id="page_lang_dir" name="page_lang_dir"><!-- page_props.page_lang_dir == code -->
+            {% for code, desc in page_lang_dirs.iteritems %}
+            <option value="{{code}}" {% ifequal page_props.page_lang_dir code %} selected="selected" {% endifequal %}>{{desc}}</option>
+            {% endfor %}
+        </select>        
+        </div><!-- /field -->
+        </div><!-- /optional-widget -->
+        
         
         <div class="optional-widget">
         <a class="add-widget optional-text-widget {% if not page_props.before_profile_html_area %}active{% endif %}" href="#">Add Custom HTML</a>

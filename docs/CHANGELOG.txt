@@ -1,0 +1,8 @@
+0.5 (in progress)
+Added lang and dir to Page Widgets tab
+Account Manager 0.1v3 Spec
+* Not complete Bug#579157
+* Edit settings.py and add 'patchouli_auth.middleware.account_manager.AccountManagerMiddleware'
+  See settings-dev.py for an example.
+  
+0.4
