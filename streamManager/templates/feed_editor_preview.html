@@ -1,0 +1,12 @@
+<h2>Feed Items</h2>
+        <div id="stream-preview">
+            <hr />
+            {% for entry, entry_html in entry_pair %}                
+                <div class='feed-entry'>{{entry.stream_entry}}
+                    <a class="display_entry {% if entry.stream_entry.visible %}entry-visible{% else %}entry-hidden{% endif %}" href="/manage/stream/{{stream_id}}/entry/{{ entry.id }}">{% if entry.stream_entry.visible %}Hide Entry{% else %} Show Entry {% endif %}</a>
+                    {{ entry_html }}
+                </div>
+            {% empty %}
+                <div class='default'>Bummer, No Entries</div>
+            {% endfor %}
+        </div><!-- /stream-preview -->

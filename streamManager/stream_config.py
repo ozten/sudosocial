@@ -78,12 +78,24 @@ class StreamConfig(object):
         # No matches.. add to end of config list
         self.add_feed(feed, True)
         return self
+
+    def feed_config(self, url_hash):
+        log.info(self.config['feeds'])
+        for feedConfig in self.config['feeds']:
+            if url_hash == feedConfig['url_hash']:
+                return feedConfig
+        return {'url_hash': url_hash}
     
     def add_feed(self, feed, visible):
         """ Adds a new feed to the feeds configuration
             feed - A lifestream.models.Feed
             visible - Should entries be visible by default for this feed """
         self.config['feeds'].append({'url_hash':feed.url_hash, 'entries_visible_default': visible})
+        
+    def update_feed_config(self, feed_config):
+        for c in self.config['feeds']:
+            if c['url_hash'] == feed_config['url_hash']:
+                c.update(feed_config)
     
     def to_json(self):
         return simplejson.dumps(self.config)

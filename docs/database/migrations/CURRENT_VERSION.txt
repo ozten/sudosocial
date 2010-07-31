@@ -1,0 +1,6 @@
+0.5
+
+You only need to run migrations when upgrading from 0.X to 0.Y.
+So if you read this file and it says 0.5 then you git pull and 
+it changes to 0.8, you'll need to run any migrations for 
+0.6, 0.7, and 0.8.

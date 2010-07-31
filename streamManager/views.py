@@ -16,6 +16,7 @@ import django.utils.encoding
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 import lifestream.models
 from lifestream import lang
@@ -24,6 +25,7 @@ from patchouli.plugins.stream_editor import StreamEditorPlugin
 from lifestream.views import render_entries
 from lifestream.generic.hooks import tidy_up
 from streamManager.stream_config import StreamConfig
+from patchouli.cron.feeder import update_feed
 
 logging.basicConfig(filename=settings.LOG_FILENAME, level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
 log = logging.getLogger()
@@ -39,17 +41,22 @@ def manage(request, username):
     if request.user.username == username:
         streams = lifestream.models.Stream.objects.filter(user=request.user).all()
         if len(streams) == 1:            
-            return manage_stream(request, username, 'home')
+            return manage_page(request, username, 'home')
         else:
             return manage_all_streams(request, username)
     else:
         return django.http.HttpResponse(HACKING_MESSAGE, status=400)
+        
+def entry_pair_for_entries(request, raw_entries, plugins):
+    """ Helper method """    
+    return zip(raw_entries, render_entries(request, raw_entries, plugins))
+
 @login_required    
-def manage_stream(request, username, streamname):
+def manage_page(request, username, page_name):
     if request.user.username == username:
-        webpage = get_object_or_404(lifestream.models.Webpage, user=request.user, name=streamname)
+        webpage = get_object_or_404(lifestream.models.Webpage, user=request.user, name=page_name)
         webpage_properties = patchouli_auth.preferences.getPageProperties(webpage)
-        stream = get_object_or_404(lifestream.models.Stream, user=request.user, name=streamname)
+        stream = get_object_or_404(lifestream.models.Stream, user=request.user, name=page_name)
         stream_config = StreamConfig(stream.config)        
         feed_rows = stream.feed_set.all()
         stream_config.ensureFeedsConfig(feed_rows)
@@ -65,12 +72,11 @@ def manage_stream(request, username, streamname):
                           'enabled': feed_row.enabled,
                           'disabled_reason': feed_row.disabled_reason,
                           'entries_visible_default': feed['entries_visible_default']})
-        
-        raw_entries = (lifestream.models.Entry.objects.order_by('-last_published_date')
-                      .filter(feed__user=request.user,
-                              feed__streams__name__exact = streamname))[:150] #24 - 50
         plugins = [StreamEditorPlugin(log)]
-        entry_pair = zip(raw_entries, render_entries(request, raw_entries, plugins))        
+        entries = lifestream.models.recent_entries(request.user, stream, 150, False)
+        entry_pair = entry_pair_for_entries(request, entries, plugins)
+        for entry, entry_html in entry_pair:
+            log.info(entry.stream_entry)
         feed_model = lifestream.models.FeedForm()
                 
         stream.url = "/u/%s/s/%s" % (username, stream.name)
@@ -121,6 +127,7 @@ def manage_stream(request, username, streamname):
                           'page_name': stream.name,
                           'request': request,
                           'stream': stream,
+                          'stream_id': stream.id,
                           'stream_config': stream_config,
                           'username': request.user.username,
                           'page_props': webpage_properties,
@@ -157,7 +164,7 @@ def manage_all_streams(request, username):
                                 'unused_feeds': [],
                                 'request': request,
                                 'streams': streams,
-                                'streamname': streams[0] if streams else  '',
+                                'page_name': streams[0] if streams else  '',
                                 'username': request.user.username,},
                               context_instance=django.template.RequestContext(request))
     else:
@@ -220,7 +227,7 @@ def save_feeds(request, username):
         a_feed = lifestream.models.Feed(url_hash = feed_url_hash, title=new_feed_to_save['feed_title'],
                                         url = new_feed_to_save['feed_url'],
                                         etag='', last_modified=datetime.datetime(1975, 1, 10),
-                                        enabled=True, disabled_reason='',
+                                        enabled=True, disabled_reason='',        
                                         user=request.user, created_date=datetime.datetime.today())        
         a_feed.streams.add(stream)
         form = lifestream.models.FeedForm(params, instance=a_feed)
@@ -277,7 +284,28 @@ def url(request, username, feed_url_hash):
         return django.http.HttpResponse('{"message":"' + HACKING_MESSAGE + '"}', mimetype='applicaiton/json', status=400)
 
 @login_required
-def manage_stream_design(request):
+def reset_url(request, username, feed_url_hash):
+    if request.user.username == username:
+        feed = lifestream.models.Feed.objects.get(pk=feed_url_hash)
+        if feed.enabled == False:
+            feed.enabled = True
+            feed.save()
+        # Skip Caching
+        feed.etag = ''
+        feed.last_modified = datetime.datetime(1975, 1, 10)
+        entries = update_feed(feed)
+        feed = lifestream.models.Feed.objects.get(pk=feed_url_hash)
+        payload = {"message":"OK",
+                   "number_new_entries": entries,
+                   "enabled": feed.enabled,
+                   "disabled_reason": feed.disabled_reason}
+        return django.http.HttpResponse(json.dumps(payload), mimetype='applicaiton/json')
+        
+    else:
+        return django.http.HttpResponse('{"message":"' + HACKING_MESSAGE + '"}', mimetype='applicaiton/json', status=400)
+
+@login_required
+def manage_page_design(request):
     if 'POST' == request.method:
         params = request.POST.copy()
         webpage = get_object_or_404(lifestream.models.Webpage, name=params['page_name'], user=request.user)
@@ -313,7 +341,7 @@ def manage_page_widgets(request, page_name):
         preferences['after_profile_html_area'] = tidy_up(params['after_profile_html_area'], log)
         preferences['before_stream_html_area'] = tidy_up(params['before_stream_html_area'], log)
         preferences['after_stream_html_area'] = tidy_up(params['after_stream_html_area'], log)
-        #aok
+        
         preferences['page_lang'] = params['page_lang']
         if preferences['page_lang'] not in lang.HTML_LANG.keys():
             preferences['page_lang'] = 'en'
@@ -336,28 +364,29 @@ def manage_page_widgets(request, page_name):
         manageUrl = "/manage/account/%s" % request.user.username.encode('utf-8')
         return django.http.HttpResponseRedirect(manageUrl)
         
-def entry(request, entry_id):
+def entry(request, stream_id, entry_id):
     """
         change-visibility set to true - show entry
         change-visibility set to false - hide entry
     """
     if 'POST' == request.method:
-        entry = get_object_or_404(lifestream.models.Entry, id=entry_id,feed__user=request.user)
-        if entry:            
+        entry = get_object_or_404(lifestream.models.Entry, id=entry_id,feed__user=request.user) # proves ownership of entry_id
+        streamentry = get_object_or_404(lifestream.models.StreamEntry, stream__id=stream_id, entry__id=entry_id)
+        if entry:
             if 'change-visibility' in request.POST and request.POST['change-visibility'] == 'true':
-                entry.visible = True
+                streamentry.visible = True
             elif 'change-visibility' in request.POST and request.POST['change-visibility'] == 'false':
-                entry.visible = False
+                streamentry.visible = False
             else:
                 return django.http.HttpResponse(
                     '{"status":"ERROR", "error-message":"Change not understood"}',
                     mimetype='applicaiton/json', status=400)
             try:
-                entry.save()
-                fresh_entry = lifestream.models.Entry.objects.get(id=entry_id)
-                payload = {'status': 'OK', 'guid': fresh_entry.guid,
-                           'id': fresh_entry.id,
-                           'visible': fresh_entry.visible}
+                streamentry.save()
+                fresh_streamentry = get_object_or_404(lifestream.models.StreamEntry, stream__id=stream_id, entry__id=entry_id)
+                payload = {'status': 'OK', 'guid': entry.guid,
+                           'id': entry.id,
+                           'visible': fresh_streamentry.visible}
                 return django.http.HttpResponse(
                     json.dumps(payload), mimetype='applicaiton/json')
             except Exception, x:
@@ -368,6 +397,98 @@ def entry(request, entry_id):
                     mimetype='applicaiton/json', status=500)
         else:
             return django.http.HttpResponse(entry_id, status=404)
+            
+def edit_feed(request, username, stream_id, feed_id):
+    if 'POST' == request.method:
+        return edit_feed_update(request, username, stream_id, feed_id)
+    else:
+        return edit_feed_show(request, username, stream_id, feed_id)
+
+def edit_feed_update(request, username, stream_id, feed_id):    
+    feed = get_object_or_404(lifestream.models.Feed, url_hash=feed_id)
+    stream = get_object_or_404(lifestream.models.Stream, id=stream_id)
+    stream_config = StreamConfig(stream.config)        
+    stream_config.ensureFeedsConfig(stream.feed_set.all())
+    
+    feed_config = feed_config_from_stream(stream_config, feed_id)
+    
+    # TODO hmmm this code sucks because I'm writing directly to the confic Dict
+    # instead of an Abstract Data Type... fixme
+    
+    params = request.POST.copy()
+    # TODO use per-stream feed title in editor and lifestream views
+    if 'title' in params:
+        feed_config['feed_title'] = params['title']
+        
+    if 'entries_visible_default' in params:
+        if 'True' == params['entries_visible_default']:
+            feed_config['entries_visible_default'] = True
+        else:
+            feed_config['entries_visible_default'] = False
+    if 'enable_num_entries_shown' in params and 'True' == params['enable_num_entries_shown']:
+        feed_config['enable_num_entries_shown'] = True
+        try:
+            num_entries = int(params['num_entries_shown'])
+            if num_entries > 50:
+                num_entries = 50
+            if num_entries < 0: #WTF?
+                num_entries = 5
+            feed_config['num_entries_shown'] = num_entries
+        except ValueError:
+            log.info("Unable to parse int out of %s" % params['num_entries_shown'])
+            feed_config['num_entries_shown'] = 5
+    else:
+        feed_config['enable_num_entries_shown'] = False
+        
+    stream_config.update_feed_config(feed_config)    
+    stream.config = stream_config.__unicode__()
+    stream.save()
+    return django.http.HttpResponseRedirect("/manage/account/%s/stream/%s/feed/%s" % (username, stream_id, feed_id))
+    
+def feed_config_from_stream(stream_config, feed_id):
+    feed_config = {}
+    for config in stream_config.config['feeds']:
+        if config['url_hash'] == feed_id:
+            feed_config = config
+    return feed_config
+
+def edit_feed_show(request, username, stream_id, feed_id):
+    feed = get_object_or_404(lifestream.models.Feed, url_hash=feed_id)
+    stream = get_object_or_404(lifestream.models.Stream, id=stream_id)
+    feed_config = feed_config_from_stream(StreamConfig(stream.config), feed_id)    
+        
+    return render_to_response('feed_editor.html',
+                              { 'feed': feed,
+                                'feed_id': feed_id,
+                                'stream': stream,
+                                'stream_id': stream_id,
+                                'feed_config': feed_config,
+                                'lang_dir': 'LTR',
+                                'page_lang': 'en',
+                          
+                                #'unused_feeds': [],
+                                'request': request,
+                                #'streams': streams,
+                                'feed_id': feed_id,
+                                'username': request.user.username,},
+                              context_instance=django.template.RequestContext(request))
+    
+def preview_feed(request, username, stream_id, feed_id):
+    feed = get_object_or_404(lifestream.models.Feed, url_hash=feed_id)
+    stream = get_object_or_404(lifestream.models.Stream, id=stream_id)
+    user = get_object_or_404(django.contrib.auth.models.User, username=username)
+    stream_config = StreamConfig(stream.config)
+    entries = lifestream.models.recent_feed_entries(user, stream, feed_id, 150, False)
+    plugins = [StreamEditorPlugin(log)]
+    entry_pair = entry_pair_for_entries(request, entries, plugins)
+                                        
+    
+    return render_to_response('feed_editor_preview.html',
+                              { 'entry_pair': entry_pair,
+                                'stream_id': stream.id,
+                              },
+                              context_instance=django.template.RequestContext(request))
+            
 # ----------------- Sitewide Functions --------------#
 def homepage(request):
     return render_to_response('homepage.html',

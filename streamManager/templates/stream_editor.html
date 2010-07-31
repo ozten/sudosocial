@@ -13,7 +13,7 @@
 <h1>Stream Editor</h1>
 <div id="stream-editor-panel" lang="{{page_props.page_lang}}" dir="{{page_props.page_lang_dir}}">
     <ul class="tabs">
-        <li id="edit-stream" class="tab editor"><a href="#">Edit </a><strong>{{stream.name}}</strong> Stream</li>
+        <li id="edit-stream" class="tab editor"><a href="#">Edit </a><strong id="stream{{stream.id}}" class="stream-name">{{stream.name}}</strong> Stream</li>
         <li id="design-stream" class="tab design xactive-tab"><a href="#">Design</a></li>
         <li id="page-widgets" class="tab pagewidget active-tab"><a href="#">Page Widgets</a></li>
         <li><a id="preview" href="/u/{{username}}/s/{{stream.name}}" target="_new" title="View your currenly published Stream in a new window">View</a></li>
@@ -39,8 +39,7 @@
                      title="New Items are {% if feed.entries_visible_default %} shown automatically {% else %} hidden until shown individually {% endif %}">
                 </div> 
                 {% if not feed.enabled %} <strong title="{{feed.disabled_reason}}">Disabled</strong>{% endif %}
-                <!--a href="../url/{{username}}/{{feed.pk}}">Edit</a -->
-                <a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed.">Delete</a>
+                <a href="/manage/account/{{username}}/stream/{{stream.id}}/feed/{{feed.pk}}">Edit</a>
             </li>
         {% empty %}
             <li id="no-stream-feed-blurb"><a href="#" class="stream-feed-source"></a><a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed."></a>You have no stream sources, add a new feed.</li>
@@ -48,24 +47,10 @@
         
         <li id="base-stream-feed-link" style="display:none"><a href="{{ feed.url }}" class="stream-feed-source">sample</a>
             <div class="feed-entries-visible-default shown" title="New Items are shown automatically"></div>
-            <a href="#" class="feed-delete" title="Delete this feed.">Delete</a></li>
+            <a href="#" class="feed-edit" title="Edit this feed.">Edit</a></li>
     </ul>
     <p>After 5 minutes, Feed entries should start appearing in <a href="/u/{{username}}/s/{{stream.name}}" target="_new" title="View your currenly published Stream in a new window">your stream.</a></p>
-
-
-
-        <h2>Stream Items</h2>
-        <div id="stream-preview">
-            <hr />            
-            {% for entry, entry_html in entry_pair %}                
-                <div class='feed-entry'>
-                    <a class="display_entry {% if entry.visible %}entry-visible{% else %}entry-hidden{% endif %}" href="/manage/entry/{{ entry.id }}">{% if entry.visible %}Hide Entry{% else %} Show Entry {% endif %}</a>
-                    {{ entry_html }}
-                </div>
-            {% empty %}
-                <div class='default'>Bummer, No Entries</div>
-            {% endfor %}
-        </div><!-- /stream-preview -->
+        {% include 'feed_editor_preview.html' %}
     </div><!-- /edit-stream-panel -->
 <!--------------------- Page Widgets Panel ------------------------->
     <div id="page-widgets-panel" class="panel">

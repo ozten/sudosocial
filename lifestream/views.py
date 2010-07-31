@@ -11,6 +11,7 @@ import django.template
 import django.template.loaders
 import django.http
 from django.shortcuts import render_to_response
+from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 
 from django.contrib.auth.models import User
@@ -52,11 +53,8 @@ def stream(request, username, streamname):
 def common_stream(request, username, streamname):
     username = username.lower()    
     user = User.objects.get(username=username)
-    
-    rawEntries = (lifestream.models.Entry.objects.order_by('-last_published_date')
-                  .filter(feed__user=user,
-                          feed__streams__name__exact = streamname,
-                          visible=True))[:150]
+    stream = get_object_or_404(lifestream.models.Stream, user=request.user, name=streamname)
+    rawEntries = lifestream.models.recent_entries(user, stream)
     
     entries = []
     plugins = []
@@ -84,6 +82,7 @@ def common_stream(request, username, streamname):
         css_url = "/u/%s/s/%s/css" % (username, streamname)
     else:
         css_url = webpage_properties['css_value']
+    log.info("We made %d queries" % len(django.db.connection.queries))
     return {'entries': renderedEntries,
                 'profile': profile,
                 'css_url': css_url,
@@ -103,6 +102,8 @@ def render_entries(request, rawEntries, plugins=[]):
     renderedEntries = []    
     for entry in rawEntries:
         jsn = jsonpickle.decode(entry.raw)
+
+
         guid = entry.feed_id + entry.guid
 
         feedType = websiteFeedType(jsn)        
@@ -110,8 +111,9 @@ def render_entries(request, rawEntries, plugins=[]):
         # TODO use http://docs.python.org/py3k/library/importlib.html
         exec "from %s import hooks" % feedType
         entry_variables = hooks.prepare_entry(jsn, log)
+            
         [plugin.modify_entry_variables(jsn, entry_variables) for plugin in plugins]
-        
+
         t = django.template.loader.select_template(('foo', feedType + '/entry.html')) #TODO provide a fallback        
         c = django.template.RequestContext(request, entry_variables)
         renderedEntries.append(t.render(c))

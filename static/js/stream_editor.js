@@ -7,13 +7,15 @@ $('#add-url-form').submit(function(){
 
         $('#no-stream-feed-blurb').hide();
         $('input[name=url]').val('');
+        var stream_id = $('.stream-name').attr('id').substring(6); // id="stream44"
         for (var i=0; i < data.feeds.length; i++) {
             var feed = data.feeds[i];
             var newFeedLi = $('#base-stream-feed-link').clone();
             newFeedLi.attr('id', null);        
             $('a.stream-feed-source', newFeedLi).attr('href', feed.url)
                 .text(feed.title);
-            $('a.feed-delete', newFeedLi).attr('href', '' + feed.url_hash);        
+            
+            $('a.feed-edit', newFeedLi).attr('href', patchouliUsername() + '/stream/' + stream_id + '/feed/' + feed.url_hash);
             newFeedLi.show();
             $('#user_streams').append(newFeedLi);
         }
@@ -31,7 +33,8 @@ $('a.feed-delete').live('click', function(){
     var that = $(this);
     var url_hash = that.attr('href');
     var deleteSuccessFn = function(){
-        that.parent().remove();   
+        that.parent().remove();
+        window.location = $('#back').attr('href');
         };
     $.ajax({url:'/manage/url/' + $('#auth-username').text() + '/' + url_hash, type: 'DELETE', success: deleteSuccessFn, dataType: 'json'});
     return false;
@@ -65,8 +68,7 @@ $('#profile-image button').click(function(event){
   });
   return false;
 });
-$(document).ready(function(){
-    var changeVisibility = function(jQueryElement, newState, oldClass, newClass, newLabel) {
+var changeVisibility = function(jQueryElement, newState, oldClass, newClass, newLabel) {
         var that = jQueryElement,
             url = that.attr('href');
         that.removeAttr('href');
@@ -76,7 +78,7 @@ $(document).ready(function(){
             that.text(newLabel);
         });    
     }
-    
+var prepareShowHideEntries = function() {    
     $('a.display_entry').click(function(){
         var entryIsVisible = $(this).hasClass('entry-visible');
         if (entryIsVisible) {
@@ -89,6 +91,9 @@ $(document).ready(function(){
         return false;
     });
     $('a.display_entry.entry-hidden').parent().addClass('entry-hidden');
+}
+$(document).ready(function(){
+    
     $('.optional-widget').each(function(i, div) {
             var linkActive = $('.add-widget', $(div)).hasClass('active');
             if (linkActive) {
@@ -103,7 +108,7 @@ $(document).ready(function(){
 		    return false;
             });
         });
-    
+    prepareShowHideEntries();
     $('.multi-choice-input-parent-panel .multi-choice-input-panel').hide();
     var multi = ['#css_type_widget', '#js_type_widget'];
     
@@ -140,6 +145,23 @@ $(document).ready(function(){
                 });
         return false;
     });
+
+    /* generic checkbox support */
+    var disableCheckboxPanels = function() {
+	var id = $(this).attr('id');
+	if ($(this).attr('checked')) {
+            $('.' + id + '_panel').removeClass('checkbox-disabled')
+		.find('input, textarea, select, button')
+                    .removeAttr('disabled')
+		    .focus();
+	} else {
+            $('.' + id + '_panel').addClass('checkbox-disabled')
+	        .find('input, textarea, select, button')
+                    .attr('disabled', 'true');
+	}
+    };
+    $('input[type=checkbox]').each(disableCheckboxPanels);
+    $('input[type=checkbox]').click(disableCheckboxPanels);
 });
 
 $('#username').bind('focus, blur', function(){

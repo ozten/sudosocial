@@ -2,3 +2,9 @@ python manage.py syncdb
 mysql -u -p patchouli < 0.4-ensure-utf8.sql
 edit path in docs/database/migrations/0.4-add-feed-meta.py
  ~/.virtualenvs/patchouli/bin/python docs/database/migrations/0.4-add-feed-meta.py
+
+Which migration was this...
+# CREATE UNIQUE INDEX `lifestream_entry_feed_id_guid` ON
+#   `lifestream_entry` (`feed_id`, `guid`);
+# ALTER TABLE lifestream_entry ADD COLUMN `visible`
+#    bool NOT NULL DEFAULT true;

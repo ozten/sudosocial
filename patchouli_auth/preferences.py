@@ -63,7 +63,7 @@ def getPageProperties(page):
     
     existingProps = simplejson.loads(page.config)
     pageProps.update(existingProps)
-    return pageProps
+    return pageProps    
 
 def savePageOrStreamProperties(model, properties):
     """ Given a Page or Stream model, persists the
