@@ -111,8 +111,11 @@ entry.html
 ### CRONs ###
 #### Feed Fetcher ####
 
-Assuming you had this code in /home/ozten/social and a virtualenv under /home/ozten/.virtualenvs/sudosocial, you'd 
-install the following cron:
+Assuming you had this code in /home/ozten/sudosocial and a virtualenv under /home/ozten/.virtualenvs/sudosocial, you would
+
+1. cp /home/ozten/sudosocial/cron/config.py.dist /home/ozten/sudosocial/cron/config.py
+2. Edit /home/ozten/sudosocial/cron/config.py (optional)
+3. install the following cron:
 
     # m h dom mon dow   command
     */5 * *   *   *     /home/ozten/.virtualenvs/sudosocial/bin/python /home/username/sudosocial/cron/feeder.py > /home/username/sudosocial/cron/feeder.log

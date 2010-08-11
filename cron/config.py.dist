@@ -1,5 +1,4 @@
 import logging
 
-path = '/home/ozten/patchouli'
 timeout = 6
 log_level = logging.DEBUG

@@ -2,8 +2,15 @@
 
 # CRON Bootstrap
 import config
+import os
 import sys
-sys.path.append(config.path)
+import site
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+path = lambda *a: os.path.join(ROOT, *a)
+
+sys.path.append(ROOT)
+site.addsitedir(path('apps'))
 
 from django.core.management import setup_environ
 import settings
@@ -211,7 +218,7 @@ def cron_fetch_feeds():
     feeds = lifestream.models.Feed.objects.filter(enabled=True)
 
     # Only 1 cron instance
-    lock = open("%s/cron/lock" % config.path, 'a+')
+    lock = open("%s/cron/lock" % ROOT, 'a+')
     try:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)        
     except IOError:
