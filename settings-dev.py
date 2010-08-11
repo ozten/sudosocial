@@ -1,8 +1,13 @@
 import os
 import os.path
 
-# Django settings for patchouli project.
+# Make filepaths relative to settings.
+ROOT = os.path.dirname(os.path.abspath(__file__))
+path = lambda *a: os.path.join(ROOT, *a)
 
+ROOT_PACKAGE = os.path.basename(ROOT)
+
+# Django settings for patchouli project.
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -38,12 +43,12 @@ USE_I18N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = '%s/static/' % ROOT
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/static/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -75,7 +80,7 @@ MIDDLEWARE_CLASSES = (
     'patchouli_auth.middleware.account_manager.AccountManagerMiddleware'
 )
 
-ROOT_URLCONF = 'patchouli.urls'
+ROOT_URLCONF = '%s.urls' % ROOT_PACKAGE
 
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), 'templates')
@@ -88,9 +93,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django_openid_auth',
-    'patchouli.lifestream',
-    'patchouli.patchouli_auth',
-    'patchouli.streamManager'
+    'lifestream',
+    'patchouli_auth',
+    'streamManager',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -116,4 +121,4 @@ AUTH_PROFILE_MODULE = 'patchouli_auth.UserProfile'
 
 # Cut off extermely log entries
 PATCHOULI_TLDR = 8192
-LOG_FILENAME = '/tmp/django.log'
+LOG_FILENAME = '%s/django.log' % ROOT

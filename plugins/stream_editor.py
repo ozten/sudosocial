@@ -4,7 +4,7 @@
 from datetime import datetime
 import urlparse
 
-from patchouli.plugins.basic import BasicPlugin
+from plugins.basic import BasicPlugin
 
 class StreamEditorPlugin(BasicPlugin):
     """

@@ -1,5 +1,14 @@
 #!/usr/bin/env python
+import os
+import site
+import sys
+
 from django.core.management import execute_manager
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+path = lambda *a: os.path.join(ROOT, *a)
+site.addsitedir(path('apps'))
+
 try:
     import settings # Assumed to be in the same directory.
 except ImportError:

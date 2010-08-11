@@ -21,11 +21,11 @@ from django.contrib.auth.models import User
 import lifestream.models
 from lifestream import lang
 import patchouli_auth.preferences
-from patchouli.plugins.stream_editor import StreamEditorPlugin
+from plugins.stream_editor import StreamEditorPlugin
 from lifestream.views import render_entries
 from lifestream.generic.hooks import tidy_up
 from streamManager.stream_config import StreamConfig
-from patchouli.cron.feeder import update_feed
+from cron.feeder import update_feed
 
 logging.basicConfig(filename=settings.LOG_FILENAME, level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
 log = logging.getLogger()

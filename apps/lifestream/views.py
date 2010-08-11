@@ -18,8 +18,8 @@ from django.contrib.auth.models import User
 
 import lifestream.models
 import patchouli_auth.preferences
-from patchouli.plugins.hostname_css_class import HostnameCssPlugin
-from patchouli.plugins.social_identities import SocialIdentityFromTagsPlugin
+from plugins.hostname_css_class import HostnameCssPlugin
+from plugins.social_identities import SocialIdentityFromTagsPlugin
 
 logging.basicConfig(filename=settings.LOG_FILENAME, level = logging.DEBUG, format = '%(asctime)s %(levelname)s %(message)s', )
 log = logging.getLogger()

@@ -3,7 +3,7 @@
     This plugin looks at the tags in a stream and tries to figure
     out the user's current set of social identities.
 """
-from patchouli.plugins.basic import BasicPlugin
+from plugins.basic import BasicPlugin
 
 class SocialIdentityFromTagsPlugin(BasicPlugin): #
     """

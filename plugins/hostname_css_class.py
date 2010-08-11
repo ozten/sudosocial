@@ -2,7 +2,7 @@
 """
 import re
 
-from patchouli.plugins.basic import BasicPlugin
+from plugins.basic import BasicPlugin
 
 class HostnameCssPlugin(BasicPlugin):
     """

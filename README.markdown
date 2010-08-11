@@ -67,7 +67,6 @@ the [zamboni](http://github.com/jbalogh/zamboni) project
 as well as [Django 1.1 docs](http://docs.djangoproject.com/en/1.1/).
 
 Those urls above have more info, but basically:
-  # rename your checkout from sudosocial to patchouli (sorry, lame)
   # setup a virtualenv sudosocial (optional, see link above for zamboni virtual env setup)
   ## workon sudosocial
   # pip install -r requirements.txt
@@ -76,7 +75,6 @@ Those urls above have more info, but basically:
   # update settings.py
   # run python manage.py syncdb
   # python manage.py runserver 0.0.0.0:8000
-  # edit urls.py and update '/home/aking/patchouli/static/' to your path (sorry, lame)
   # from mysql prompt, execute the migrations under docs/database/migrations/
   
 You may need to sudo apt-get install python-lxml depending on your setup.
@@ -89,13 +87,11 @@ Again, you can find these in the VM, but:
  * See requirements.txt for Python requirements.
 
 ### Patchouli ###
-Currently this repository should be named patchouli and not **`sudo`Social**.
-
 What is "patchouli" in the code?
 This **was** the working name of the project. This project is a small step towards **personal cloud control**. 
 In meatspace, *Hippies use patchouli instead of showers and deodorant*. Respect... I'm a neo-hippie, I'm just say'n.
 
-**`sudo`Social** is a *slightly* better name. Patches welcome :)
+**`sudo`Social** is a *slightly* better name. [Patches welcome](http://groups.google.com/group/mozilla-labs-sudosocial/browse_thread/thread/2bb964af28c46755) :)
 
 ### Lifecycle ###
 Feeds are fetch and entries are pickled and stored in the database.
@@ -115,5 +111,8 @@ entry.html
 ### CRONs ###
 #### Feed Fetcher ####
 
+Assuming you had this code in /home/ozten/social and a virtualenv under /home/ozten/.virtualenvs/sudosocial, you'd 
+install the following cron:
+
     # m h dom mon dow   command
-    */5 * *   *   *     /home/ozten/.virtualenvs/patchouli/bin/python /home/ozten/patchouli/cron/feeder.py > /home/ozten/patchouli/cron/feeder.log
+    */5 * *   *   *     /home/ozten/.virtualenvs/sudosocial/bin/python /home/username/sudosocial/cron/feeder.py > /home/username/sudosocial/cron/feeder.log
