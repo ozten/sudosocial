@@ -67,24 +67,56 @@ the [zamboni](http://github.com/jbalogh/zamboni) project
 as well as [Django 1.1 docs](http://docs.djangoproject.com/en/1.1/).
 
 Those urls above have more info, but basically:
-  # setup a virtualenv sudosocial (optional, see link above for zamboni virtual env setup)
-  ## workon sudosocial
-  # pip install -r requirements.txt
-  # Any errors?
-  # create a database
-  # update settings.py
-  # run python manage.py syncdb
-  # python manage.py runserver 0.0.0.0:8000
-  # from mysql prompt, execute the migrations under docs/database/migrations/
-  
-You may need to sudo apt-get install python-lxml depending on your setup.
 
+1. Grab the source
+
+        git clone git://github.com/ozten/sudosocial.git
+1. *Optional* setup a virtualenv for sudosocial (See link above for zamboni virtual env setup and pro tips)
+
+        easy_install virtualenv
+        virtualenv --no-site-packages ~/.sudosocial
+        source ~/.sudosocial/bin/activate
+   Your command line should now show something like:
+
+        (.sudosocial)> 
+2. 
+
+        pip install -r requirements.txt
+3. Any errors? 
+4. create a database
+
+        $ mysql -uroot -p 
+        mysql> create database sudosocial_dev charset 'utf8';
+
+5. Create Django settings file and then edit mysql username and password
+
+        cp settings-dev.py settings.py
+   
+6. run 
+
+        python manage.py syncdb
+7. 
+
+        python manage.py runserver 0.0.0.0:8000
+
+Step 847, there is no step 847. It's that easy.
+
+## Updating after git pull ##
+
+Things are still under development, so you have two choices after a git pull brings down model.py changes (and migration files)
+
+1. Drop database and syncdb
+or
+2. From mysql prompt, execute the migrations under docs/database/migrations/
+  
 ### Requirements ###
 Again, you can find these in the VM, but:
 
- * Python 2.5
+ * Python 2.5+
  * Mysql
  * See requirements.txt for Python requirements.
+
+You may need to sudo apt-get install python-lxml depending on your setup.
 
 ### Patchouli ###
 What is "patchouli" in the code?
@@ -117,5 +149,5 @@ Assuming you had this code in /home/ozten/sudosocial and a virtualenv under /hom
 2. Edit /home/ozten/sudosocial/cron/config.py (optional)
 3. install the following cron:
 
-    # m h dom mon dow   command
-    */5 * *   *   *     /home/ozten/.virtualenvs/sudosocial/bin/python /home/username/sudosocial/cron/feeder.py > /home/username/sudosocial/cron/feeder.log
+        # m h dom mon dow   command
+        */5 * *   *   *     /home/ozten/.virtualenvs/sudosocial/bin/python /home/username/sudosocial/cron/feeder.py > /home/username/sudosocial/cron/feeder.log
