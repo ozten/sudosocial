@@ -17,10 +17,9 @@ $(document).ready(function(){
                type: "GET",
                dataType: 'json',
                complete: function(xhr, status) {
-                  alert('call complete');
+
                },
                success: function(data, status, xhr) {
-                alert('call success');
                     window.data = data;
                     if (Boolean(data.enabled)) {
                         $('#feed-disabled_panel').hide();
@@ -30,7 +29,6 @@ $(document).ready(function(){
                    $(that).text(oldText);
                },
                error: function(xhr, status, err) {
-                  alert('call error');
                   $(that).text("Error, " + oldText);
                }
         });
