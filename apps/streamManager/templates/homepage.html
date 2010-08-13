@@ -2,6 +2,13 @@
 {% load common_tags %}
 {% block title %}sudoSocial - sudo make me social{% endblock %}
 {% block content %}
+<nav id="global">
+  <ul>
+    <li><a href="http://www.drumbeat.org/project/sudosocial">Drumbeat Project</a></li>
+    <li><a href="http://groups.google.com/group/mozilla-labs-sudosocial">Discuss sudoSocial</a></li>
+    <li><a href="http://github.com/ozten/sudosocial">Developers</a></li>
+  </ul>
+</nav>
 <div id="content" class="homepage">
     <div id="auth"><a href="{% secure %} {% url auth_or_editor %} {% endsecure %}">Login</a></div>
     <h1 class="logo"><strong><code>sudo</code>Social</strong></h1>
@@ -18,15 +25,8 @@
         <li>Okay, <a id="create-homestream" href="{% secure %} {% url auth_or_editor %} {% endsecure %}">create your own HomeStream</a> and take control!</li>
     </ul>
     <div id="learn-more-sidebar">
-        <!-- p class="screencast"><object width="400" height="300"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=11819816&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=11819816&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="300"></embed></object></p>
-<p><a href="http://vimeo.com/11819816">SudoSocial - Introduction</a> from <a href="http://vimeo.com/mozlabs">Mozilla Labs</a> on <a href="http://vimeo.com">Vimeo</a>.</p -->
-        <p>Learn more:
-            <ul><li><a href="http://ozten.com/psto/2010/05/23/checkout-sudosocial-me-a-new-stream-editor/">Initial blog post</a>
-        </li>
-        <li>The project's <a href="http://github.com/ozten/sudosocial#readme">README</a> file</li>
-        <li><a href="http://ozten.com/psto/2010/05/23/4-apps-that-are-similar-to-sudosocial/">4 Apps that are Similar to sudoSocial</a>
-        </ul>
-        <!-- a href="http://mozillalabs.com/conceptseries/2010/05/17/introducing-sudosocial-me">Introducing sudosocial.me</a -->
+<p><object width="640" height="480"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=12219674&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=ffffff&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=12219674&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=ffffff&amp;fullscreen=1" type="application/x-shockwave-flash" width="640" height="480"></embed></object>
+        
         </p>
     </div>
     </div>

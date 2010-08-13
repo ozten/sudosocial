@@ -29,7 +29,7 @@ blockquote, q {
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
-	content: none;
+	content: none;        
 }
 
 /* remember to define focus styles! */
@@ -81,11 +81,12 @@ h1.logo code {
 #content {
     text-align: center;
     min-height: 600px;
+    clear: both;
 }
 /* confirm profile */
 .copy, .login, #confirm_profile, #delete_profile {
     margin: 0 auto;
-    width: 835px;
+    width: 1090px;
     padding-top: 1em;
 }
 .note {
@@ -98,7 +99,7 @@ h1.logo code {
 }
 /* homepage */
 .homepage .logo {
-	margin-top: 2em;
+	padding-top: 1em;
 }
 .homepage .tagline {
 	margin-bottom: 1em;
@@ -120,9 +121,10 @@ h1.logo code {
     margin-left: 2em;
 }
 #learn-more-sidebar {
+    border: solid 1px #333;
     float: left;
     text-align: left;
-    width: 350px;
+    width: 640px; /* matches video */
     margin-left: 1em;
 }
 
@@ -181,3 +183,19 @@ div > label{
 .error-message {
     color: red;
 }
+
+nav#global {
+    margin-bottom: 2em;
+}
+
+nav ul {
+    color: #000;
+}
+
+nav ul li {
+    float: left;
+    list-style: none;
+    margin-left: 1em;
+}
+
+

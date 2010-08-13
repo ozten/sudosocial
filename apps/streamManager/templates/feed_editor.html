@@ -4,9 +4,11 @@
 <link href="/static/css/feed-editor-stylo.css" type="text/css" rel="stylesheet">
 {% endblock %}
 {% block sidebar %}
+<nav>
 <ul id="stream-nav" class="nav">
-    <li><a id="back" href="/manage/account/{{username}}">Back</a></li>
+    <li><a id="back" href="/manage/account/{{username}}" class="button">Back</a></li>
 </ul>
+</nav>
 {% endblock %}
 
 {% block content %}
@@ -14,6 +16,7 @@
 
 <div id="feed_properties">
     <h1>Edit Feed Details</h1>
+    <a href="{{ feed.pk }}" class="feed-delete button" title="Delete this feed.">Delete</a>
 <form action="/manage/account/ozten/stream/{{stream_id}}/feed/{{feed_id}}" method="post">
 <div><span class="label">Url</span> <code>{{feed.url}}</code></div>
 <label for="title">Title</label><input type="text" name="title" id="title" value="{{feed.title}}" />
@@ -43,7 +46,6 @@
       <label for="num_entries_shown" class="checkbox-panel enable_num_entries_shown_panel">Show only the last <input id="num_entries_shown" name="num_entries_shown" type="text" size="3" value="{{feed_config.num_entries_shown}}" /> entries.</label>
     </div>
     <input type="submit" value="Save" />
-<a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed.">Delete</a>
 </form>
 </div><!-- /feed_properties -->
 <a id="feed_preview_source" href="/manage/account/{{username}}/stream/{{stream.id}}/preview_feed/{{feed_id}}">Preview</a>

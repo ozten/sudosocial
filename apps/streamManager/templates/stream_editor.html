@@ -35,11 +35,8 @@
         {%  for feed in feeds %}
             <li>
                 <a href="{{ feed.url }}" class="stream-feed-source"> {% if feed.title %}{{ feed.title }}{% else %} {{ feed.url }} {% endif %}</a>
-                <div class="feed-entries-visible-default {% if feed.entries_visible_default %}.shown{% else %}.hidden{% endif %}"
-                     title="New Items are {% if feed.entries_visible_default %} shown automatically {% else %} hidden until shown individually {% endif %}">
-                </div> 
                 {% if not feed.enabled %} <strong title="{{feed.disabled_reason}}">Disabled</strong>{% endif %}
-                <a href="/manage/account/{{username}}/stream/{{stream.id}}/feed/{{feed.pk}}">Edit</a>
+                <a href="/manage/account/{{username}}/stream/{{stream.id}}/feed/{{feed.pk}}" class="button">Edit</a>
             </li>
         {% empty %}
             <li id="no-stream-feed-blurb"><a href="#" class="stream-feed-source"></a><a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed."></a>You have no stream sources, add a new feed.</li>
