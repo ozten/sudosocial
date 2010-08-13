@@ -10,11 +10,11 @@
     </head>
     <body>
         <div id="heading">
-            <div class="logo-panel">
-<div class="logo"><strong><code>sudo</code>Social</strong></div>
-<div class="tagline">Take control of your stream</div>
-</div>
-            <div id="auth">Hey, <span id="auth-username">{{ username }}</span>
+          <div class="logo-panel">
+            <div class="logo"><a href="/">Mozilla RiverDam</a></div>
+            <div class="tagline">Take control of your ActivityStreams</div>
+          </div>
+          <div id="auth">Hey, <span id="auth-username">{{ username }}</span>
             <a href="{% secure %}{% url logout %}{% endsecure %}" class="auth logout">Log out</a> or
             <a href="{% secure %}{% url edit_profile username %}{% endsecure %}">Edit Profile</a></div>
             <br />
@@ -37,5 +37,6 @@ try {
 var pageTracker = _gat._getTracker("UA-16311800-1");
 pageTracker._trackPageview();
 } catch(err) {}</script>
+<div id="release-footer"><a href="http://sudosocial.me"><strong><code>sudo</code>Social</strong></a> Version 0.5 RiverDam &quot;Early, Often&quot; release</div>
     </body>
 </html>

@@ -31,18 +31,7 @@
 {% endfor %}
 </ul>
 </div><!-- /stream-editor-panel -->
-<div id="other-sources-panel">
-    <h2>Unused Sources</h2>
 
-    <ul id="user_feeds">
-    {% for feed in unused_feeds %}
-        <li><a href="{{ feed.url }}" class="feed-source"> {{ feed.url }}</a> [<a href="{{ feed.pk }}" class="feed-delete">x</a>]</li>
-    {% empty %}
-        <li>All of your Sources are used in this &quot;{{streamname}}&quot; stream.</li>
-    {% endfor %}
-    </ul>
-</div><!-- /other-sources-panel -->
-<script src="http://bald.ubuntu/js/jquery-1.4.2.min.js"></script>
 <script>
 $('#add-url-form').submit(function(){
     

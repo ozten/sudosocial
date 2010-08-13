@@ -1,3 +1,6 @@
+nav ul li, nav ol li {
+    list-style: none;
+}
 #feed_preview_source { display: none; }
 .current { font-weight: 600; }
 #feed_properties { width: 500px;
@@ -11,3 +14,17 @@ float: left;
 .checkbox-panel { line-height: 2.5; padding: 10px; }
 .checkbox-disabled, .checkbox-disabled input { background-color: #DDD; color: #333; display: }
 
+a.feed-delete {
+    float: right;
+    background-color: #e62020;
+    color: white;
+    font-weight: bold;
+}
+.button {
+    background-color: #DDD;
+    color: #000;
+    border: solid 1px grey;
+    padding: 5px 10px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}

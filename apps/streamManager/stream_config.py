@@ -32,7 +32,7 @@ class StreamConfig(object):
             {
               'url_hash': '8aebbd89274c9356403136ab9e9b7a6d',
               'entries_visible_default': false
-            }, ...s
+            },
           ]
         }
         Constructor repairs the config, giving default values

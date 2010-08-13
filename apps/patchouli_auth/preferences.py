@@ -59,10 +59,15 @@ def getPageProperties(page):
         'css_value': '',
         
         'processing_js': '',
+
+        'stream_names': []
     }
     
     existingProps = simplejson.loads(page.config)
     pageProps.update(existingProps)
+    if 0 == len(pageProps['stream_names']):
+        # This should be page.id instead
+        pageProps['stream_names'] = [page.name] 
     return pageProps    
 
 def savePageOrStreamProperties(model, properties):

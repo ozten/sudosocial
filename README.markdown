@@ -56,36 +56,85 @@ Zach Hale
 Ian Bicking (Silver Lining)
 
 ## Hacking ##
-You can use the [VirtualBox applicance](http://sudosocial.me/static/sudosocial.zip) and your good to go.
-
 This code and data is very early days and subject to change.
 
-If you want to setup from scratch, this is a Django app and borrows from
-[addons.mozilla.org](http://addons.mozilla.org) and [support.mozilla.org](http://support.mozilla.org).  
-Please follow [the docs](http://jbalogh.github.com/zamboni/topics/installation/) from
+If you run into trouble installing or hacking, this framework is Django plus enhancements from from [addons.mozilla.org](http://addons.mozilla.org) and [support.mozilla.org](http://support.mozilla.org), so you can refer to [the docs](http://jbalogh.github.com/zamboni/topics/installation/) from
 the [zamboni](http://github.com/jbalogh/zamboni) project 
 as well as [Django 1.1 docs](http://docs.djangoproject.com/en/1.1/).
 
-Those urls above have more info, but basically:
-  # setup a virtualenv sudosocial (optional, see link above for zamboni virtual env setup)
-  ## workon sudosocial
-  # pip install -r requirements.txt
-  # Any errors?
-  # create a database
-  # update settings.py
-  # run python manage.py syncdb
-  # python manage.py runserver 0.0.0.0:8000
-  # from mysql prompt, execute the migrations under docs/database/migrations/
-  
-You may need to sudo apt-get install python-lxml depending on your setup.
-
 ### Requirements ###
-Again, you can find these in the VM, but:
+You'll need easy_install, MySQL client and server, and Python 2.5 or greater.
 
- * Python 2.5
- * Mysql
- * See requirements.txt for Python requirements.
+For Ubuntu you could do 
+sudo apt-get install python-setuptools libmysqlclient-dev libxml2-dev libxslt1-dev python-dev
+sudo easy_install pip
 
+1. Grab the source
+
+        git clone git://github.com/ozten/sudosocial.git
+        cd sudosocial
+
+1. *Optional* setup a virtualenv for sudosocial (See link above for zamboni virtual env setup and pro tips)
+
+        easy_install virtualenv
+        virtualenv --no-site-packages ~/.sudosocial
+        source ~/.sudosocial/bin/activate
+   Your command line should now show something like:
+
+        (.sudosocial)jrhacker@home:~/sudosocial$ 
+2. 
+
+        pip install -r requirements.txt
+3. Any errors? 
+4. create a database
+
+        $ mysql -uroot -p 
+        mysql> create database sudosocial_dev charset 'utf8';
+        mysql> exit
+
+5. Create Django settings file and then edit mysql username and password
+
+        cp settings-dev.py settings.py
+   
+6. run 
+
+        python manage.py syncdb
+7. 
+
+        python manage.py runserver 0.0.0.0:8000
+
+8. Install cron job (or run manually once and a while)
+
+  Assuming your using virtualenv
+
+        ~/.sudosocial/bin/python ~/sudosocial/cron/feeder.py
+
+  (more details on setting up a cron are furth down in this README)
+
+9. Go to http://localhost:8000
+    Click "create your own Homestream"
+
+
+
+Step 847, there is no step 847. It's that easy.
+
+## Updating after git pull ##
+
+Things are still under development, so you have two choices after a git pull brings down model.py changes (and migration files)
+
+1. Update the database
+  Drop database and syncdb
+  or
+  From mysql prompt, execute the migrations under docs/database/migrations/
+
+2. 
+
+        pip install -r requirements.txt
+
+3. Check for updates to the settings-dev.py file
+
+        diff settings.py settings-dev.py
+  
 ### Patchouli ###
 What is "patchouli" in the code?
 This **was** the working name of the project. This project is a small step towards **personal cloud control**. 
@@ -117,5 +166,9 @@ Assuming you had this code in /home/ozten/sudosocial and a virtualenv under /hom
 2. Edit /home/ozten/sudosocial/cron/config.py (optional)
 3. install the following cron:
 
-    # m h dom mon dow   command
-    */5 * *   *   *     /home/ozten/.virtualenvs/sudosocial/bin/python /home/username/sudosocial/cron/feeder.py > /home/username/sudosocial/cron/feeder.log
+        # m h dom mon dow   command
+        */5 * *   *   *     /home/ozten/.virtualenvs/sudosocial/bin/python /home/username/sudosocial/cron/feeder.py > /home/username/sudosocial/cron/feeder.log
+
+
+### Plugins ###
+There is the begginings of a Plugin system. Poke around under the plugins directory. APIs are not frozen. ["I must break you"](http://www.youtube.com/watch?v=ygQvB6OjHOU)
