@@ -3,53 +3,65 @@
 
 {% block sidebar %}
 <ul id="stream-nav" class="nav">
-    <li>New Stream</li>
-    <li>All Streams</li>
+    <li>New Page</li>
+    <li>All Pages</li>
 </ul>
-<p><b>Note:</b> Deleting a feed will remove all of it's entries.</p>
+
 {% endblock %}
 
 {% block content %}
 <h1>Stream Editor</h1>
 <div id="stream-editor-panel" lang="{{page_props.page_lang}}" dir="{{page_props.page_lang_dir}}">
     <ul class="tabs">
-        <li id="edit-stream" class="tab editor"><a href="#">Edit </a><strong id="stream{{stream.id}}" class="stream-name">{{stream.name}}</strong> Stream</li>
+        <li id="edit-stream" class="tab editor"><a href="#">Edit </a><strong id="stream{{stream.id}}" class="stream-name">{{stream.name}}</strong> Stream Page</li>
         <li id="design-stream" class="tab design xactive-tab"><a href="#">Design</a></li>
         <li id="page-widgets" class="tab pagewidget active-tab"><a href="#">Page Widgets</a></li>
         <li><a id="preview" href="/u/{{username}}/s/{{stream.name}}" target="_new" title="View your currenly published Stream in a new window">View</a></li>
     </ul>
-<!--------------------- Edit Stream Panel ------------------------->
+    <!--------------------- Edit Stream Panel ------------------------->
     <div id="edit-stream-panel" class="panel">
-<h2 class="new-feed">Add A Source</h2>
-<p>Paste in the Url to a website or any Atom or RSS feed <img src="/static/img/feed-icon-14x14.png" width="14" height="14" alt="Feed Icon" />.</p>
+      <div class="streams-panel"><!-- streams panel contains the metadata and preview -->
+        <div class="stream-metadata-panel">
+          <h2 class="new-feed">Add A Source</h2>
+          <p>Paste in the Url to a website or any Atom or RSS feed <img src="/static/img/feed-icon-14x14.png" width="14" height="14" alt="Feed Icon" />.</p>
 
-<form id="add-url-form" action="/manage/urls/{{request.user.username}}" method="post">
-<p><label for="id_url">Url:</label> <input id="id_url" type="text" name="url" maxlength="2048" /></p>
-<p><label for="id_streams">Streams:</label>
-    <input type="hidden" name="streams" id="id_streams" value="home" /></p>
-<input type="submit" value="Add Feed" />
-</form>
+          <form id="add-url-form" action="/manage/urls/{{request.user.username}}" method="post">
+          <p><label for="id_url">Url:</label> <input id="id_url" type="text" name="url" maxlength="2048" /></p>
+          <p>
+            <label for="id_streams">Streams:</label>
+            <input type="hidden" name="streams" id="id_streams" value="home" /></p>
+            <input type="submit" value="Add Feed" />
+          </p>
+          </form>
 
-    <h2>Stream Sources</h2>
-    <ul id="user_streams">
-        {%  for feed in feeds %}
-            <li>
+          <h2>Stream Sources</h2>
+          <ul id="user_streams">
+            {%  for feed in feeds %}
+              <li>
                 <a href="{{ feed.url }}" class="stream-feed-source"> {% if feed.title %}{{ feed.title }}{% else %} {{ feed.url }} {% endif %}</a>
                 {% if not feed.enabled %} <strong title="{{feed.disabled_reason}}">Disabled</strong>{% endif %}
                 <a href="/manage/account/{{username}}/stream/{{stream.id}}/feed/{{feed.pk}}" class="button">Edit</a>
-            </li>
-        {% empty %}
-            <li id="no-stream-feed-blurb"><a href="#" class="stream-feed-source"></a><a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed."></a>You have no stream sources, add a new feed.</li>
-        {%  endfor %}
-        
-        <li id="base-stream-feed-link" style="display:none"><a href="{{ feed.url }}" class="stream-feed-source">sample</a>
-            <div class="feed-entries-visible-default shown" title="New Items are shown automatically"></div>
-            <a href="#" class="feed-edit" title="Edit this feed.">Edit</a></li>
-    </ul>
-    <p>After 5 minutes, Feed entries should start appearing in <a href="/u/{{username}}/s/{{stream.name}}" target="_new" title="View your currenly published Stream in a new window">your stream.</a></p>
-        {% include 'feed_editor_preview.html' %}
-    </div><!-- /edit-stream-panel -->
-<!--------------------- Page Widgets Panel ------------------------->
+              </li>
+            {% empty %}
+              <li id="no-stream-feed-blurb"><a href="#" class="stream-feed-source"></a><a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed."></a>You have no stream sources, add a new feed.</li>
+            {%  endfor %}
+      
+                <li id="base-stream-feed-link" style="display:none"><a href="{{ feed.url }}" class="stream-feed-source">sample</a>
+              <div class="feed-entries-visible-default shown" title="New Items are shown automatically"></div>
+              <a href="#" class="feed-edit" title="Edit this feed.">Edit</a></li>
+          </ul>
+          <p>After 5 minutes, Feed entries should start appearing in <a href="/u/{{username}}/s/{{stream.name}}" target="_new" title="View your currenly published Stream in a new window">your stream.</a></p>
+        </div><!-- /.stream-metadata-panel -->
+        <div class="stream-preview-panel">
+          {% include 'feed_editor_preview.html' %}
+        </div><!-- /.stream-preview-panel -->
+      </div><!-- /.streams-panel -->
+      <div class="add-stream-panel">
+        <p class="callout">A page can have multiple streams. <a href="#todo" class="button">Add Another Stream</a>.</p>
+      </div>
+    </div><!-- /#edit-stream-panel -->
+
+    <!--------------------- Page Widgets Panel ------------------------->
     <div id="page-widgets-panel" class="panel">
         <h2>Page Widgets</h2>
         <p>In addition to a stream, this profile page can have other pieces content.</p>
@@ -197,17 +209,7 @@
         </form>
     </div><!-- /design-stream -->
 </div><!-- /stream-editor-panel -->
-<div id="other-sources-panel">
-    <h2>Unused Sources</h2>
 
-    <ul id="user_other_feeds">
-    {% for feed in unused_feeds %}
-        <li><a href="{{ feed.url }}" class="other-feed-source"> {{ feed.url }}</a> [<a href="{{ feed.pk }}" class="feed-delete">x</a>]</li>
-    {% empty %}
-        <li>All of your Sources are used in this &quot;{{stream.name}}&quot; stream.</li>
-    {% endfor %}
-    </ul>
-</div><!-- /other-sources-panel -->
 <script src="/static/js/jquery-1.4.1.min.js" type="text/javascript"></script>
 <script src="/static/js/stream_editor.js" type="text/javascript"></script>
 {% endblock %}

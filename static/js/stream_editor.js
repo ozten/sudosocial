@@ -91,6 +91,9 @@ var prepareShowHideEntries = function() {
         return false;
     });
     $('a.display_entry.entry-hidden').parent().addClass('entry-hidden');
+
+    $('#stream-preview').css('height', 
+                                  $(window).height() - $('#stream-preview').offset().top);
 }
 $(document).ready(function(){
     
@@ -162,6 +165,10 @@ $(document).ready(function(){
     };
     $('input[type=checkbox]').each(disableCheckboxPanels);
     $('input[type=checkbox]').click(disableCheckboxPanels);
+
+    $('.stream-preview-panel').css('height', 
+                                   $(window).height() - $('.stream-preview-panel').offset().top);
+
 });
 
 $('#username').bind('focus, blur', function(){

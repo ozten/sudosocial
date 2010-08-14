@@ -1,13 +1,17 @@
+
+div.logo a { 
+    padding-left: 67px;
+    background-image: url('/static/img/riverdam_logo_62x35.jpg');
+    background-repeat: no-repeat;
+}
 div.logo {
     font-size: 300%;
     line-height: 1;
 }
 div.logo, div.logo a {
-    color: #333;
+    color: #1046b0;
+    font-weight: bold;
     text-decoration: none;
-}
-div.logo code {
-    color: green;
 }
 .tagline {
     font-size: 110%;
@@ -15,10 +19,11 @@ div.logo code {
     line-height: 1;
     margin-top: 0px;
     padding-top: 0px;    
+    float: left;
 }
 .logo-panel { float: left; }
-.logo-panel .logo { font-size: 200%;}
-.logo-panel .tagline { font-size: 90%;}
+.logo-panel .logo { font-size: 200%; float: left; }
+.logo-panel .tagline { font-size: 90%; line-height: 3.0; }
 
 #auth {
     
@@ -30,22 +35,30 @@ div.logo code {
     width: 100%;
 }
 #sidebar {
-
-    float: left;
+    position: absolute;
     width: 200px;
 }
 #content {
 
-    margin-left: 220px;
+    margin-left: 180px;
     width: 1030px;
 }
-#content h1 {
+#content > h1:first {
     padding-top: 0px;
     margin-top: -30px;
+    clear: both;
 }
 #stream-editor-panel {
-    width: 700px;
     float: left;
+    width: 1170px;
+}
+.streams-panel, .add-stream-panel { float: left; width: 815px; border: dotted 1px grey; } /* contains .stream-metadata-panel and .stream-preview-panel */
+.add-stream-panel { width: 300px; }
+.stream-metadata-panel { width: 300px; float: left; }
+.stream-preview-panel, #stream-preview { width: 500px; float: left; overflow: scroll; padding-right: 10px;}
+.callout {
+    line-height: 2.5;
+    margin-left: 10px;
 }
 .feed-entry hr { display: none; }
 .feed-entry {
