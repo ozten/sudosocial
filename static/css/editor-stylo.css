@@ -39,23 +39,22 @@ div.logo, div.logo a {
     width: 200px;
 }
 #content {
-
     margin-left: 180px;
-    width: 1030px;
 }
 #content > h1:first {
     padding-top: 0px;
     margin-top: -30px;
     clear: both;
 }
-#stream-editor-panel {
+#edit-stream-panel {
     float: left;
-    width: 1170px;
+    width: 800px;
 }
+#feed_panel { width: 1030px; }
 .streams-panel, .add-stream-panel { float: left; width: 815px; border: dotted 1px grey; } /* contains .stream-metadata-panel and .stream-preview-panel */
 .add-stream-panel { width: 300px; }
 .stream-metadata-panel { width: 300px; float: left; }
-.stream-preview-panel, #stream-preview { width: 500px; float: left; overflow: scroll; padding-right: 10px;}
+.stream-preview-panel, #stream-preview { width: 500px; float: left; overflow: scroll; margin-left: 5px; padding-right: 10px;}
 .callout {
     line-height: 2.5;
     margin-left: 10px;
@@ -137,6 +136,8 @@ fieldset, .field {
     padding: 10px;
     width: 650px;
 }
+#manage-page-widgets fieldset, 
+.optional-text-widget { margin-left: 0px; margin-right: 0px; }
 input.url {
     width: 600px;
 }

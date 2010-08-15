@@ -56,30 +56,33 @@ def manage_page(request, username, page_name):
     if request.user.username == username:
         webpage = get_object_or_404(lifestream.models.Webpage, user=request.user, name=page_name)
         webpage_properties = patchouli_auth.preferences.getPageProperties(webpage)
-        stream = get_object_or_404(lifestream.models.Stream, user=request.user, name=page_name)
-        stream_config = StreamConfig(stream.config)        
-        feed_rows = stream.feed_set.all()
-        stream_config.ensureFeedsConfig(feed_rows)
-        feed_id_to_feed = {}
-        for row in feed_rows:
-            feed_id_to_feed[row.pk] = row
-        feeds = []
-        for feed in stream_config.config['feeds']:
-            feed_row = feed_id_to_feed[feed['url_hash']]
-            feeds.append({'url': feed_row.url,
-                          'title': feed_row.title,
-                          'pk': feed_row.pk,
-                          'enabled': feed_row.enabled,
-                          'disabled_reason': feed_row.disabled_reason,
-                          'entries_visible_default': feed['entries_visible_default']})
-        plugins = [StreamEditorPlugin(log)]
-        entries = lifestream.models.recent_entries(request.user, stream, 150, False)
-        entry_pair = entry_pair_for_entries(request, entries, plugins)
-        for entry, entry_html in entry_pair:
-            log.info(entry.stream_entry)
-        feed_model = lifestream.models.FeedForm()
+        streams = []
+        for stream_name in webpage_properties['stream_names']:
+            stream = get_object_or_404(lifestream.models.Stream, user=request.user, name=stream_name)
+            streams.append(stream)
+            stream_config = StreamConfig(stream.config)
+            feed_rows = stream.feed_set.all()
+            stream_config.ensureFeedsConfig(feed_rows)
+            feed_id_to_feed = {}
+            for row in feed_rows:
+                feed_id_to_feed[row.pk] = row
+            stream.feeds = []
+            for feed in stream_config.config['feeds']:
+                feed_row = feed_id_to_feed[feed['url_hash']]
+                stream.feeds.append({'url': feed_row.url,
+                              'title': feed_row.title,
+                              'pk': feed_row.pk,
+                              'enabled': feed_row.enabled,
+                              'disabled_reason': feed_row.disabled_reason,
+                              'entries_visible_default': feed['entries_visible_default']})
+            plugins = [StreamEditorPlugin(log)]
+            entries = lifestream.models.recent_entries(request.user, stream, 150, False)
+            stream.entry_pair = entry_pair_for_entries(request, entries, plugins)
+            for entry, entry_html in stream.entry_pair:
+                log.info(entry.stream_entry)
+            feed_model = lifestream.models.FeedForm()
                 
-        stream.url = "/u/%s/s/%s" % (username, stream.name)
+            stream.url = "/u/%s/s/%s" % (username, stream.name)
         
         gravatarHash = hashlib.md5(
             django.utils.encoding.smart_str(request.user.email)).hexdigest()
@@ -105,11 +108,11 @@ def manage_page(request, username, page_name):
         else:
             js_url_default = 'http://'
         
-        template_data = { 'feeds': feeds,
+        template_data = { #'feeds': feeds,
                           'css_raw_default': css_raw_default,
                           'css_url_default': css_url_default,
                           'page_props_s': str(webpage_properties),
-                          'entry_pair': entry_pair,
+
                           'unused_feeds': [],
                           'form': feed_model,
                           'gravatar': gravatar,
@@ -126,12 +129,14 @@ def manage_page(request, username, page_name):
                           'page_lang_dirs': lang.DIR_CHOICES,
                           'page_name': stream.name,
                           'request': request,
-                          'stream': stream,
+                          'streams': streams,
                           'stream_id': stream.id,
                           'stream_config': stream_config,
                           'username': request.user.username,
                           'page_props': webpage_properties,
                           'preferences': preferences}
+        if streams:
+            template_data['first_stream'] = streams[0]
         [template_data.update(plugin.template_variables()) for plugin in plugins]
         return render_to_response('stream_editor.html',
                               template_data,
@@ -480,11 +485,12 @@ def preview_feed(request, username, stream_id, feed_id):
     stream_config = StreamConfig(stream.config)
     entries = lifestream.models.recent_feed_entries(user, stream, feed_id, 150, False)
     plugins = [StreamEditorPlugin(log)]
-    entry_pair = entry_pair_for_entries(request, entries, plugins)
+    stream.entry_pair = entry_pair_for_entries(request, entries, plugins)
                                         
     
     return render_to_response('feed_editor_preview.html',
-                              { 'entry_pair': entry_pair,
+                              { #'entry_pair': entry_pair,
+                                'stream': stream,
                                 'stream_id': stream.id,
                               },
                               context_instance=django.template.RequestContext(request))
