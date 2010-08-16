@@ -53,7 +53,7 @@ def stream(request, username, streamname):
 def common_stream(request, username, streamname):
     username = username.lower()    
     user = User.objects.get(username=username)
-    stream = get_object_or_404(lifestream.models.Stream, user=request.user, name=streamname)
+    stream = get_object_or_404(lifestream.models.Stream, user=user, name=streamname)
     rawEntries = lifestream.models.recent_entries(user, stream)
     
     entries = []
