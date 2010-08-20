@@ -1,6 +1,7 @@
 import logging
 import datetime
 import hashlib
+import time
 
 import feedparser
 from pyquery import PyQuery
@@ -39,11 +40,11 @@ def manage_profile(request):
 @login_required
 def manage(request, username):
     if request.user.username == username:
-        streams = lifestream.models.Stream.objects.filter(user=request.user).all()
-        if len(streams) == 1:            
-            return manage_page(request, username, 'home')
+        pages = lifestream.models.Webpage.objects.filter(user=request.user).all()
+        if len(pages) == 1:            
+            return manage_page(request, username, pages[0].name)
         else:
-            return manage_all_streams(request, username)
+            return manage_all_pages(request, username)
     else:
         return django.http.HttpResponse(HACKING_MESSAGE, status=400)
         
@@ -54,11 +55,12 @@ def entry_pair_for_entries(request, raw_entries, plugins):
 @login_required    
 def manage_page(request, username, page_name):
     if request.user.username == username:
+        log.info("Grabbing webpage")
         webpage = get_object_or_404(lifestream.models.Webpage, user=request.user, name=page_name)
         webpage_properties = patchouli_auth.preferences.getPageProperties(webpage)
         streams = []
-        for stream_name in webpage_properties['stream_names']:
-            stream = get_object_or_404(lifestream.models.Stream, user=request.user, name=stream_name)
+        for stream_id in webpage_properties['stream_ids']:
+            stream = get_object_or_404(lifestream.models.Stream, user=request.user, id=stream_id)
             streams.append(stream)
             stream_config = StreamConfig(stream.config)
             feed_rows = stream.feed_set.all()
@@ -127,7 +129,7 @@ def manage_page(request, username, page_name):
                           'page_langs': lang.HTML_LANG,
                           'page_lang_desc': lang.HTML_LANG[webpage_properties['page_lang']],
                           'page_lang_dirs': lang.DIR_CHOICES,
-                          'page_name': stream.name,
+                          'page_name': page_name,
                           'request': request,
                           'streams': streams,
                           'stream_id': stream.id,
@@ -210,8 +212,11 @@ def append_if_dict(a_list, maybe_dict):
 def save_feeds(request, username):
     new_feeds_to_save = []
     params = request.POST.copy()
-    stream = get_object_or_404(lifestream.models.Stream, user=request.user,
-                                                      name=params['streams[]'])
+    log.info("Saving for stream with an id of")
+    log.info(params['streams[]'])
+    stream = get_object_or_404(lifestream.models.Stream, 
+                               user=request.user,
+                               id=params['streams[]'])
     feed_url = request.POST['url']
     possible_feed = is_possible_feed(feed_url)
     if possible_feed:
@@ -232,7 +237,7 @@ def save_feeds(request, username):
         a_feed = lifestream.models.Feed(url_hash = feed_url_hash, title=new_feed_to_save['feed_title'],
                                         url = new_feed_to_save['feed_url'],
                                         etag='', last_modified=datetime.datetime(1975, 1, 10),
-                                        enabled=True, disabled_reason='',        
+                                        enabled=True, disabled_reason='',
                                         user=request.user, created_date=datetime.datetime.today())        
         a_feed.streams.add(stream)
         form = lifestream.models.FeedForm(params, instance=a_feed)
@@ -494,25 +499,60 @@ def preview_feed(request, username, stream_id, feed_id):
                                 'stream_id': stream.id,
                               },
                               context_instance=django.template.RequestContext(request))
-            
+@login_required
+def streams(request, username, page_name):
+    if request.user.username == username:
+        if 'POST' == request.method:
+            webpage = get_object_or_404(lifestream.models.Webpage, user=request.user, name=page_name)
+            webpage_props = patchouli_auth.preferences.getPageProperties(webpage)
+            new_stream_name = "Untitled %d" % int(time.mktime(datetime.datetime.now().timetuple()) * 1000)
+            new_stream = lifestream.models.Stream(user=request.user, name=new_stream_name, webpage=webpage)
+            new_stream.save()
+
+            webpage_props['stream_ids'].append(new_stream.id)
+            patchouli_auth.preferences.savePageOrStreamProperties(webpage, webpage_props)
+            payload = {'status': 'OK', 'new_stream_id': new_stream.id}
+            #TODO type in all these content-types.... WTF?
+            return django.http.HttpResponse(json.dumps(payload), mimetype='applicaiton/json')
+
+        else:
+            return django.http.HttpResponse('Hey')
+    else:
+        return django.http.HttpResponse('{"message":"' + HACKING_MESSAGE + '"}', mimetype='applicaiton/json', status=400)
+
+@login_required
+def stream(request, username, stream_id):
+    if request.user.username == username:
+        if 'DELETE' == request.method:
+            stream = get_object_or_404(lifestream.models.Stream, user=request.user, id=stream_id)
+            payload = {'status': 'ERROR', 'msg': 'Unabled to remove stream'}
+            log.info("Removing stream %d %s" % (stream.id, stream.name))
+            if patchouli_auth.preferences.removeStreamFromPage(stream.webpage, stream):
+                payload = {'status': 'OK', 'msg': 'Stream removed'}
+            return django.http.HttpResponse(json.dumps(payload), mimetype='applicaiton/json')            
+        else:
+            return django.http.HttpResponse('Hey')
+    else:
+        return django.http.HttpResponse('{"message":"' + HACKING_MESSAGE + '"}', mimetype='applicaiton/json', status=400)
+
 # ----------------- Sitewide Functions --------------#
 def homepage(request):
     return render_to_response('homepage.html',
-                          {'css_url': '/static/css/general-site.css',
+                          {'css_url': '/static/css/general-site.min.css',
                            'lang_dir': 'LTR',
                            'page_lang': 'en',},
                           context_instance=django.template.RequestContext(request))
 
 def page_not_found(request):
     response = render_to_response('404.html',
-                          {'css_url': '/static/css/general-site.css'},
+                          {'css_url': '/static/css/general-site.min.css'},
                           context_instance=django.template.RequestContext(request))
     response.status_code = 404
     return response
     
 def server_error(request):
     response = render_to_response('500.html',
-                          {'css_url': '/static/css/general-site.css'},
+                          {'css_url': '/static/css/general-site.min.css'},
                           context_instance=django.template.RequestContext(request))
     response.status_code = 500
     return response

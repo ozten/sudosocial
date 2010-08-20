@@ -31,6 +31,7 @@ class Stream(models.Model):
     """ A stream is composed of Feeds. """
     user = models.ForeignKey(User)
     name = models.CharField(max_length=140)
+    webpage = models.ForeignKey(Webpage) # Added in 0.6 migration
     # StreamConfig
     config = models.TextField()
     # StreamEditList
@@ -146,7 +147,10 @@ def _recent_entries(user, stream, feed_id, count=150, only_visible=True):
         query = (Entry.objects.order_by('-last_published_date')
                           .filter(feed__user=user,
                                   feed__url_hash=a_feed_id,
-                                  feed__streams__id = stream_id))        
+# TODO .... Why constrain by Stream? We want to reuse feeds, right?
+# the cron somehow repairs the links betwee a feed and all the streams it lives in
+                                  feed__streams__id = stream_id
+))
         # Visible is special, we want to see hidden items in the editor
         if only_visible:
             query = query.filter(streamentry__visible=True)

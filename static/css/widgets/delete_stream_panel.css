@@ -1,0 +1,7 @@
+.stream-delete-panel { margin-top: 2em; }
+a.stream-delete { 
+    background-color:#E62020;
+    color:white;
+    float:right;
+    font-weight:bold;  
+}

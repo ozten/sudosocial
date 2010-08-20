@@ -3,6 +3,7 @@
 import simplejson
 
 import patchouli_auth.models
+import lifestream.models
 
 def getPreferences(user):
     # Put all known preferences here...
@@ -60,15 +61,29 @@ def getPageProperties(page):
         
         'processing_js': '',
 
-        'stream_names': []
+        'stream_ids': []
     }
     
     existingProps = simplejson.loads(page.config)
     pageProps.update(existingProps)
-    if 0 == len(pageProps['stream_names']):
-        # This should be page.id instead
-        pageProps['stream_names'] = [page.name] 
+    if 0 == len(pageProps['stream_ids']):
+        # Repair and save
+        streams = (lifestream.models.Stream.objects.all()
+                      .order_by('id')
+                      .filter(webpage__id = page.id))
+        for stream in streams:
+            pageProps['stream_ids'].append(stream.id)
+        savePageOrStreamProperties(page, pageProps)
     return pageProps    
+
+def removeStreamFromPage(webpage, stream):
+    props = getPageProperties(webpage)
+    if stream.id in props['stream_ids']:
+        props['stream_ids'].remove(stream.id)
+        savePageOrStreamProperties(webpage, props)
+        stream.delete()
+        return True
+    return False
 
 def savePageOrStreamProperties(model, properties):
     """ Given a Page or Stream model, persists the

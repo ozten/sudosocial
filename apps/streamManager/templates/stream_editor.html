@@ -6,37 +6,41 @@
     <li>New Page</li>
     <li>All Pages</li>
 </ul>
-
+      {% include 'widgets/add_stream_button.html' %}
 {% endblock %}
 
 {% block content %}
 <h1>Stream Editor</h1>
 <div id="stream-editor-panel" lang="{{page_props.page_lang}}" dir="{{page_props.page_lang_dir}}">
     <ul class="tabs">
-        <li id="edit-stream" class="tab editor"><a href="#">Edit </a>{% if first_stream %}<strong id="stream{{first_stream.id}}" class="stream-name">{{first_stream.name}}</strong> Stream Page{% endif %}</li>
+        <!-- TODO: Is stream1 used ? (first_stream.id). Change to page.id ? -->
+        <li id="edit-stream" class="tab editor"><a href="#">Edit </a>{% if first_stream %}<strong id="stream{{first_stream.id}}" class="page-name">{{page_name}}</strong> Stream Page{% endif %}</li>
         <li id="design-stream" class="tab design xactive-tab"><a href="#">Design</a></li>
         <li id="page-widgets" class="tab pagewidget active-tab"><a href="#">Page Widgets</a></li>
-        {% if first_stream %}<li><a id="preview" href="/u/{{username}}/s/{{first_stream.name}}" target="_new" title="View your currenly published Stream in a new window">View</a></li>{% endif %}
+        {% if first_stream %}<li><a id="preview" href="/u/{{username}}/s/{{page_name}}" target="_new" title="View your currenly published Stream in a new window">View</a></li>{% endif %}
     </ul>
     <!--------------------- Edit Stream Panel ------------------------->
     <div id="edit-stream-panel" class="panel">
+
+
       {% for stream in streams %}
         <div class="streams-panel"><!-- streams panel contains the metadata and preview -->
           <div class="stream-metadata-panel">
             <h2 class="new-feed">Add A Source</h2>
             <p>Paste in the Url to a website or any Atom or RSS feed <img src="/static/img/feed-icon-14x14.png" width="14" height="14" alt="Feed Icon" />.</p>
 
-            <form id="add-url-form" action="/manage/urls/{{request.user.username}}" method="post">
-            <p><label for="id_url">Url:</label> <input id="id_url" type="text" name="url" maxlength="2048" /></p>
+            <form class="add-url-form" action="/manage/urls/{{request.user.username}}" method="post">
+            <p><label for="id_url">Url:</label> <input class="id_url" type="text" name="url" maxlength="2048" /></p>
             <p>
               <label for="id_streams">Streams:</label>
-              <input type="hidden" name="streams" id="id_streams" value="{{stream.name}}" /></p>
+              <!-- TODO test add feed form -->
+              <input type="hidden" name="streams" class="id_streams" value="{{stream.id}}" /></p>
               <input type="submit" value="Add Feed" />
             </p>
             </form>
 
             <h2>Stream Sources</h2>
-            <ul id="user_streams">
+            <ul class="user_streams">
               {%  for feed in stream.feeds %}
                 <li>
                   <a href="{{ feed.url }}" class="stream-feed-source"> {% if feed.title %}{{ feed.title }}{% else %} {{ feed.url }} {% endif %}</a>
@@ -44,23 +48,22 @@
                   <a href="/manage/account/{{username}}/stream/{{stream.id}}/feed/{{feed.pk}}" class="button">Edit</a>
                 </li>
               {% empty %}
-                <li id="no-stream-feed-blurb"><a href="#" class="stream-feed-source"></a><a href="{{ feed.pk }}" class="feed-delete" title="Delete this feed."></a>You have no stream sources, add a new feed.</li>
+                <li class="no-stream-feed-blurb"><a href="#" class="stream-feed-source"></a>You have no stream sources, add a new feed.
+                  <!-- Empty case we have to add the stream and feed ids... and show -->
+                  <a href="/manage/account/{{username}}/stream/" class="button" style="display:none">Edit</a></li>
               {%  endfor %}
       
-                  <li id="base-stream-feed-link" style="display:none"><a href="{{ feed.url }}" class="stream-feed-source">sample</a>
-                <div class="feed-entries-visible-default shown" title="New Items are shown automatically"></div>
-                <a href="#" class="feed-edit" title="Edit this feed.">Edit</a></li>
+                  <li class="base-stream-feed-link" style="display:none"><a href="{{ feed.url }}" class="stream-feed-source">sample</a>
+                <a href="#" class="feed-edit button" title="Edit this feed.">Edit</a></li>
             </ul>
-            <p>After 5 minutes, Feed entries should start appearing in <a href="/u/{{username}}/s/{{stream.name}}" target="_new" title="View your currenly published Stream in a new window">your stream.</a></p>
+            <p>After 5 minutes, Feed entries should start appearing in <a href="/u/{{username}}/s/{{page_name}}" target="_new" title="View your currenly published Stream in a new window">your stream.</a></p>
+            {% include 'widgets/delete_stream_panel.html' %}
           </div><!-- /.stream-metadata-panel -->
           <div class="stream-preview-panel">
             {% include 'feed_editor_preview.html' %}
           </div><!-- /.stream-preview-panel -->
         </div><!-- /.streams-panel -->
       {% endfor %}
-      <!-- div class="add-stream-panel">
-        <p class="callout">A page can have multiple streams. <a href="#todo" class="button">Add Another Stream</a>.</p>
-      </div -->
     </div><!-- /#edit-stream-panel -->
 
     <!--------------------- Page Widgets Panel ------------------------->
@@ -132,7 +135,7 @@
         </div><!-- /optional-widget -->
         
         <div class="stream-icon">
-          <h3>Your {{stream.name}} Stream</h3>
+          <h3>Your {{page_name}} Stream</h3>
           <img src="/static/img/StreamDiagram_25perc.jpg" width="76" height="95" />
         </div>
         
@@ -212,6 +215,5 @@
     </div><!-- /design-stream -->
 </div><!-- /stream-editor-panel -->
 
-<script src="/static/js/jquery-1.4.1.min.js" type="text/javascript"></script>
-<script src="/static/js/stream_editor.js" type="text/javascript"></script>
+<script src="/static/js/stream_editor.min.js" type="text/javascript"></script>
 {% endblock %}
