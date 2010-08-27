@@ -29,7 +29,8 @@ class StreamEditorPlugin(BasicPlugin):
         elif 'updated_parsed' in entry:
             metadata['published'] = datetime(*entry.updated_parsed[0:7])
         format = "%A, %B %d %I:%Mp"
-        metadata['published_date'] = metadata['published'].strftime(format)
+        if metadata['published']:
+            metadata['published_date'] = metadata['published'].strftime(format)
         entry_variables.update(metadata)
         return (entry, entry_variables)
         
