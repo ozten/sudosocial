@@ -16,7 +16,6 @@ import django.utils.encoding
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 
 import lifestream.models
 from lifestream import lang
@@ -410,7 +409,6 @@ def edit_feed(request, username, stream_id, feed_id):
         return edit_feed_show(request, username, stream_id, feed_id)
 
 def edit_feed_update(request, username, stream_id, feed_id):    
-    feed = get_object_or_404(lifestream.models.Feed, url_hash=feed_id)
     stream = get_object_or_404(lifestream.models.Stream, id=stream_id)
     stream_config = StreamConfig(stream.config)        
     stream_config.ensureFeedsConfig(stream.feed_set.all())
@@ -479,14 +477,11 @@ def edit_feed_show(request, username, stream_id, feed_id):
                               context_instance=django.template.RequestContext(request))
     
 def preview_feed(request, username, stream_id, feed_id):
-    feed = get_object_or_404(lifestream.models.Feed, url_hash=feed_id)
     stream = get_object_or_404(lifestream.models.Stream, id=stream_id)
     user = get_object_or_404(django.contrib.auth.models.User, username=username)
-    stream_config = StreamConfig(stream.config)
     entries = lifestream.models.recent_feed_entries(user, stream, feed_id, 150, False)
     plugins = [StreamEditorPlugin(log)]
     stream.entry_pair = entry_pair_for_entries(request, entries, plugins)
-                                        
     
     return render_to_response('feed_editor_preview.html',
                               { #'entry_pair': entry_pair,
