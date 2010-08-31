@@ -22,8 +22,8 @@ def account_checkauth(request):
     if request.user.is_authenticated():
         manageUrl = "/manage/account/%s" % request.user.username.encode('utf-8')
         try:
-            stream = lifestream.models.Stream.objects.get(user__exact=request.user)
-            encoded_url = django.utils.encoding.iri_to_uri(manageUrl)            
+            _ = lifestream.models.Stream.objects.all().filter(user=request.user)
+            encoded_url = django.utils.encoding.iri_to_uri(manageUrl)
             resp = django.http.HttpResponseRedirect(encoded_url)
         except lifestream.models.Stream.DoesNotExist:
             log.debug("Account didn't exist")            
@@ -66,7 +66,7 @@ def profile(request, username):
 
     return render_to_response('index.html',
                           { 'show_delete': True,
-                            'css_url': '/static/css/general-site.css',
+                            'css_url': '/static/css/general-site.min.css',
                             'username':   request.user.username,                            
                             'email':      request.user.email,
                             
@@ -92,7 +92,7 @@ def delete_profile(request, username):
     else:
         return render_to_response('confirm_delete.html',
                           {
-                            'css_url': '/static/css/general-site.css',
+                            'css_url': '/static/css/general-site.min.css',
                             'lang_dir': 'LTR',
                             'page_lang': 'en',
                            },
@@ -135,7 +135,7 @@ def confirm_profile(request):
     avatar_url = "http://www.gravatar.com/avatar/%s.jpg?d=monsterid&s=80" % gravatarHash
 
     return render_to_response('index.html',
-                          { 'css_url': '/static/css/general-site.css',
+                          { 'css_url': '/static/css/general-site.min.css',
                             'username':   request.user.username,                            
                             'email':      request.user.email,
                             

@@ -1,0 +1,10 @@
+
+.button {
+    background-color: #DDD;
+    color: #000;
+    border: solid 1px grey;
+    padding: 5px 10px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+

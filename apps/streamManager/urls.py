@@ -6,7 +6,9 @@ urlpatterns = patterns('streamManager',
     (r'^account/(?P<username>\w+)/stream/(?P<stream_id>\d+)/preview_feed/(?P<feed_id>\w+)$', 'views.preview_feed'),
     (r'^stream/design$', 'views.manage_page_design'),
     (r'^stream/(?P<username>\w+)/s/(?P<page_name>\w+)$', 'views.manage_page'),
-    
+    (r'^stream/(?P<username>\w+)/sid/(?P<stream_id>\w+)$', 'views.stream'),
+    (r'^streams/(?P<username>\w+)/p/(?P<page_name>\w+)$', 'views.streams', {}, 'streams'),
+
     (r'^page/(?P<page_name>\w+)$', 'views.manage_page_widgets'),
     
     (r'^urls/(?P<username>\w+)$', 'views.urls'),
