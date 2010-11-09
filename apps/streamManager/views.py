@@ -236,7 +236,7 @@ def save_feeds(request, username):
         a_feed = lifestream.models.Feed(url_hash = feed_url_hash, title=new_feed_to_save['feed_title'],
                                         url = new_feed_to_save['feed_url'],
                                         etag='', last_modified=datetime.datetime(1975, 1, 10),
-                                        enabled=True, disabled_reason='',
+                                        enabled=True, disabled_reason='', fetch_error_count=0,
                                         user=request.user, created_date=datetime.datetime.today())        
         a_feed.streams.add(stream)
         form = lifestream.models.FeedForm(params, instance=a_feed)

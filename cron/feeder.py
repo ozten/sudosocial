@@ -2,6 +2,7 @@
 
 # CRON Bootstrap
 import config
+import math
 import os
 import sys
 import site
@@ -96,7 +97,7 @@ def fetch_feed(feed):
     dirty_feed = False
     has_updates = False
     if feed.etag == None:
-            feed.etag = ''                    
+        feed.etag = ''                    
     if feed.last_modified == None:
         feed.last_modified = datetime.datetime(1975, 1, 10)                
     stream = feedparser.parse(feed.url, etag=feed.etag, modified=feed.last_modified.timetuple())                    
@@ -125,25 +126,30 @@ def fetch_feed(feed):
     elif url_status == '404':
         log.info("Not a Feed or Feed %s is gone", feed.url)
         feed.enabled = False
-        feed.disabled_reason = "This is not a feed or it's been removed removed!";
+        feed.disabled_reason = "This is not a feed or it's been removed removed!"
         dirty_feed = True                    
     elif url_status == '410':                    
         log.info("Feed %s gone", feed.url)
         feed.enabled = False
-        feed.disabled_reason = "This feed has been removed!";
+        feed.disabled_reason = "This feed has been removed!"
         dirty_feed = True                    
     elif url_status == '408':
         feed.enabled = False
         feed.disabled_reason = "This feed didn't respond after %d seconds" % config.timeout
         dirty_feed = True
     elif int(url_status) >= 400:
-        feed.enabled = False
+        feed.fetch_error_count += 1
+        if 10 > feed.fetch_error_count:
+            feed.enabled = False
         bozo_msg = ""
         if 1 == stream.bozo and 'bozo_exception' in stream.keys():
             log.error('Unable to fetch %s Exception: %s',
                   feed.url, stream.bozo_exception)
             bozo_msg = stream.bozo_exception
-        feed.disabled_reason = "Error while reading the feed: %s __ %s" % (url_status, bozo_msg)
+        feed.disabled_reason += "Error while reading the feed: %s __ %s\n" % (url_status, bozo_msg)
+        f = filter(lambda x: x.name == 'disabled_reason', f._meta.fields)[0]
+        if f.max_length < len(feed.disabled_reason):
+            feed.disabled_reason = feed.disabled_reason[- f.max_length:]
         dirty_feed = True
     else:
         # We've got a live one...                    
@@ -210,6 +216,44 @@ def save_entry(feed, entry, stream_configs):
         log.exception(e)
     return False
 
+def eligable(feed, today):
+    """ This cron fetches all feeds which have enabled set to True
+        but we want to back off of feeds that have been erroring out
+        so that we don't spend a lot of time waiting for timeouts or
+        processing malformed feeds.
+
+        We should give each feed some time to recover, and eventually
+        disable it, if it does not.
+
+        We capture the number of consecutive failed requests in 
+        fetch_error_count. We compare this with last_modified to 
+        increase the delay before we retry a feed.
+
+        Request # and minimum time that should have passed
+        0 - 0       no mimimum
+        1 - 14      default 15 min (900 seconds)
+        2 - 196     default 15 min
+        3 - 2744    45 minutes
+        4 - 38416   10.67 hours
+        5 - 537824  6.2 days
+
+        6th request, we restart the wait loop to 0
+    """
+    if 0 == feed.fetch_error_count:
+        return True
+    else:
+        err = feed.fetch_error_count % 6
+        delay_in_sec = max(math.pow(14, err) , 900)
+
+        if delay_in_sec < total_seconds(today, feed.last_modified):
+            return True
+    return False
+
+def total_seconds(today, previous):
+    """ Python 1.7 shim """
+    delta = today - previous
+    return (delta.days * 86400) + delta.seconds
+
 def cron_fetch_feeds():
     log.info("Starting")
     start = time.time()
@@ -226,7 +270,8 @@ def cron_fetch_feeds():
         sys.exit(0)
     try:
         for feed in feeds:
-            new_entry_count += update_feed(feed)
+            if eligable(feed, datetime.datetime.today()):
+                new_entry_count += update_feed(feed)
     finally:
         lock.close()
     log.info("Finished run in %f seconds for %d new entries" % ((time.time() - start), new_entry_count))  

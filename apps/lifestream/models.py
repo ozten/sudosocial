@@ -56,7 +56,8 @@ class Feed(models.Model):
     etag = models.CharField(max_length=140)
     last_modified = models.DateTimeField()
     
-    # If a feed has issues, it will be disabled
+    # If a feed has issues, it will eventually be disabled
+    fetch_error_count = models.IntegerField(default=0)
     enabled = models.BooleanField(default=True)
     disabled_reason = models.CharField(max_length=2048)
     
